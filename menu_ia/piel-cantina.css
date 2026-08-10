@@ -1,0 +1,202 @@
+/* ═══════════════════════════════════════════════════════════
+   PIEL «cantina» — prueba de salida de la Fase 2.
+
+   Existe para demostrar UNA cosa: que `estructura.css` sostiene la
+   maqueta él solo, y que la identidad entera se puede sustituir sin
+   tocar ni el motor ni el contenido. Se monta sobre los MISMOS
+   platillos, las mismas fotos y los mismos precios que Parceros.
+
+   Deliberadamente lo contrario de Parceros en todo lo que decide una
+   identidad: papel frío en vez de crema cálida, una sola tinta de
+   acento en vez de cuatro, serif editorial en vez de grotesca
+   condensada, cajas rectas en vez de cintas rasgadas y giros, y CERO
+   ornamento — el tema no declara chispa, ni sello, ni decoración.
+
+   ⚠️ NO es un diseño terminado ni una propuesta para nadie. Cubre los
+   elementos que se ven en las 7 hojas; lo que no cubre cae en el estilo
+   por omisión del navegador, y se nota. Un cliente real necesita su
+   propia piel completa, y eso es un encargo de diseño, no un archivo
+   de ejemplo.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ---------- Papel y tinta ---------- */
+html, body { background: #fff; color: var(--tinta); }
+@media screen { body { background: #3a3a38; } }
+
+.page {
+  --fondo: var(--papel);
+  --texto: var(--tinta);
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--font-cuerpo);
+}
+.page.pagina-naranja { --fondo: var(--tinta); --texto: var(--papel); }
+.lista-page { background: var(--papel); }
+
+/* ---------- Rótulo de sección: filete, no cinta ----------
+   La firma de Parceros es una cinta amarilla rasgada, girada 1.4°.
+   Aquí es lo contrario: versalita ancha sobre un filete fino, sin giro
+   y sin fondo. Mismo sitio en la página, otra voz por completo. */
+.badge-seccion {
+  background: none;
+  color: var(--tinta);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 15pt;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  transform: none;
+  border-bottom: 0.6mm solid var(--acento);
+  border-radius: 0;
+}
+.badge-seccion::before { content: none; }
+.badge-seccion.azul { background: none; color: var(--acento); }
+.lista-header { border: none; }
+.lista-sub {
+  font-family: var(--font-cuerpo);
+  font-style: italic;
+  font-size: 8.5pt;
+  color: var(--gris);
+  letter-spacing: 0;
+}
+
+/* ---------- HERO: el velo se va, la foto manda ---------- */
+.hero-page .hero-overlay-scrim {
+  background: linear-gradient(to top,
+    rgba(20,18,16,0.92) 0%, rgba(20,18,16,0.55) 26%, rgba(20,18,16,0) 52%);
+  color: var(--papel);
+}
+.hero-foto-completa { border-radius: 0; }
+.hero-nombre, .hero-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: none;
+  color: var(--papel);
+}
+.hero-precio { font-family: var(--font-cuerpo); font-weight: 300; color: var(--papel); }
+.hero-tag, .hero-pre {
+  font-family: var(--font-cuerpo);
+  font-size: 7pt;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--acento);
+  background: none;
+  border: none;
+  border-radius: 0;
+}
+.hero-punch, .hero-script, .hero-glosa {
+  font-family: var(--font-cuerpo);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--papel);
+}
+.hero-sello, .deco, .chispa, .chispa-mini { display: none; }
+
+/* ---------- Listado ---------- */
+.nombre-display, .fila-n, .bg-n, .adl-n, .adic-n, .bebida-n, .ap-i {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 10.5pt;
+  letter-spacing: 0.3px;
+  text-transform: none;
+  color: var(--tinta);
+}
+.desc, .bg-d, .bebida-d, .fila-d {
+  font-family: var(--font-cuerpo);
+  font-weight: 300;
+  font-size: 7.4pt;
+  line-height: 1.5;
+  color: var(--gris);
+}
+/* El gancho deja de ser voz manuscrita naranja y pasa a ser una nota
+   editorial en cursiva. Es el cambio de tono más audible de la hoja. */
+.desc-gancho, .bg-gancho, .fila-gancho {
+  font-family: var(--font-cuerpo);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 7.4pt;
+  color: var(--acento);
+}
+.precio, .bg-p, .ap-p, .adl-p, .adic-p, .bebida-p, .fila-p, .bg-p-bot {
+  font-family: var(--font-cuerpo);
+  font-weight: 600;
+  font-size: 11.5pt;
+  color: var(--tinta);
+  letter-spacing: 0;
+}
+.mini-titulo, .bg-fila, .adl-i {
+  font-family: var(--font-cuerpo);
+  font-size: 6.8pt;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+.fila-foto, .foto-card, .bg-foto { border-radius: 0; box-shadow: none; }
+.tick, .estrella, .corazon { color: var(--acento); }
+
+/* ---------- Pie ---------- */
+.pie {
+  font-family: var(--font-cuerpo);
+  font-size: 6.4pt;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gris);
+  border-top: 0.2mm solid var(--filete);
+  background: none;
+}
+
+/* ---------- Todo lo demás pierde el adorno ----------
+   Barrido final: cualquier caja que en Parceros llevaba color plano,
+   esquina redonda o sombra queda en papel con filete. Es tosco a
+   propósito — lo que se demuestra es que la piel manda, no que esta
+   piel esté acabada. */
+[class*="bloque"], [class*="panel"], [class*="caja"], [class*="marco"],
+[class*="sello"], [class*="banda"], [class*="cinta"] {
+  background: none;
+  color: var(--tinta);
+  border-radius: 0;
+  box-shadow: none;
+  border-color: var(--filete);
+}
+
+/* ---------- Listado denso del arquetipo «hoja» ---------- */
+.lista-densa .mini-titulo {
+  font-family: var(--font-display);
+  font-size: 9pt;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--acento);
+  border-bottom: 0.2mm solid var(--filete);
+}
+.denso-item .nombre-display {
+  font-family: var(--font-display);
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: var(--tinta);
+}
+.denso-item .nombre-unidades {
+  font-family: var(--font-cuerpo);
+  font-size: 7pt;
+  font-weight: 300;
+  color: var(--gris);
+}
+.denso-item .precio {
+  font-family: var(--font-cuerpo);
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: var(--acento);
+}
+.denso-item .desc {
+  font-family: var(--font-cuerpo);
+  font-size: 7pt;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--gris);
+}
+.denso-item .desc-gancho {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--tinta);
+}

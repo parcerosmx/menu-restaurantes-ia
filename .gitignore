@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+
+# Salidas: se regeneran con `menu-ia`
+output/
+
+# ⚠️ El contenido de un cliente NUNCA entra a este repo.
+# Precios de compra, márgenes, ventas y fotografía son del restaurante.
+# Ver el inventario de confidencialidad del repo del cliente.
+cartas-privadas/

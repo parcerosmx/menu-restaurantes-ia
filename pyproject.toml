@@ -1,0 +1,29 @@
+[project]
+name = "menu-restaurantes-ia"
+description = "Motor de menús impresos: del dato al PDF que la imprenta acepta"
+version = "0.1.0"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+readme = "README.md"
+authors = [{ name = "Mao Parceros" }]
+keywords = ["menu", "restaurante", "imprenta", "cmyk", "pdf", "prepress"]
+
+dependencies = [
+  "PyMuPDF>=1.23",      # leer y escribir el PDF, las cajas y las marcas
+  "Pillow>=10.0",       # rasterizado del fondo y separación a CMYK
+  "numpy>=1.24",        # cobertura de tinta y compresión de gama
+  "playwright>=1.40",   # el MISMO motor que pinta los PNG pinta el PDF
+]
+
+[project.scripts]
+menu-ia = "menu_ia.hacer:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["menu_ia", "menu_ia.motor", "menu_ia.herramientas", "menu_ia.idiomas"]
+
+[tool.setuptools.package-data]
+menu_ia = ["*.css"]
