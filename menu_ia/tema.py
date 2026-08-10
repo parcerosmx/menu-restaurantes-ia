@@ -60,12 +60,37 @@ try:
 except ModuleNotFoundError:
     TEMAS = {}
 
-NOMBRE_ACTIVO = os.environ.get("MENU_TEMA", "parceros")
-if NOMBRE_ACTIVO not in TEMAS:
+# El tema activo. ⚠️ Sin `MENU_TEMA`, el primero que declare el cliente — NO
+# un nombre por omisión escrito aquí. Ponía «parceros», y eso hacía que el
+# motor no se pudiera ni importar en un proyecto que no fuera Parceros: fallaba
+# en tiempo de import, antes de que nadie pidiera nada.
+NOMBRE_ACTIVO = os.environ.get("MENU_TEMA") or (next(iter(TEMAS), "") if TEMAS else "")
+
+if not TEMAS:
+    # Un motor recién instalado no tiene temas, y eso NO es un error: los pone
+    # el proyecto que lo usa. Falla cuando alguien intente pintar algo, con un
+    # mensaje que dice qué falta.
+    class _SinTema:
+        nombre = "(sin tema)"
+        css_piel = ""
+        lema = ""
+
+        def __getattr__(self, _):
+            raise SystemExit(
+                "⛔ No hay ningún tema declarado.\n"
+                "   El motor trae la clase `Tema`; los temas los pone tu\n"
+                "   proyecto en un módulo `temas/` con un diccionario `TEMAS`\n"
+                "   (o el que indique MENU_TEMAS).")
+
+        def ornamento(self, _rol):
+            return ""
+
+    ACTIVO = _SinTema()
+elif NOMBRE_ACTIVO not in TEMAS:
     raise SystemExit(f"⛔ MENU_TEMA=«{NOMBRE_ACTIVO}» no existe. "
                      f"Conocidos: {', '.join(TEMAS)}")
-
-ACTIVO = TEMAS[NOMBRE_ACTIVO]
+else:
+    ACTIVO = TEMAS[NOMBRE_ACTIVO]
 
 
 # ── Sincronización con style.css ────────────────────────────────────────
