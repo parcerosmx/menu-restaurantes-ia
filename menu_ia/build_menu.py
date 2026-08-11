@@ -16,12 +16,15 @@ from pathlib import Path
 # `items_menu.py` y compañía cargan este archivo por RUTA (`spec_from_file_location`),
 # y por esa vía Python no añade `render/` al path. Sin esto, los `import` de
 # abajo fallan según desde dónde se llame.
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+# El `sys.path` del proyecto lo pone `proyecto.py` al importarse: la raíz
+# del CLIENTE, para que `MENU_CARTA=secciones` resuelva. Antes se metía
+# aquí la carpeta del propio archivo, que instalado es site-packages.
+from . import proyecto  # noqa: F401
 
 import json
 
-import idiomas
-from motor import idioma
+from . import variantes as idiomas
+from .motor import idioma
 
 # ⚠️ VA ANTES QUE CUALQUIER IMPORT DE `secciones`/`carta`: el catálogo tiene
 # que estar activo cuando el motor empiece a pedir traducciones. Fijarlo
@@ -29,9 +32,9 @@ from motor import idioma
 IDIOMA = idiomas.pedido()
 idioma.fijar(IDIOMA)
 
-from motor.iconos import TICK
-from motor.pagina import pagina, paginas_de
-from motor.rutas import REND
+from .motor.iconos import TICK
+from .motor.pagina import pagina, paginas_de
+from .motor.rutas import REND
 
 # 📖 La CARTA — qué restaurante se maqueta. Por omisión Parceros
 # (`secciones/`); `MENU_CARTA` la cambia sin tocar código, igual que
@@ -133,7 +136,7 @@ INACTIVOS = [s["seccion"] for s in SPREADS if not s.get("activo", True)]
 # 📌 Ya no se multiplica por 2: **cada arquetipo dice cuántas páginas ocupa**
 # (`pliego` 2, `hoja` 1). Suponer que toda hoja son dos páginas era una de las
 # cuatro suposiciones que la hoja suelta rompe a la vez.
-import formato as _formato
+from . import formato as _formato
 
 _error = _formato.comprobar_paginas(sum(paginas_de(s) for s in ACTIVOS))
 if _error:
@@ -147,9 +150,14 @@ if _error:
 # no una casualidad: la clasificación es por propiedad y global, así que
 # ninguna propiedad aparece en los dos archivos y nunca compiten. Se cargan en
 # este orden porque se lee mejor, no porque haga falta.
-import tema as _tema
+from . import tema as _tema
 
-CSS = "\n".join((REND / n).read_text(encoding="utf-8")
+# `estructura.css` la trae el MOTOR; la piel es del cliente. `proyecto.css()`
+# busca primero en el proyecto y luego en el paquete, así que un cliente puede
+# sustituir la estructura si de verdad la necesita distinta, sin bifurcar nada.
+from .proyecto import css as _css
+
+CSS = "\n".join(_css(n).read_text(encoding="utf-8")
                 for n in ("estructura.css", _tema.ACTIVO.css_piel))
 cuerpo = "".join(pagina(s, i) for i, s in enumerate(ACTIVOS))
 

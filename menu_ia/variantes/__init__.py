@@ -1,14 +1,16 @@
-"""Catálogos de texto del menú. Un archivo por idioma; `es` es la fuente.
+"""Qué VARIANTE de idioma se pide y cómo se llaman sus archivos.
 
-Aquí vive además lo que necesitan los scripts de build para **no pisarse entre
-idiomas**: qué idioma se pidió y cómo se llama su archivo de salida.
+    pedido()   lee `--idioma`      ·  sufijo("en") → "-en"
+    ruta(p, i) → `menu-completo-en.html`
 
-📌 El español NO lleva sufijo. `menu-completo.html`, `output/menu-completo.pdf`
-y los PNG de pliego siguen llamándose exactamente igual que antes de que
-existiera el inglés. Es deliberado: el menú en español está cerrado y aprobado,
-y media docena de archivos del repo —ESTADO.md, el style-guide, los scripts de
-verificación— lo nombran por esa ruta. Renombrarlo a `-es` para ganar simetría
-habría roto todas esas referencias a cambio de nada.
+⚠️ **Se llamaba `idiomas`, y eso era una trampa.** El proyecto del cliente
+tiene su propio paquete `idiomas/` con los catálogos de traducción —el motor lo
+carga por nombre suelto (`importlib.import_module("idiomas.en")`)—, así que un
+`import idiomas` en un script del cliente resolvía al catálogo y fallaba con
+`AttributeError: module has no attribute 'pedido'`. Dos cosas distintas con el
+mismo nombre, y la que ganaba dependía del `sys.path`.
+
+Esto decide la VARIANTE; `idiomas/` del proyecto tiene el CONTENIDO.
 """
 import os
 import sys

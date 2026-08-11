@@ -18,12 +18,14 @@ import json
 from pathlib import Path
 from playwright.async_api import async_playwright
 
-import idiomas
+from . import variantes as idiomas
 
-REND = Path(__file__).parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from .proyecto import RAIZ as REND
 IDIOMA = idiomas.pedido()
 SRC = idiomas.ruta(REND / "menu-completo.html", IDIOMA)
-OUT = REND.parent / "output"
+from .proyecto import SALIDA as OUT
 
 # La lista la manda build_menu.py (spreads-activos.json): así las secciones
 # desactivadas —hoy el Brunch— no generan PNG ni corren la numeración.

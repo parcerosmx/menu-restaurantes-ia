@@ -41,7 +41,9 @@ import re
 import sys
 from pathlib import Path
 
-REND = Path(__file__).resolve().parent.parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from ..proyecto import RAIZ as REND
 
 HTML_VIVOS = ["menu-completo.html", "tapas-final.html", "tapas.html",
               "habladores.html"]

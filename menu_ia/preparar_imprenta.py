@@ -33,7 +33,9 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageCms, ImageFilter
 
-REND = Path(__file__).parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from .proyecto import RAIZ as REND
 OUT = REND.parent / "output" / "imprenta"
 # Se puede pasar por argumento: portada, contraportada o el pliego entero.
 PIEZAS = {

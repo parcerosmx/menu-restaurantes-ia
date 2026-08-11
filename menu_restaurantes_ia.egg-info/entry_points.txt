@@ -1,0 +1,2 @@
+[console_scripts]
+menu-ia = menu_ia.hacer:main

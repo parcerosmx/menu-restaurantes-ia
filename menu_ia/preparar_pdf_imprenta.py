@@ -101,13 +101,15 @@ import fitz
 import numpy as np
 from PIL import Image, ImageChops, ImageCms
 
-import idiomas
-import preparar_imprenta as sep
+from . import variantes as idiomas
+from . import preparar_imprenta as sep
 
-from preparar_imprenta import TOL, comprimir_gama, escala_croma, perfiles
+from .preparar_imprenta import TOL, comprimir_gama, escala_croma, perfiles
 
-REND = Path(__file__).parent
-OUT = REND.parent / "output"
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from .proyecto import RAIZ as REND
+from .proyecto import SALIDA as OUT
 # El aplanado SIN los marcadores `.pendiente` (§1.3). El otro
 # —`menu-completo-plano.pdf`— sí los lleva: es el de revisión.
 ENTRADA = OUT / "menu-completo-plano-imprenta.pdf"
@@ -118,8 +120,8 @@ MM = 72 / 25.4
 # Aquí estaban tecleados, y un desacuerdo entre este archivo y `style.css` no
 # da error: da un PDF cuyo TrimBox no cuadra con lo que dibujó Chromium, y eso
 # solo se ve en la plancha.
-from formato import CORTE_MM, LARGO_MARCA_MM, MARCA_MM, SANGRADO_MM  # noqa: E402
-from formato import PAGINAS as PAGINAS_ESPERADAS  # noqa: E402
+from .formato import CORTE_MM, LARGO_MARCA_MM, MARCA_MM, SANGRADO_MM  # noqa: E402
+from .formato import PAGINAS as PAGINAS_ESPERADAS  # noqa: E402
 
 # 🏷️ El nombre del archivo lleva el del cliente, y el cliente lo dice la carta.
 # Estaba escrito «menu-parceros-…»: montar la demo sacaba un archivo con el

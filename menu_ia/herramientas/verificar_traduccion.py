@@ -36,10 +36,12 @@ import re
 import sys
 from pathlib import Path
 
-REND = Path(__file__).resolve().parent.parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from ..proyecto import RAIZ as REND
 sys.path.insert(0, str(REND))
 
-from motor import idioma  # noqa: E402
+from ..motor import idioma  # noqa: E402
 
 # Cajas cuyo número tiene que coincidir entre los dos idiomas. Son las que
 # sostienen el reparto de la página: si cambia una, cambió la maqueta.

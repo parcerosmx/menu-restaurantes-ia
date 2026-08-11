@@ -31,9 +31,11 @@ from pathlib import Path
 import fitz
 from playwright.async_api import async_playwright
 
-from formato import PAGINA_MM
+from .formato import PAGINA_MM
 
-REND = Path(__file__).parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from .proyecto import RAIZ as REND
 SRC = REND / "menu-completo.html"
 PDF = REND.parent / "output" / "menu-completo.pdf"
 

@@ -39,11 +39,12 @@ import re
 import sys
 from pathlib import Path
 
-REND = Path(__file__).resolve().parent
+# La raíz es la del CLIENTE (ahí está su style.css), no la del paquete.
+from .proyecto import RAIZ as REND
 
 
 
-from motor.tema_base import FIN, INI, Tema  # noqa: F401
+from .motor.tema_base import FIN, INI, Tema  # noqa: F401
 
 
 # ════════════════════════════════════════════════════════════════════════

@@ -210,7 +210,7 @@ ICO_PERSONAS = ('<svg class="ico-personas" viewBox="0 0 26 14" fill="currentColo
 # qué dibujo son — que es lo que permite que otro cliente ponga otros.
 # Lo demás de este archivo SÍ se queda: la bandera de Colombia, el shot en
 # tarro o la botella son vocabulario de carta, no marca.
-import tema as _tema
+from .. import tema as _tema
 
 CHISPA = _tema.ACTIVO.ornamento("chispa")
 CHISPA_MINI = _tema.ACTIVO.ornamento("chispa_mini")

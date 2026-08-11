@@ -1,13 +1,14 @@
-"""rutas — extraído de `build_menu.py`.
+"""Dónde están los archivos del cliente, desde el punto de vista del motor.
 
-⚠️ El REPARTO de este archivo lo genera `herramientas/partir_build_menu.py`.
-   Si algo está en el módulo equivocado, se ajusta el MANIFIESTO del
-   splitter y se vuelve a correr — no se mueve a mano.
-   El CONTENIDO (platillos, precios, textos) sí se edita aquí.
+⚠️ `REND` **ya no se deduce de la ubicación de este archivo**. Lo hacía
+—`Path(__file__).parent.parent`— y eso daba la respuesta correcta solo mientras
+el motor vivía dentro del repo del cliente. Instalado como paquete apuntaba a
+`site-packages/menu_ia/`, donde no hay ni un `style.css`.
+
+Lo resuelve `proyecto.py`. El nombre `REND` se conserva porque lo leen varios
+módulos y renombrarlo no aporta nada.
 """
-from pathlib import Path
-
-REND = Path(__file__).resolve().parent.parent
+from ..proyecto import RAIZ as REND  # noqa: F401
 
 A = "../assets/ejemplo"
 

@@ -34,7 +34,9 @@ import fitz
 import numpy as np
 from PIL import Image
 
-REND = Path(__file__).parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from .proyecto import RAIZ as REND
 RAIZ = REND.parent
 PDF = RAIZ / "output" / "menu-completo.pdf"
 OUT = RAIZ / "output"

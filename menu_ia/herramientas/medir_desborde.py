@@ -36,10 +36,12 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright
 
-REND = Path(__file__).resolve().parent.parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from ..proyecto import RAIZ as REND
 sys.path.insert(0, str(REND))
 
-import idiomas  # noqa: E402
+from .. import variantes as idiomas  # noqa: E402
 
 # Milímetros de seguridad desde el borde de CORTE. El menú lleva 3 mm de
 # sangrado, así que la página renderizada mide 192 × 285 y el corte cae a 3 mm

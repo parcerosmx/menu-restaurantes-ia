@@ -19,9 +19,11 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright
 
-import idiomas
+from . import variantes as idiomas
 
-REND = Path(__file__).parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from .proyecto import RAIZ as REND
 IDIOMA = idiomas.pedido()
 SRC = idiomas.ruta(REND / "menu-completo.html", IDIOMA)
 OUT = idiomas.ruta(REND.parent / "output" / "menu-completo.pdf", IDIOMA)

@@ -39,14 +39,16 @@ from pathlib import Path
 
 import fitz
 
-REND = Path(__file__).parent
-OUT = REND.parent / "output"
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from .proyecto import RAIZ as REND
+from .proyecto import SALIDA as OUT
 
 MM = 72 / 25.4
 # Fuente única en `formato.py`. Los nombres locales se conservan para no tocar
 # el resto del script.
-from formato import CORTE_MM as PAGINA_FINAL_MM  # noqa: E402
-from formato import SANGRADO_MM as SANGRE_MM     # noqa: E402
+from .formato import CORTE_MM as PAGINA_FINAL_MM  # noqa: E402
+from .formato import SANGRADO_MM as SANGRE_MM     # noqa: E402
 
 
 def parejas(total: int):

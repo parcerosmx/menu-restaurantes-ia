@@ -50,7 +50,9 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-REND = Path(__file__).resolve().parent.parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from ..proyecto import RAIZ as REND
 
 # ⚠️ EL ORDEN DE ESTA LISTA ES EL ORDEN DE LA CASCADA, y no es decorativo.
 # En el HTML, `style.css` se enlazaba ANTES que `menu-v2.css`, así que sus

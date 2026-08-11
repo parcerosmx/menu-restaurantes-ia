@@ -46,9 +46,9 @@ import fitz
 from PIL import Image
 from playwright.async_api import async_playwright
 
-import idiomas
-from formato import PAGINA_MM, SANGRADO_MM
-from formato import ACTIVO as _FMT
+from . import variantes as idiomas
+from .formato import PAGINA_MM, SANGRADO_MM
+from .formato import ACTIVO as _FMT
 
 PAGINAS_TAPAS = _FMT.paginas_tapas
 
@@ -60,9 +60,11 @@ import os  # noqa: E402
 _C = os.environ.get('MENU_CARTA', 'secciones')
 CLIENTE = 'parceros' if _C == 'secciones' else _C.replace('_', '-')
 
-REND = Path(__file__).parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from .proyecto import RAIZ as REND
 SRC = REND / "menu-completo.html"
-OUT = REND.parent / "output"
+from .proyecto import SALIDA as OUT
 
 DPI = 400
 PX_MM = 96 / 25.4
@@ -240,7 +242,7 @@ def componer(piezas, salida: Path, calidad=95, submuestreo=0,
                 pagina.set_cropbox(corte)
         src.close()
     if titulo:
-        import tema as _t
+        from . import tema as _t
         doc.set_metadata({"title": titulo,
                           "producer": _t.ACTIVO.lema or _t.ACTIVO.nombre})
     # Sin «fast web view»: MuPDF quitó la linearización («Linearisation is no

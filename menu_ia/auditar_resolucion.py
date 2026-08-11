@@ -27,7 +27,9 @@ from urllib.parse import unquote, urlparse
 
 from playwright.async_api import async_playwright
 
-REND = Path(__file__).parent
+# La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
+# CSS y sus datos. Deducirla de `__file__` daba site-packages.
+from .proyecto import RAIZ as REND
 RAIZ = REND.parent
 SRC = REND / "menu-completo.html"
 OUT = RAIZ / "output"

@@ -41,7 +41,8 @@ import re
 import sys
 from pathlib import Path
 
-REND = Path(__file__).resolve().parent
+# La raíz es la del CLIENTE (ahí está su style.css), no la del paquete.
+from .proyecto import RAIZ as REND
 
 # Los dos centinelas que acotan el bloque generado dentro de `style.css`.
 # Mismo recurso que usa `herramientas/sanear_estado.py`: sin una marca

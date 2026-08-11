@@ -26,8 +26,12 @@ import sys
 import time
 from pathlib import Path
 
-REND = Path(__file__).resolve().parent
-RAIZ = REND.parent
+from .proyecto import RAIZ as _CLIENTE
+
+# El directorio desde el que se corre cada paso. Las salidas cuelgan del padre
+# de la raíz del cliente (`render/` produce en `../output/`), y esa convención
+# ya está en producción: cambiarla movería de sitio los PNG y los PDF.
+RAIZ = _CLIENTE.parent
 PY = sys.executable
 
 
@@ -54,7 +58,7 @@ RECETAS = [
          ("herramientas/verificar_datos.py", []),
          ("auditar_resolucion.py", []),
          ("shot_spreads.py", []),
-         ("build_precios.py", [])],
+        ],
     ),
     Receta(
         "menu-en", "El menú EN INGLÉS y sus PNG — mismo diseño, mismos precios",
@@ -66,7 +70,6 @@ RECETAS = [
         # `build_precios.py` NO entra: los precios son los mismos y PRECIOS.md
         # es un documento en español para el dueño, no un entregable del menú.
         [("build_menu.py", ["--idioma", "en"]),
-         ("build_tapas_final.py", ["--idioma", "en"]),
          ("herramientas/verificar_traduccion.py", ["--idioma", "en"]),
          ("herramientas/verificar_datos.py", []),
          ("shot_spreads.py", ["--idioma", "en"])],
@@ -77,13 +80,7 @@ RECETAS = [
     ),
     Receta(
         "plano-en", "Las 16 páginas en inglés, aplanadas",
-        [("build_tapas_final.py", ["--idioma", "en"]),
-         ("build_pdf_plano.py", ["--idioma", "en"])],
-    ),
-    Receta(
-        "tapas", "Portada y contraportada, por su propio camino",
-        [("build_tapas.py", []),
-         ("shot_tapas.py", [])],
+        [("build_pdf_plano.py", ["--idioma", "en"])],
     ),
     Receta(
         "pdf", "PDF de trabajo — el menú entero en una pieza",
@@ -95,8 +92,7 @@ RECETAS = [
     ),
     Receta(
         "plano", "Las 16 páginas aplanadas, con el texto todavía en vector",
-        [("build_tapas_final.py", []),
-         ("build_pdf_plano.py", [])],
+        [("build_pdf_plano.py", [])],
     ),
     Receta(
         "web", "El PDF para descargar de internet — ligero, en sRGB",
@@ -107,7 +103,6 @@ RECETAS = [
         # arreglada; reconstruir cuesta medio segundo y quita la dependencia de
         # qué se corrió antes.
         [("build_menu.py", []),
-         ("build_tapas_final.py", []),
          ("build_pdf_plano.py", ["--web"])],
         aviso="Sale output/web/menu-parceros-web.pdf: mismo aplanado que el de "
               "imprenta —texto en vector, fotos rasterizadas— pero a 144 dpi, "
@@ -121,7 +116,6 @@ RECETAS = [
         # Las mismas dos guardas que `imprenta-en`, y por el mismo motivo: una
         # frase en español dentro del PDF inglés no se ve en el HTML.
         [("build_menu.py", ["--idioma", "en"]),
-         ("build_tapas_final.py", ["--idioma", "en"]),
          ("herramientas/verificar_traduccion.py", ["--idioma", "en"]),
          ("herramientas/medir_desborde.py", ["--idioma", "en"]),
          ("build_pdf_plano.py", ["--web", "--idioma", "en"])],
@@ -161,7 +155,6 @@ RECETAS = [
         # una frase salió en español significa repetir los dos pasos. Y si no
         # se descubre, se descubre en la plancha.
         [("build_menu.py", ["--idioma", "en"]),
-         ("build_tapas_final.py", ["--idioma", "en"]),
          ("herramientas/verificar_traduccion.py", ["--idioma", "en"]),
          ("herramientas/medir_desborde.py", ["--idioma", "en"]),
          ("build_pdf_plano.py", ["--imprenta", "--idioma", "en"]),
@@ -175,23 +168,33 @@ RECETAS = [
               "Generic CMYK de macOS. Hay que preguntarle al taller.",
         confirmar=True,
     ),
-    Receta(
-        "habladores", "Las piezas de mesa (150 × 210 mm)",
-        [("build_habladores.py", []),
-         ("shot_habladores.py", []),
-         ("build_pdf_habladores.py", [])],
-    ),
-    Receta(
-        "split", "¿El reparto de render/ sigue sano? (lo que lee build_menu.py "
-                 "por ruta sigue corriendo)",
-        [("herramientas/verificar_split.py", [])],
-        aviso="Esto NO compara el HTML contra un hash fijo: el contenido cambia "
-              "a diario y estaría rojo siempre. La comparación byte a byte es el "
-              "ritual de un re-split: `--fijar` antes, `--contra-referencia` "
-              "después.",
-    ),
 ]
 
+# ── Recetas del cliente ─────────────────────────────────────────────────
+# El motor trae las recetas que sirven a cualquier menú. Las tapas, los
+# habladores o la tabla de precios son de UN restaurante: viven en su
+# proyecto, en un `recetas.py` que exporta una lista `RECETAS`.
+#
+# Estaban aquí dentro, y con ellas el motor prometía pasos que solo existen en
+# Parceros — `build_tapas.py`, `build_habladores.py`—: cualquier otro cliente
+# habría visto ocho recetas que no puede correr.
+def _del_cliente():
+    try:
+        import importlib
+        return list(importlib.import_module("recetas").RECETAS)
+    except ModuleNotFoundError:
+        return []
+    except AttributeError:
+        raise SystemExit("⛔ El `recetas.py` del proyecto no exporta `RECETAS`.")
+
+
+# El cliente puede AÑADIR recetas o SUSTITUIR una del motor con el mismo
+# nombre. Lo segundo hace falta de verdad: el `plano` de un cuadernillo tiene
+# que montar sus tapas antes de aplanar, y las tapas son del cliente. Sin
+# sustitución, ese paso no cabía en ningún sitio.
+_PROPIAS = _del_cliente()
+_NOMBRES = {r.nombre for r in _PROPIAS}
+RECETAS = [r for r in RECETAS if r.nombre not in _NOMBRES] + _PROPIAS
 POR_NOMBRE = {r.nombre: r for r in RECETAS}
 
 
@@ -203,7 +206,7 @@ def listar():
         for script, args in r.pasos:
             print(f"               · {script} {' '.join(args)}".rstrip())
         print()
-    print("  python3 render/hacer.py <receta> [--seco]")
+    print("  menu-ia <receta> [--seco]")
 
 
 def correr(receta, seco=False):
@@ -225,7 +228,24 @@ def correr(receta, seco=False):
         if seco:
             continue
         t0 = time.monotonic()
-        r = subprocess.run([PY, str(REND / script), *args], cwd=RAIZ)
+        # ⚠️ Por MÓDULO (`-m menu_ia.x`), no por ruta de archivo.
+        # Antes era `subprocess.run([PY, str(REND / script)])`, y eso ataba las
+        # recetas a que el motor viviera en una carpeta conocida del cliente.
+        # Instalado como paquete esa ruta no existe: el motor está en
+        # site-packages y el cliente solo tiene su contenido.
+        # Un paso es un módulo del motor o un script del proyecto. Se prueba
+        # el motor primero: así un cliente no puede sombrear sin querer una
+        # pieza del pipeline de imprenta con un archivo suyo del mismo nombre.
+        rel = script.removesuffix(".py").replace("/", ".")
+        if (Path(__file__).resolve().parent / script).exists():
+            cmd = [PY, "-m", f"menu_ia.{rel}", *args]
+        elif (_CLIENTE / script).exists():
+            cmd = [PY, str(_CLIENTE / script), *args]
+        else:
+            print(f"\n⛔ No encuentro `{script}` ni en el motor ni en "
+                  f"{_CLIENTE}.")
+            return 2
+        r = subprocess.run(cmd, cwd=RAIZ)
         if r.returncode != 0:
             print(f"\n⛔ Falló `{etiqueta}` (código {r.returncode}).")
             print("   Los pasos siguientes NO se corren: dependen de este.")
