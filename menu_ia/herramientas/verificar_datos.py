@@ -44,7 +44,24 @@ from ..proyecto import RAIZ as REND
 RAIZ = REND.parent
 sys.path.insert(0, str(REND))
 
-import items_menu  # noqa: E402  (necesita REND en el path)
+from ..motor import enganches as _eng  # noqa: E402
+
+
+class _Item:
+    """La forma mínima que espera el resto de la guarda.
+
+    El recorrido genérico devolvía diccionarios y el resto lee atributos
+    (`i.precio`, `i.modificador`): reventaba tres funciones más abajo con un
+    `AttributeError` que no menciona ni al recorrido ni a la carta.
+    """
+    __slots__ = ("nombre", "precio", "hoja", "foto", "clave",
+                 "modificador", "sub", "costeable", "receta_id")
+
+    def __init__(self, nombre, precio, hoja, foto):
+        self.nombre, self.precio, self.hoja, self.foto = nombre, precio, hoja, foto
+        self.clave = f"{hoja}/{nombre}"
+        self.modificador = self.sub = self.costeable = False
+        self.receta_id = None
 
 
 def cargar_items():
@@ -54,7 +71,36 @@ def cargar_items():
     una copia que puede estar vieja, y comprobar el menú contra una copia vieja
     es exactamente el fallo que esta guarda busca."""
     with redirect_stdout(io.StringIO()):     # build_menu imprime su progreso
-        return items_menu.recorrer(items_menu.cargar())
+        # ⚠️ El import va PRIMERO, y no es cosmético: importar `build_menu`
+        # importa la carta, y es la carta la que REGISTRA su recorrido. Al
+        # revés se preguntaba por un enganche que todavía no existía y siempre
+        # caía al genérico — con el agravante de que el genérico devolvía otra
+        # forma de dato y reventaba tres funciones más abajo.
+        from .. import build_menu as bm
+        propio = _eng.items_planos()
+        if propio is not None:
+            return propio
+        # Recorrido genérico: sirve a cualquier carta con la forma mínima
+        # —hojas con `items` que tienen nombre y precio—. Un proyecto con
+        # zonas propias registra el suyo y saca más.
+        #
+        # ⚠️ Esto era `import items_menu`, un módulo de UN cliente. El motor
+        # exigía que todo proyecto tuviera un archivo con ese nombre, y sin él
+        # su guarda de datos moría con ModuleNotFoundError. Se vio instalando
+        # en una máquina limpia y corriendo el ejemplo de este mismo repo.
+        fuera = []
+        for hoja in bm.ACTIVOS:
+            for it in hoja.get("items", []):
+                if not it.get("activo", True):
+                    continue
+                fuera.append(_Item(it.get("n", ""), it.get("precio", ""),
+                                   hoja.get("seccion", ""), it.get("foto", "")))
+            h = hoja.get("hero") or {}
+            if h.get("nombre"):
+                fuera.append(_Item(h["nombre"].replace("|", " "),
+                                   h.get("precio", ""), hoja.get("seccion", ""),
+                                   h.get("foto", "")))
+        return fuera
 
 
 # ── 🔴 Errores ───────────────────────────────────────────────────────────────

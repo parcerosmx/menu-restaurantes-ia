@@ -45,6 +45,11 @@ ROLES = {
     # bloque `hero_jarras` con una escalera, y eso es la forma de los datos de
     # Parceros. Otro cliente cruzará otras cosas, o ninguna.
     "precio_bebida", "precio_jarra_min", "precio_postre",
+    # () → lista plana de items del menú, para la guarda de datos.
+    # Un proyecto con zonas propias —heroes, apuestas, cruces— sabe recorrer
+    # su estructura mejor que el motor; si no lo aporta, el motor hace un
+    # recorrido genérico de `SPREADS`.
+    "items_planos",
 }
 
 
@@ -69,6 +74,12 @@ def adic_linea(claves, rotulo="Agrégale más sabor"):
 def adic_lista_html(claves):
     fn = _ENGANCHES.get("adic_lista_html")
     return fn(claves) if fn else ""
+
+
+def items_planos():
+    """La lista plana de items, o `None` si la carta no aporta la suya."""
+    fn = _ENGANCHES.get("items_planos")
+    return fn() if fn else None
 
 
 def _precio(rol, *a):
