@@ -70,34 +70,59 @@ def _correr(etiqueta, modulo, args=()):
     return ok
 
 
-def _pliegos():
-    return sorted(SALIDA.glob("menu-doble-pagina-*.png"))
+def _pliegos(codigo):
+    """Los PNG de pliego DE ESE IDIOMA.
+
+    ⚠️ El glob era `menu-doble-pagina-*.png` a secas, y eso barría también los
+    ingleses: en cuanto alguien construía `menu-en`, la comprobación del
+    español veía siete pliegos «nuevos» y se ponía amarilla sin que nada
+    estuviera mal. Una guarda que se pone amarilla por construir otro
+    entregable es una guarda que se aprende a ignorar.
+    """
+    from .variantes import DISPONIBLES
+    otros = tuple(f"-{c}" for c in DISPONIBLES if c != "es")
+    return sorted(
+        p for p in SALIDA.glob("menu-doble-pagina-*.png")
+        if (p.stem.endswith(f"-{codigo}") if codigo != "es"
+            else not p.stem.endswith(otros)))
 
 
 def _huella(p):
     return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
-def fijar():
-    pngs = _pliegos()
+def _ref():
+    """El archivo de huellas, con las de cada idioma separadas."""
+    if not HUELLAS.exists():
+        return {}
+    d = json.loads(HUELLAS.read_text(encoding="utf-8"))
+    # Compatibilidad con el formato plano de la primera versión, que solo
+    # guardaba el español.
+    return d if all(isinstance(v, dict) for v in d.values()) else {"es": d}
+
+
+def fijar(codigo):
+    pngs = _pliegos(codigo)
     if not pngs:
         print("⛔ No hay PNG en output/. Corre `menu-ia menu` primero.")
         return 1
-    HUELLAS.write_text(json.dumps(
-        {p.name: _huella(p) for p in pngs}, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8")
-    print(f"✅ {len(pngs)} huellas fijadas en {HUELLAS.name}.\n"
+    todo = _ref()
+    todo[codigo] = {p.name: _huella(p) for p in pngs}
+    HUELLAS.write_text(json.dumps(todo, indent=2, ensure_ascii=False) + "\n",
+                       encoding="utf-8")
+    print(f"✅ {len(pngs)} huellas de «{codigo}» fijadas en {HUELLAS.name}.\n"
           "   ⚠️ Esto firma lo que hay, no lo valida. Si acabas de fijar una\n"
           "      regresión, la guarda protegerá el fallo.")
     return 0
 
 
-def comparar():
-    if not HUELLAS.exists():
-        print(f"  ⚠️ no hay {HUELLAS.name} — fija las huellas con --fijar")
+def comparar(codigo):
+    ref = _ref().get(codigo)
+    if not ref:
+        print(f"  ⚠️ no hay huellas de «{codigo}» — fíjalas con "
+              f"--fijar --idioma {codigo}")
         return None
-    ref = json.loads(HUELLAS.read_text(encoding="utf-8"))
-    actual = {p.name: _huella(p) for p in _pliegos()}
+    actual = {p.name: _huella(p) for p in _pliegos(codigo)}
     faltan = sorted(set(ref) - set(actual))
     nuevos = sorted(set(actual) - set(ref))
     movidos = sorted(k for k in ref.keys() & actual.keys() if ref[k] != actual[k])
@@ -120,13 +145,17 @@ def main():
                     help="firma los PNG actuales como referencia")
     ap.add_argument("--completo", action="store_true",
                     help="añade la deriva HTML↔PDF (~2 min)")
+    ap.add_argument("--idioma", default="es",
+                    help="qué versión comprobar (es por omisión)")
     args = ap.parse_args()
+    cod = args.idioma
 
     if args.fijar:
-        return fijar()
+        return fijar(cod)
 
-    print(f"\n\033[1m▶ comprobar\033[0m — proyecto: {RAIZ}\n")
+    print(f"\n\033[1m▶ comprobar «{cod}»\033[0m — proyecto: {RAIZ}\n")
     ok = True
+    idi = [] if cod == "es" else ["--idioma", cod]
 
     print("Guardas de dato:")
     ok &= _correr("el formato concuerda con el CSS", "menu_ia.formato", ["--verificar"])
@@ -135,13 +164,21 @@ def main():
                   ["--auditar"])
 
     print("\nConstrucción:")
-    ok &= _correr("el menú se arma", "menu_ia.build_menu")
+    ok &= _correr("el menú se arma", "menu_ia.build_menu", idi)
+    if cod != "es":
+        # ⚠️ Va JUSTO detrás de construir y ANTES de los PNG. Una frase en
+        # español dentro de la página inglesa no se ve en el HTML: se ve en el
+        # PNG, si alguien mira esa esquina.
+        ok &= _correr(f"todo traducido a «{cod}»",
+                      "menu_ia.herramientas.verificar_traduccion", idi)
+        ok &= _correr("nada se sale de su caja", "menu_ia.herramientas.medir_desborde",
+                      idi)
     ok &= _correr("los datos del menú", "menu_ia.herramientas.verificar_datos")
     ok &= _correr("resolución de las fotos", "menu_ia.auditar_resolucion")
-    ok &= _correr("los PNG de pliego", "menu_ia.shot_spreads")
+    ok &= _correr("los PNG de pliego", "menu_ia.shot_spreads", idi)
 
     print("\nHuellas:")
-    h = comparar()
+    h = comparar(cod)
     ok &= (h is not False)
 
     if args.completo:
@@ -155,7 +192,7 @@ def main():
         print("\033[1m✅ Todo en orden.\033[0m")
     elif ok:
         print("\033[1m🟡 Las guardas pasan, pero no hay referencia de huellas.\033[0m\n"
-              "   Mira los PNG y, si son correctos: menu-ia comprobar --fijar")
+              f"   Mira los PNG y, si son correctos: menu-ia comprobar --fijar --idioma {cod}")
     else:
         print("\033[1m⛔ Algo falla.\033[0m Arriba está qué.")
     if not args.completo:

@@ -39,6 +39,7 @@ from pathlib import Path
 # La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
 # CSS y sus datos. Deducirla de `__file__` daba site-packages.
 from ..proyecto import RAIZ as REND
+from ..proyecto import modulo_fresco as _fresco
 sys.path.insert(0, str(REND))
 
 from ..motor import idioma  # noqa: E402
@@ -93,25 +94,51 @@ def _artefactos_intactos():
 def _construir(script, codigo, etiqueta):
     """Corre un script de build en un idioma y devuelve su HTML."""
     idioma.fijar(codigo)
-    spec = importlib.util.spec_from_file_location(f"_{etiqueta}_{codigo}",
-                                                  REND / script)
+    # ⚠️ Ejecución FRESCA, y por eso `spec_from_file_location` y no
+    # `import_module`. `build_menu.py` fija el idioma y escribe su HTML al
+    # importarse; con el caché de `sys.modules` la segunda llamada devolvería
+    # el módulo español sin reejecutar, y la guarda informaría de haber
+    # verificado un inglés que nunca construyó. Medido: `a is b → True`.
+    # Es el fallo de §9.6-bis otra vez, esta vez sin dejar rastro.
+    #
+    # 📌 Lo único que cambió al instalarse el motor es DE DÓNDE sale la ruta:
+    # `build_menu.py` es del paquete y `build_tapas_final.py` del proyecto.
+    # `proyecto.script()` sabe distinguirlos; antes se buscaban los dos bajo
+    # la raíz del cliente y el primero ya no estaba ahí.
+    ruta, nombre = _fresco(script, f"{etiqueta}_{codigo}")
+    spec = importlib.util.spec_from_file_location(nombre, ruta)
     mod = importlib.util.module_from_spec(spec)
-    argv, cwd = sys.argv, Path.cwd()
+    argv = sys.argv
     sys.argv = [script, "--idioma", codigo]
     try:
-        # ⚠️ `build_tapas_final.py` resuelve `assets/` como ruta RELATIVA al
-        # directorio de trabajo, no a `REND`. Sin este `chdir`, la guarda solo
-        # pasa si se lanza desde la raíz del repo — y falla con un
-        # FileNotFoundError de una fuente que no menciona ni al idioma ni a
-        # las tapas.
-        import os
-        os.chdir(REND.parent)
         with contextlib.redirect_stdout(io.StringIO()):
             spec.loader.exec_module(mod)
     finally:
         sys.argv = argv
-        os.chdir(cwd)
     return mod.SALIDA.read_text(encoding="utf-8")
+
+
+def _extras():
+    """Los scripts del PROYECTO que también producen HTML verificable.
+
+    ⚠️ Estaba escrito `build_tapas_final.py` aquí dentro: el motor nombrando
+    un archivo de un cliente concreto. Cualquier otro restaurante habría visto
+    la guarda morir buscando unas tapas que no tiene — y uno con tapas de otro
+    nombre las habría dejado sin verificar sin enterarse.
+
+    Lo declara la carta:
+
+        PRODUCTORES_HTML = ["build_tapas_final.py"]
+
+    Vacío es válido: un menú de una hoja no tiene nada más que el interior.
+    """
+    import importlib
+    import os
+    try:
+        c = importlib.import_module(os.environ.get("MENU_CARTA", "secciones"))
+    except ModuleNotFoundError:
+        return []
+    return list(getattr(c, "PRODUCTORES_HTML", []))
 
 
 def _render(codigo):
@@ -122,10 +149,11 @@ def _render(codigo):
     la carta. Sin ellas, la guarda daba por muerto medio catálogo.
     """
     idioma.CAPTURA = []
-    interior = _construir("build_menu.py", codigo, "bm")
-    tapas = _construir("build_tapas_final.py", codigo, "tf")
+    partes = [_construir("build_menu.py", codigo, "bm")]
+    for i, extra in enumerate(_extras()):
+        partes.append(_construir(extra, codigo, f"x{i}"))
     pedidos, idioma.CAPTURA = idioma.CAPTURA, None
-    return interior, tapas, pedidos
+    return partes[0], "\n".join(partes[1:]), pedidos
 
 
 def _comprobar():

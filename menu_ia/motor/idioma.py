@@ -102,9 +102,26 @@ def fijar(codigo):
         raise SystemExit(
             f"⛔ No hay catálogo de textos para «{codigo}». "
             f"Se esperaba render/idiomas/{codigo}.py")
+    # ⚠️ `FALTAN` se vacía SOLO al CAMBIAR de idioma, no en cada llamada.
+    #
+    # Esto era `FALTAN.clear()` a secas, y dejaba la guarda de traducción
+    # **ciega al interior del menú**. La guarda construye dos piezas seguidas
+    # en el mismo idioma —interior y tapas— y cada una llama a `fijar()`: la
+    # segunda borraba todo lo que faltaba en la primera. Medido con una
+    # traducción quitada a mano: `FALTAN` valía **1 tras el interior y 0 tras
+    # las tapas**. La guarda decía «todos traducidos» y el texto salía en
+    # español dentro de la página inglesa — que es exactamente el fallo que
+    # esta guarda existe para impedir, y no se ve en el HTML: se ve en el PNG.
+    #
+    # El razonamiento ya estaba escrito abajo para `NOMBRES_VISTOS` —un
+    # proceso construye varias piezas seguidas— pero no se había aplicado
+    # aquí. Cambiar de idioma sí tiene que vaciarlo: lo que falta en inglés no
+    # es lo que falta en francés.
+    cambio = _ACTIVO != codigo
     _ACTIVO, _CATALOGO = codigo, mod.TEXTOS
     _NOMBRES = getattr(mod, "NOMBRES", {})
-    FALTAN.clear()
+    if cambio:
+        FALTAN.clear()
     # NOMBRES_VISTOS NO se vacía aquí: es un registro de diagnóstico y un solo
     # proceso puede construir varias piezas seguidas (interior + tapas, como
     # hace la guarda). Vaciarlo en cada `fijar` dejaba el listado final con lo

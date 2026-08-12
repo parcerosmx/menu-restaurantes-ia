@@ -35,6 +35,7 @@ from pathlib import Path
 # La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
 # CSS y sus datos. Deducirla de `__file__` daba site-packages.
 from ..proyecto import RAIZ as REND
+from ..proyecto import modulo_fresco as _fresco
 sys.path.insert(0, str(REND))
 
 from ..motor import idioma  # noqa: E402
@@ -44,7 +45,10 @@ def textos_impresos():
     """Renderiza el menú con la captura encendida y devuelve los textos únicos
     en orden de aparición."""
     idioma.CAPTURA = []
-    spec = importlib.util.spec_from_file_location("_bm", REND / "build_menu.py")
+    # `build_menu.py` es del MOTOR desde el 8dd3b47; buscarlo bajo la raíz
+    # del cliente moría con FileNotFoundError.
+    ruta, nombre = _fresco("build_menu.py", "bm")
+    spec = importlib.util.spec_from_file_location(nombre, ruta)
     mod = importlib.util.module_from_spec(spec)
     # `build_menu.py` escribe el HTML como efecto de importarse. Es lo que
     # queremos: el render completo es justo lo que dispara cada `t()`.
