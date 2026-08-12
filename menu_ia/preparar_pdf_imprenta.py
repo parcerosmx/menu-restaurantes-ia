@@ -567,6 +567,64 @@ def intento_de_salida(doc):
 
 # ─────────────────────────────────────────────────────────── verificación
 
+def _geometria(doc, fallos, avisos):
+    """Las tres cosas que solo se ven cuando entra la guillotina.
+
+    ⚠️ Nacen de probar un formato NUEVO. Las cajas ya se comprobaban —miden lo
+    que dice el formato— pero eso no dice nada sobre lo que pasa al cortar:
+    una caja correcta con el fondo a medio llegar deja una tira blanca en el
+    borde, y un texto a 1 mm del corte se decapita con la tolerancia normal de
+    una guillotina.
+
+    Son baratas y solo importan de verdad la primera vez que se imprime un
+    formato. Por eso van aquí y no en una herramienta aparte que nadie corre.
+    """
+    import re as _re
+    for i, pg in enumerate(doc):
+        crudo = doc.xref_object(pg.xref)
+
+        def caja(n):
+            m = _re.search(rf"/{n}\s*\[([^\]]+)\]", crudo)
+            return [float(x) / MM for x in m.group(1).split()] if m else None
+
+        M, B, T = caja("MediaBox"), caja("BleedBox"), caja("TrimBox")
+        if not (M and B and T):
+            continue
+
+        # 1 · cada caja centrada dentro de la anterior
+        for a, b, et, esp in ((M, B, "marcas", MARCA_MM), (B, T, "sangrado", SANGRADO_MM)):
+            lados = [b[0] - a[0], a[2] - b[2], b[1] - a[1], a[3] - b[3]]
+            if any(abs(x - esp) > 0.1 for x in lados):
+                fallos.append(f"pág {i+1}: el {et} no está centrado "
+                              f"({' · '.join(f'{x:.2f}' for x in lados)} mm, "
+                              f"esperado {esp})")
+
+        # 2 · nada vivo demasiado cerca del corte
+        tb = pg.trimbox
+        cerca, quien = 99.0, ""
+        for blq in pg.get_text("dict")["blocks"]:
+            for ln in blq.get("lines", []):
+                for s in ln["spans"]:
+                    x0, y0, x1, y1 = s["bbox"]
+                    dd = min(x0 - tb.x0, tb.x1 - x1, y0 - tb.y0, tb.y1 - y1) / MM
+                    if dd < cerca:
+                        cerca, quien = dd, s["text"][:30]
+        if cerca < 2:
+            fallos.append(f"pág {i+1}: texto a {cerca:.1f} mm del corte «{quien}»")
+        elif cerca < 4:
+            avisos.append(f"pág {i+1}: solo {cerca:.1f} mm hasta el corte «{quien}» "
+                          f"— la guillotina se mueve más que eso")
+
+    # 3 · las marcas, en K sola
+    tinta = set()
+    for pg in doc:
+        flujo = b"".join(doc.xref_stream(x) for x in pg.get_contents())
+        tinta |= set(_re.findall(rb"([\d.]+ [\d.]+ [\d.]+ [\d.]+)\s+K\b", flujo))
+    if tinta and not all(k.split()[:3] == [b"0", b"0", b"0"] for k in tinta):
+        fallos.append("las marcas de corte no van en K sola — se verá el "
+                      "desregistro de la máquina en la propia marca")
+
+
 def verificar(ruta: Path, marcas=True):
     doc = fitz.open(ruta)
     fallos = []
@@ -574,8 +632,12 @@ def verificar(ruta: Path, marcas=True):
     corte = tuple(round(v, 1) for v in CORTE_MM)
     sangre = tuple(round(v, 1) for v in SANGRADO_MM_TOT)
 
+    avisos = []
     if doc.page_count != PAGINAS_ESPERADAS:
-        fallos.append(f"{doc.page_count} páginas, no 16")
+        fallos.append(f"{doc.page_count} páginas, no {PAGINAS_ESPERADAS}")
+    _geometria(doc, fallos, avisos)
+    for a in avisos:
+        print(f"  🟡 {a}")
 
     def mm(caja):
         return (round(caja.width / MM, 1), round(caja.height / MM, 1))
