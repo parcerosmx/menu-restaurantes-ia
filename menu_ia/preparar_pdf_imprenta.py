@@ -600,7 +600,17 @@ def _geometria(doc, fallos, avisos):
                               f"esperado {esp})")
 
         # 2 · nada vivo demasiado cerca del corte
-        tb = pg.trimbox
+        #
+        # ⚠️ El TrimBox se recalcula en ESPACIO DE PÁGINA. `pg.trimbox` de
+        # PyMuPDF mezcla espacios —devuelve la x en crudo y la y ya
+        # trasladada—, y los bbox de `get_text` vienen en espacio de página
+        # (origen en la esquina superior izquierda del MediaBox). Compararlos
+        # directamente resta de menos exactamente `MARCA_MM`.
+        #
+        # No es teórico: la primera versión de esta comprobación denunció
+        # texto «a 3.2 mm del corte» en un menú que lo tiene a 13.2. Diez
+        # milímetros de diferencia, que es justo el margen de marcas.
+        tb = fitz.Rect(T[0] - M[0], M[3] - T[3], T[2] - M[0], M[3] - T[1]) * MM
         cerca, quien = 99.0, ""
         for blq in pg.get_text("dict")["blocks"]:
             for ln in blq.get("lines", []):
