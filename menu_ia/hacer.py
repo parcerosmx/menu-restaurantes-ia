@@ -116,6 +116,12 @@ RECETAS = [
          ("build_pdf_plano.py", ["--web", "--idioma", "en"])],
     ),
     Receta(
+        "crear", "Levanta el proyecto de un restaurante NUEVO desde un JSON",
+        [("crear.py", [])],
+        aviso="La entrevista la hace el skill `crear-menu`; esto solo genera.\n"
+              "   Uso: python3 -m menu_ia.crear --desde brief.json --en <ruta>",
+    ),
+    Receta(
         "comprobar", "¿SIGUE FUNCIONANDO TODO? — guardas + huellas de los PNG",
         [("comprobar.py", [])],
         aviso="La única receta que contesta «¿salió lo mismo?». Compara cada\n"

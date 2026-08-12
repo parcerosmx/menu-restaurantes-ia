@@ -156,5 +156,23 @@ def hero(h):
 </section>'''
 
 def pie():
-    """Solo el lema real de la marca — nada de copy inventado."""
-    return f'<div class="pie">{CORAZON}{tx("De corazón y sabor.")}</div>' 
+    """El lema de la marca al pie de cada hoja de listado.
+
+    ⚠️ El lema lo pone el TEMA, no este archivo. Estaba escrito aquí —«De
+    corazón y sabor.», con el corazón de Parceros— y **la primera vez que se
+    arregló, el arreglo se perdió al copiar el motor de un repo al otro**. Se
+    volvió a encontrar montando una panadería con `menu-ia crear`: su carta
+    salió firmada con el lema de un restaurante colombiano.
+
+    Es invisible para toda guarda del cliente original: la cadena escrita a
+    mano ES su lema, así que sus PNG salen idénticos y `comprobar` da verde.
+    Solo lo destapa un cliente NUEVO — que es justo para lo que sirve tener
+    uno de demostración.
+
+    Un tema sin lema no pinta pie. Nada de copy inventado, aquí tampoco.
+    """
+    from .. import tema as _tema
+    lema = _tema.ACTIVO.lema
+    if not lema:
+        return ""
+    return f'<div class="pie">{_tema.ACTIVO.ornamento("pie_ico")}{tx(lema)}</div>'
