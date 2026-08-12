@@ -19,11 +19,16 @@ dependencies = [
 menu-ia = "menu_ia.hacer:main"
 
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=61"]   # 61 es donde setuptools acepta pyproject solo
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-packages = ["menu_ia", "menu_ia.motor", "menu_ia.herramientas", "menu_ia.idiomas"]
+# ⚠️ Descubrimiento automático, NO una lista a mano.
+# La lista decía `menu_ia.idiomas`, y ese paquete se renombró a `variantes`
+# hace commits. Nadie lo notó porque la instalación de desarrollo era
+# editable y anterior al cambio: **el paquete llevaba desde entonces sin
+# poder construirse**, y solo se vio al instalarlo en una máquina limpia.
+[tool.setuptools.packages.find]
+include = ["menu_ia*"]
 
 [tool.setuptools.package-data]
 menu_ia = ["*.css"]
