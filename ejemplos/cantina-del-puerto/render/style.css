@@ -1,0 +1,33 @@
+/* Tokens del proyecto. Los DOS bloques los generan
+   `menu-ia`; entre los centinelas no se edita a mano. */
+
+:root {
+  /* ⇩⇩ TEMA GENERADO POR render/tema.py — no editar a mano ⇩⇩ */
+  /* Tema «cantina».
+     El dato vive en render/tema.py y se aplica con
+     `python3 render/tema.py --aplicar`. */
+  --papel: #FBFAF7;
+  --tinta: #14110E;
+  --acento: #8C1D18;
+  --gris: #6E6A65;
+  --filete: #D8D4CD;
+  --placeholder-foto: #E4E1DB;
+  --placeholder-texto: #8A857F;
+
+  --font-cuerpo: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-badge: 'Playfair Display', Georgia, serif;
+  --font-script: 'Playfair Display', Georgia, serif;
+  /* ⇧⇧ fin del tema generado ⇧⇧ */
+
+  /* ⇩⇩ GENERADO POR render/formato.py — no editar a mano ⇩⇩ */
+  /* Formato «a4-hoja» · hoja · 2 páginas.
+     Página final 210×297mm; +3mm de bleed por lado → 216×303mm.
+     El dato vive en render/formato.py y se aplica con
+     `python3 render/formato.py --aplicar`. */
+  --page-w: 216mm;
+  --page-h: 303mm;
+  --bleed: 3mm;
+  --margen-exterior: 12mm;
+  /* ⇧⇧ fin del bloque generado ⇧⇧ */
+}

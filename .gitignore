@@ -10,3 +10,6 @@ output/
 # Precios de compra, márgenes, ventas y fotografía son del restaurante.
 # Ver el inventario de confidencialidad del repo del cliente.
 cartas-privadas/
+
+# Metadatos de build de setuptools — se regeneran al instalar
+*.egg-info/

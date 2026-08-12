@@ -11,9 +11,19 @@ devuelva.
 
 ```bash
 pip install git+https://github.com/<usuario>/menu-restaurantes-ia
+python -m playwright install chromium
+
+cd ejemplos/cantina-del-puerto
+export MENU_PROYECTO=$PWD/render MENU_CARTA=carta \
+       MENU_TEMA=cantina MENU_FORMATO=a4-hoja
 menu-ia menu        # el menú y sus PNG de revisión
 menu-ia imprenta    # el archivo del taller, verificado
 ```
+
+📄 **Sin instalar nada:** [el PDF de imprenta del ejemplo](ejemplos/cantina-del-puerto/muestra/menu-cantina-CMYK-sangrado.pdf)
+· [una cara montada](ejemplos/cantina-del-puerto/muestra/menu-doble-pagina-1-comer.png)
+
+📖 [**Empezar de cero**](docs/empezar.md) · [**El ritual de plancha**](docs/imprenta.md)
 
 ---
 
@@ -115,14 +125,13 @@ para imprimir. Diseñar la identidad de un restaurante es otro trabajo.
 
 ## Ejemplo
 
-`ejemplos/cantina_del_puerto/` es un restaurante ficticio: A4, dos caras, sin
-una sola foto. Llega hasta el PDF de imprenta con la verificación completa en
-verde.
+`ejemplos/cantina-del-puerto/` es un **proyecto completo** de un restaurante
+ficticio: A4, dos caras, sin una sola foto. Tiene su carta, su tema, su piel y
+sus tokens — es exactamente la forma que tiene un cliente real.
 
-```bash
-MENU_CARTA=cantina_del_puerto MENU_FORMATO=a4-hoja MENU_TEMA=cantina \
-    menu-ia menu
-```
+Llega hasta el PDF de imprenta con la verificación completa en verde, y su
+salida está commiteada en [`muestra/`](ejemplos/cantina-del-puerto/muestra/)
+para poder mirarla sin instalar nada.
 
 ## Lo que este motor NO hace
 

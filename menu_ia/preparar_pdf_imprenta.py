@@ -425,13 +425,16 @@ def convertir_texto(doc, comprimir=False, verbose=True):
 
     for x in flujos_de_contenido(doc):
         datos = doc.xref_stream(x)
-        if b"(" in datos:
-            # Con cadenas literales dentro habría que tokenizar de verdad: un
-            # `(0 0 0 rg)` es texto, no color. Este PDF no lleva ninguna.
-            raise SystemExit(f"xref {x}: el flujo lleva cadenas literales; "
-                             "la sustitución por expresión regular no es segura.")
-        nuevo, n1 = RE_COLOR.subn(sub_color, datos)
-        nuevo, n2 = RE_GRIS.subn(sub_gris, nuevo)
+        nuevo, n1, n2 = b"", 0, 0
+        for trozo, es_cadena in tramos(datos):
+            if es_cadena:
+                # Dentro de `(...)` no se toca NADA: ahí `0 0 0 rg` es texto
+                # que se imprime, no un operador de color.
+                nuevo += trozo
+                continue
+            t, a = RE_COLOR.subn(sub_color, trozo)
+            t, b = RE_GRIS.subn(sub_gris, t)
+            nuevo, n1, n2 = nuevo + t, n1 + a, n2 + b
         if n1 + n2:
             doc.update_stream(x, nuevo)
             cambios += n1 + n2
@@ -448,6 +451,53 @@ def convertir_texto(doc, comprimir=False, verbose=True):
 
 
 # ─────────────────────────────────────────────────────────── cajas y marcas
+
+def tramos(datos):
+    """Parte un flujo de contenido en `(trozo, es_cadena_literal)`.
+
+    ⚠️ Existe porque la sustitución de color es una expresión regular, y una
+    expresión regular no sabe distinguir un operador de un texto que se
+    imprime: dentro de `(0 0 0 rg)` eso son cinco caracteres de tipografía,
+    no una orden de tinta. Reescribirlos cambia lo que dice la carta.
+
+    Antes había una guarda que se plantaba si el flujo llevaba un `(` —
+    «este PDF no lleva ninguna»—. Y era cierto para un cliente: sus fuentes
+    se incrustan como subconjunto y Chromium escribe el texto en hexadecimal,
+    `<0043>`. Con otras fuentes lo escribe como cadena literal, y entonces el
+    archivo de imprenta **no se podía generar**. El primer cliente que lo
+    encontró fue el restaurante de ejemplo de este repo.
+
+    Se recorre el flujo respetando el escape `\(` y el anidamiento de
+    paréntesis, que es lo que dice la especificación de PDF para una cadena
+    literal. Lo de fuera se sustituye; lo de dentro se copia tal cual.
+    """
+    out, i, n, ini = [], 0, len(datos), 0
+    while i < n:
+        c = datos[i]
+        if c == 0x5C:            # \  — escape: se salta el siguiente byte
+            i += 2
+            continue
+        if c == 0x28:            # (  — abre cadena literal
+            if i > ini:
+                out.append((datos[ini:i], False))
+            prof, j = 1, i + 1
+            while j < n and prof:
+                if datos[j] == 0x5C:
+                    j += 2
+                    continue
+                if datos[j] == 0x28:
+                    prof += 1
+                elif datos[j] == 0x29:
+                    prof -= 1
+                j += 1
+            out.append((datos[i:j], True))
+            i = ini = j
+            continue
+        i += 1
+    if ini < n:
+        out.append((datos[ini:], False))
+    return out
+
 
 def dims_media(marcas=True):
     m = MARCA_MM if marcas else 0.0
