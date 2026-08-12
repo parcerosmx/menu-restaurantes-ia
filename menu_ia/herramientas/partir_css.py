@@ -147,6 +147,43 @@ PIEL = {
     "-webkit-text-stroke-color", "paint-order",
 }
 
+# ════════════════════════════════════════════════════════════════════════
+#  Y el corte por SELECTOR, además del corte por propiedad
+# ════════════════════════════════════════════════════════════════════════
+# El corte por propiedad tiene un punto ciego: una regla como
+#
+#     .hoja-postres .favfila-foto { margin-top: 4mm; }
+#
+# lleva solo declaraciones de estructura, así que iba entera al archivo del
+# MOTOR — con el nombre de una hoja de un restaurante concreto dentro. Medido:
+# **46 reglas** de `estructura.css` con selectores de hojas de Parceros, y el
+# HTML de un cliente nuevo recibía 39 de esas referencias. Inertes —ningún
+# elemento suyo tiene esa clase— pero peso muerto en un archivo compartido, y
+# la marca de otro donde no pinta nada.
+#
+# La regla: **un selector que nombra una HOJA de la carta es del cliente**, y
+# la regla entera se va a la piel aunque solo tenga estructura.
+#
+# ⚠️ Y NO vale un glob `.hoja-*`. De las siete clases que empiezan así, dos son
+# vocabulario del motor: `.hoja-glosa` es el icono de hojita —el SVG de
+# `iconos.py`— y `.hoja-suelta` es el arquetipo de página. Un barrido ciego se
+# las habría llevado al cliente y habría roto las dos. Por eso los nombres
+# salen de la CARTA, que es quien sabe cómo se llaman sus hojas.
+def slugs_de_la_carta():
+    import importlib
+    import os
+    try:
+        c = importlib.import_module(os.environ.get("MENU_CARTA", "secciones"))
+    except ModuleNotFoundError:
+        return set()
+    return {s["slug"] for s in getattr(c, "SPREADS", []) if s.get("slug")}
+
+
+def es_de_cliente(selector, slugs):
+    import re as _re
+    return any(_re.search(rf"[.\-]{_re.escape(s)}\b", selector) for s in slugs)
+
+
 # ⚠️ LOS `@media` SE PARTEN COMO CUALQUIER OTRA REGLA. NO se mandan enteros a
 # un lado, y esto costó un pliego para aprenderlo.
 #
@@ -296,6 +333,7 @@ def lado(prop):
 
 # ════════════════════════════════════════════════════════════════════════
 def partir(css):
+    _SLUGS = slugs_de_la_carta()
     trozos = trocear(css)
     est, pie = [], []
     desconocidas = Counter()
@@ -319,6 +357,13 @@ def partir(css):
         _, comentario, selector, cuerpo = tr
         decls, cola = declaraciones(cuerpo)
         de, dp = [], []
+        # Un selector que nombra una hoja de la carta manda sobre el reparto
+        # por propiedad: la regla entera es del cliente.
+        if es_de_cliente(selector, _SLUGS):
+            dp = [(pre, prop, val) for pre, prop, val in decls]
+            n_p += 1
+            pie.append(_regla(comentario, selector, dp, cola))
+            continue
         for pre, prop, val in decls:
             l = lado(prop)
             if l is None:
@@ -383,6 +428,68 @@ def comprobar_atajos():
                          "dejaría de ser segura:\n  " + "\n  ".join(malos))
 
 
+def reencaminar(seco=False):
+    """Mueve a la piel las reglas de `estructura.css` cuyo selector es del
+    cliente. **No regenera desde el original.**
+
+    ⚠️ Y eso es deliberado. Volver a partir desde `archivo/menu-v2.css` sería
+    más limpio y **destruiría** todo lo escrito desde aquel corte: las reglas
+    del listado denso de la Fase 3, las redacciones de las cifras de negocio.
+    Los dos archivos son la FUENTE desde hace tiempo; lo que hace falta no es
+    rehacer el corte, es corregir un reparto.
+
+    Las reglas movidas se añaden al FINAL de la piel. Es seguro por
+    especificidad: un selector como `.hoja-postres .favfila-foto` ya ganaba a
+    `.favfila-foto` estuviera donde estuviera, así que cambiarlo de sitio en
+    la cascada no cambia quién gana.
+    """
+    slugs = slugs_de_la_carta()
+    if not slugs:
+        print("⛔ No sé cómo se llaman las hojas de la carta "
+              "(¿MENU_CARTA bien puesto?).")
+        return 1
+    est, piel = _hojas()
+    texto = est.read_text(encoding="utf-8")
+
+    quedan, mudan = [], []
+    for tr in trocear(texto):
+        if tr[0] == "regla" and es_de_cliente(tr[2], slugs):
+            mudan.append(_regla(tr[1], tr[2], *_decl_crudas(tr[3])))
+        elif tr[0] == "crudo":
+            quedan.append(tr[1])
+        elif tr[0] == "atrule":
+            quedan.append(f"{tr[1]}{tr[2]} {{{tr[3]}}}\n")
+        else:
+            quedan.append(_regla(tr[1], tr[2], *_decl_crudas(tr[3])))
+
+    print(f"  {len(mudan)} reglas de {est.name} nombran una hoja de la carta")
+    if seco:
+        for m in mudan[:8]:
+            print("     " + m.split("{")[0].strip()[:70])
+        if len(mudan) > 8:
+            print(f"     … y {len(mudan) - 8} más")
+        print("\n(--seco: no se ha escrito nada)")
+        return 0
+    if not mudan:
+        print("  ✅ nada que mover.")
+        return 0
+
+    est.write_text("".join(quedan), encoding="utf-8")
+    piel.write_text(
+        piel.read_text(encoding="utf-8").rstrip() +
+        "\n\n/* ═══ Reglas traídas de estructura.css ═══\n"
+        "   Su selector nombra una hoja de esta carta, así que son de aquí\n"
+        "   aunque solo lleven declaraciones de estructura. El corte por\n"
+        "   propiedad no las veía. */\n\n" + "".join(mudan), encoding="utf-8")
+    print(f"  ✅ movidas a {piel.name}. ⚠️ Compruébalo con el diff de PNG.")
+    return 0
+
+
+def _decl_crudas(cuerpo):
+    decls, cola = declaraciones(cuerpo)
+    return [(pre, prop, val) for pre, prop, val in decls], cola
+
+
 def auditar():
     """¿Sigue cada declaración del lado que le toca?
 
@@ -396,6 +503,7 @@ def auditar():
     declaración está donde el manifiesto dice.
     """
     comprobar_atajos()
+    _SLUGS_AUD = slugs_de_la_carta()
     problemas, desconocidas = [], Counter()
     est, piel = _hojas()
     for ruta, esperado, etiqueta in ((est, "E", "estructura"),
@@ -404,6 +512,19 @@ def auditar():
             if tr[0] != "regla":
                 continue
             _, _, selector, cuerpo = tr
+            de_cliente = es_de_cliente(selector, _SLUGS_AUD)
+            if esperado == "E" and de_cliente:
+                problemas.append(
+                    f"  {ruta.name}  «{selector.strip()[:44]}»  "
+                    f"nombra una hoja de la carta: es de la piel")
+                continue
+            if esperado == "P" and de_cliente:
+                # El corte por SELECTOR manda sobre el corte por propiedad: una
+                # regla que nombra una hoja de la carta es del cliente ENTERA,
+                # con sus declaraciones de estructura incluidas. Sin esta línea
+                # el auditor denunciaba 92 declaraciones «del lado equivocado»
+                # que están exactamente donde la regla nueva las pone.
+                continue
             decls, _ = declaraciones(cuerpo)
             for _, prop, _v in decls:
                 l = lado(prop)
@@ -440,10 +561,14 @@ def main():
     ap.add_argument("--seco", action="store_true", help="no escribe nada")
     ap.add_argument("--informe", action="store_true",
                     help="enseña las propiedades sin clasificar")
+    ap.add_argument("--reencaminar", action="store_true",
+                    help="mueve a la piel las reglas con selector de cliente")
     ap.add_argument("--auditar", action="store_true",
                     help="comprueba los dos archivos VIGENTES sin regenerarlos")
     args = ap.parse_args()
 
+    if args.reencaminar:
+        return reencaminar(args.seco)
     if args.auditar:
         return auditar()
 

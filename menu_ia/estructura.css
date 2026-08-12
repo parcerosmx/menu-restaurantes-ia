@@ -18,15 +18,18 @@
 
 * {
   box-sizing: border-box; }
+
 html, body {
   margin: 0;
   padding: 0;}
+
 
 
 @page {
   size: var(--page-w) var(--page-h);
   margin: 0;
 }
+
 
 
 /* ============================================================
@@ -53,10 +56,12 @@ html, body {
   break-inside: avoid;}
 
 
+
 .page:last-of-type {
   page-break-after: auto;
   break-after: auto;
 }
+
 
 
 .page-inner {
@@ -66,6 +71,7 @@ html, body {
 }
 
 
+
 .columnas {
   display: flex;
   height: 100%;
@@ -73,10 +79,12 @@ html, body {
 }
 
 
+
 .columna {
   flex: 1;
   min-width: 0;
 }
+
 .badge-seccion {
   position: relative;
   display: inline-block;
@@ -85,12 +93,14 @@ html, body {
   white-space: nowrap;}
 
 
+
 .badge-seccion::before {
   position: absolute;
   left: -4mm;
   top: 0;
   bottom: 0;
   width: 4mm;}
+
 
 
 /* ============================================================
@@ -105,6 +115,7 @@ html, body {
 }
 
 
+
 .platillo {
   display: flex;
   justify-content: space-between;
@@ -114,10 +125,12 @@ html, body {
 }
 
 
+
 /* --- Tags / etiquetas — solo 4 colores del sistema --- */
 
 .tags {
   display: flex; gap: 1.5mm; flex-wrap: wrap; margin-top: 1.2mm; }
+
 
 
 /* ============================================================
@@ -131,12 +144,14 @@ html, body {
   height: 100%;
   min-height: 0;
   overflow: hidden;}
+
 .hero-foto-completa .placeholder-nota {
   position: absolute;
   top: 4mm;
   right: 4mm;
   max-width: 45mm;
   z-index: 1;}
+
 
 
 .hero-overlay-scrim {
@@ -149,25 +164,32 @@ html, body {
   padding: 6mm;}
 
 
+
 .hero-desc.bullets {
   list-style: none;
   margin: 1.5mm 0;
   padding: 0;
 }
 
+
 .hero-desc.bullets li {
   padding-left: 3mm;
   position: relative;
 }
+
 .hero-desc.bullets li::before {
   position: absolute;
   left: 0;}
+
 .hero-precio {
   margin: 1mm 0;}
+
 .adiciones-tabla td.gramaje {
   padding-left: 1.5mm;}
+
 .adiciones-tabla td.precio {
   white-space: nowrap;}
+
 
 
 /* ============================================================
@@ -177,14 +199,16 @@ html, body {
 .bloque {
   padding: 5mm;
   margin-bottom: 5mm;}
+
 .bloque-titulo {
   margin: 0 0 2mm 0;}
 
 
+
 /* ============================================================
-   MENÚ COMPLETO — hoja de estilo v6 "Dirección de Arte" (6 spreads)
-   Generada desde build_menu.py. Reglas: style-guide.md §6 (§6.16).
-   v6 (2026-07-25): mismo manual de marca Parceros de v5, con:
+   ESTRUCTURA — la mecánica de página que comparte cualquier menú.
+   Lo que decide el aspecto vive en la piel del cliente.
+   Principios que sostienen este reparto:
    - Sin brochazos ni grano de papel: acentos planos discretos.
    - Recorrido por página: HERO → recomendado (FEAT) → secundarios.
    - Secundarios en flujo editorial de poses variadas (sin cuadrícula).
@@ -201,61 +225,78 @@ body {
             width: fit-content; margin: 0 auto 8mm auto;}
 }
 
+
 @media print {
  .spread {
   display: contents; }
 }
 
 
+
 /* ---------- ◀ HERO ---------- */
 .hero-page {
   padding: 0; }
 
+
 .hero-page .hero-foto-completa {
   height: 100%; overflow: hidden;}
+
 
 
 .hero-foto-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: 50% 58%;
 }
+
 .hero-ph .hero-foto-completa::after {
   position: absolute; right: 10mm; bottom: 10mm;}
+
 
 
 .hero-page .hero-overlay-scrim {
   position: absolute; inset: 0; z-index: 2;
   display: flex; flex-direction: column; justify-content: flex-start;
   padding: calc(var(--bleed) + 12mm);}
+
 .hero-tag {
   align-self: flex-start;
   padding: 1.8mm 5.5mm;
   margin-bottom: 2.5mm;}
+
 .hero-display {
   margin: 1.5mm 0 0 0;}
+
 .hero-script {
   margin: 1mm 0 0 1mm;}
+
 .hero-display-sub {
   margin-top: 0.5mm;}
+
 .hero-unidades {
   margin: 2mm 0 0 0;}
+
 
 /* Línea única kg + personas (§6.21): "Más de 1.2 kg · 👥 Para 4 personas" */
 .hero-pre-linea {
   display: flex; align-items: center; gap: 2.2mm;
   margin: 3.5mm 0 0 0;}
 
+
 .hero-pre-linea .ico-personas {
   width: 6mm; height: 3.3mm;}
+
 .hero-glosa-nombre {
   margin: 1.6mm 0 0 0; max-width: 62mm;}
+
 
 /* Bullets con ✓ amarillo (§6.22: cuerpo mayor y más aire entre puntos) */
 .hero-lista {
   list-style: none; margin: 3.5mm 0 0 0; padding: 0; max-width: 70mm; }
+
 .hero-lista li {
   margin-bottom: 2.2mm;
   position: relative; padding-left: 6mm;}
+
 
 /* §2.1 — el ✓ es un SVG inline, no un carácter: Poppins no lo tiene y el
    navegador lo sacaba de Lucida Grande. Va absoluto en el mismo sitio que
@@ -264,17 +305,21 @@ body {
 .hero-lista li .tick {
   position: absolute; left: 0; top: 0.85mm;
   width: 3.35mm; height: 3.35mm;}
+
 .hero-lista-pend {
   margin: 3mm 0 0 0;}
+
 .hero-punch {
   margin: 5.5mm 0 0 0; max-width: 46mm;
   position: relative; padding-left: 7mm;}
+
 
 /* §2.1 — la ★ es un SVG inline (Poppins no la tiene). Va en el mismo sitio y
    con el mismo peso óptico que el glifo al que sustituye. */
 .hero-punch .punch-star {
   position: absolute; left: 0; top: 0.55mm;
   width: 4.15mm; height: 4.15mm;}
+
 
 
 /* Precio del hero: el ÚNICO precio grande del spread — cinta amarilla
@@ -289,26 +334,33 @@ body {
    Medido con render/auditar_resolucion.py --pdf. */
 .hero-precio-caja {
   position: relative; align-self: flex-start; margin: 5.5mm 0 0 0; }
+
 .hero-precio-sombra {
   position: absolute; inset: 0;}
+
 .hero-precio {
   position: relative;
   margin: 0;
   padding: 2.8mm 10mm;}
+
 .hero-precio-pendiente {
   align-self: flex-start; padding: 1.4mm 5mm; margin: 5mm 0 0 0;}
+
 .pill-nota {
   display: inline-block;
   padding: 2mm 5mm;
   margin-top: 4mm;}
+
 .hero-nota {
   margin: 4.5mm 0 0 0; max-width: 58mm;}
+
 
 
 /* Sello de marca, discreto, abajo a la izquierda del hero */
 .hero-sello {
   position: absolute; left: calc(var(--bleed) + 10mm); bottom: calc(var(--bleed) + 10mm);
   width: 24mm; height: 24mm; z-index: 3;}
+
 
 
 /* Glosa de término colombiano sobre el hero (PROPUESTA 2026-07-26,
@@ -322,6 +374,7 @@ body {
   max-width: 62mm;
   padding: 4mm 5mm 4.5mm 5mm;}
 
+
 /* §6.30-quinquies: adiciones contextuales del hero — mismo panel oscuro de
    la glosa (misma esquina, misma familia visual), pero jerarquía MENOR: el
    precio de la adición nunca compite con el precio del platillo. */
@@ -330,22 +383,28 @@ body {
   right: calc(var(--bleed) + 9mm); bottom: calc(var(--bleed) + 9mm);
   width: 52mm;
   padding: 3.5mm 4.5mm 4mm 4.5mm;}
+
 .adic-titulo {
   margin: 0 0 2mm 0;}
 
+
 .adic-lista {
   list-style: none; margin: 0; padding: 0; }
+
 .adic-lista li {
   display: flex; align-items: baseline; justify-content: flex-start;
   gap: 2.5mm;}
+
 
 /* El panel mide 52 mm: si el nombre parte en dos líneas, el precio se queda
    flotando junto al primer trozo y la fila deja de leerse como una fila. Los
    nombres cortos del catálogo están pensados para caber de una. */
 .adic-lista .adic-n {
   white-space: nowrap; }
+
 .adic-pend {
   padding: 0.2mm 2mm; white-space: nowrap;}
+
 
 /* ---------- §6.65 MARIDAJE (2026-07-30) ----------
    Puente de bebida en el HERO. Reusa entera la anatomía del panel de adiciones
@@ -359,12 +418,16 @@ body {
    producto, no un extra que se suma al 270. */
 .hero-maridaje {
   width: 58mm; }
+
 .maridaje-pie {
   margin: 2.2mm 0 0 0;}
+
 .glosa-titulo {
   margin: 0;}
+
 .glosa-texto {
   margin: 1.8mm 0 0 0;}
+
 
 
 /* ---------- ▶ LISTADO ---------- */
@@ -374,66 +437,88 @@ body {
 }
 
 
+
 /* Encabezado: título Anton azul sobre CINTA amarilla plana de bordes
    rasgados, centrado, chispas naranjas a los lados (mockup §6.17). */
 .lista-header {
   display: flex; align-items: center; justify-content: center; gap: 6mm;
   flex-shrink: 0;
 }
+
 .lista-header .badge-seccion {
   margin: 0; white-space: nowrap;
   padding: 2mm 11mm 2.4mm 11mm;}
 
+
 .chispa {
   width: 6mm; height: 6mm; flex-shrink: 0;}
+
 .mini-titulo {
   display: flex; align-items: baseline; gap: 3.5mm;
   margin: 1mm 0 0 0;}
+
 .mini-titulo::after {
   flex: 1; align-self: center;}
+
 .nombre-display {
   margin: 0;}
+
 .nombre-script {
   margin: 0.6mm 0 0 0.5mm;}
+
 .nombre-unidades {
   margin-left: 1.5mm;}
+
 .desc {
   margin: 1.6mm 0 0 0;}
+
 .item-nota {
   margin: 1.2mm 0 0 0;}
+
 .adic-linea {
   margin: 0.6mm 0 0 0; padding-bottom: 1.2mm;}
+
 .adl-t {
   margin-right: 2.5mm;
   /* El rótulo manuscrito no se parte nunca: en la columna estrecha del
      favorito se rompía en "Agrégale más / sabor". Si algo tiene que bajar de
      renglón, que bajen las adiciones enteras. */
   white-space: nowrap;}
+
 .adl-p {
   margin-left: 1.2mm;}
+
 
 /* Nombre y precio nunca se separan, y el "·" viaja con la adición que
    introduce: así una línea envuelta no termina en separador huérfano ni parte
    un "Chicharrón / +90". */
 .adl-i {
   white-space: nowrap; }
+
 .adl-i + .adl-i::before {
   margin: 0 1.6mm;}
+
 .hero-page .adic-linea {
   max-width: 105mm;
   margin: 4.5mm 0 0 0; padding-bottom: 1.6mm;}
+
 .personas {
   display: flex; align-items: center; gap: 1.8mm;
   margin: 1.6mm 0 0 0;}
 
+
 .ico-personas {
   width: 4.4mm; height: 2.4mm; flex-shrink: 0;}
+
 .precio {
   display: inline-block; margin-top: 2mm;}
+
 .precio.pend {
   padding: 1mm 3.5mm;}
+
 .pend-desc {
   padding: 0.8mm 2.5mm;}
+
 
 
 /* ----- Zona FEAT (recomendado): texto izq + foto grande sangrando
@@ -444,22 +529,27 @@ body {
   position: relative;
 }
 
+
 .feat-foto-wrap {
   position: relative; }
+
 
 .feat-foto {
   display: block;
   width: calc(100% + var(--bleed) + var(--margen-exterior));
   height: 48mm; object-fit: cover;}
+
 .feat-sello {
   position: absolute; top: -6mm; left: -7mm; z-index: 2;
   width: 17mm; height: 17mm;
   display: flex; align-items: center; justify-content: center;}
+
 .feat-foto-ph {
   width: calc(100% + var(--bleed) + var(--margen-exterior));
   height: 48mm;
   display: flex; flex-direction: column; gap: 1.5mm;
   align-items: center; justify-content: center;}
+
 
 
 /* ----- Fila MEDIA compacta ----- */
@@ -468,17 +558,22 @@ body {
   align-items: center; column-gap: 5mm;
 }
 
+
 .media-foto {
   width: 100%; height: 34mm; object-fit: cover;}
+
 .media-foto.ph, .flujo-foto.ph {
   display: flex; flex-direction: column; gap: 1.5mm;
   align-items: center; justify-content: center;}
 
+
 .ph-cam {
   width: 6mm; height: 6mm;}
 
+
 .media-row.solo-texto {
   grid-template-columns: 1fr; }
+
 
 
 /* ----- FLUJO editorial: secundarios en 2 columnas desiguales,
@@ -488,40 +583,51 @@ body {
 .flujo {
   column-count: 2; column-gap: 9mm; }
 
+
 .flujo-item {
   break-inside: avoid; -webkit-column-break-inside: avoid;
   margin-bottom: 5mm;}
+
 
 .flujo-foto {
   width: 100%; height: 28mm; object-fit: cover; display: block;
   margin-bottom: 2.4mm;}
 
+
 /* Poses: alto y ancho varían; algunos bloques se desplazan */
 .flujo-item.pa .flujo-foto {
   height: 28mm; }
+
                        /* horizontal */
 .flujo-item.pb {
   padding-left: 7mm; }
+
 
 .flujo-item.pb .flujo-foto {
   height: 33mm; width: 88%;             /* vertical */
                              object-position: 50% 35%; }
 
+
 .flujo-item.pc {
   padding-right: 8mm; }
 
+
 .flujo-item.pc .flujo-foto {
   height: 22mm; width: 92%; }
+
            /* compacta */
 /* El placeholder no merece el tamaño de una foto real */
 .flujo-item .flujo-foto.ph {
   height: 20mm !important; width: 100%; }
 
+
 .flujo-item.pb .nombre-display, .flujo-item.pb .desc,
 .flujo-item.pb .personas {
   margin-left: 0.5mm; }
+
 .flujo-item.sin-foto {
   padding-top: 2.8mm;}
+
 
 
 /* ----- FILA FAVORITO (§6.17.2): foto grande izq + texto der ----- */
@@ -530,12 +636,15 @@ body {
   column-gap: 6mm; align-items: center;
   padding-bottom: 3.5mm;}
 
+
 .favfila-foto {
   width: 100%; height: 66mm; object-fit: cover; display: block;}
+
 .tag-fav-cinta {
   display: inline-block;
   padding: 1.2mm 4mm;
   margin-bottom: 2.2mm;}
+
 
 /* §2.1 — la ★ de la cinta, en SVG. El `margin-right` sustituye al espacio que
    había entre el glifo y el texto; el `letter-spacing: 1px` de la cinta ya no
@@ -545,8 +654,10 @@ body {
   vertical-align: -0.35mm; margin-right: 1.1mm;
 }
 
+
 .favfila .precio {
   margin-top: 3mm; }
+
    /* tamaño: §6.30-septies (global) */
 
 /* ----- FILAS del listado (§6.17.3-4): foto generosa izq / texto con
@@ -557,8 +668,10 @@ body {
   padding: 2.2mm 0;
 }
 
+
 .fila-foto {
   width: 100%; height: 48mm; object-fit: cover; display: block;}
+
 
 /* (La fila "alta" con foto vertical IZQUIERDA se probó el 2026-07-26 y el
    dueño la descartó — §6.23. La variante vigente en prueba es .filav:
@@ -576,6 +689,7 @@ body {
   padding: 3mm 4.5mm;
 }
 
+
 /* §6.56 (2026-07-30) — FUERA el borde punteado naranja que llevaba esta caja.
    El punteado es el idioma de "pendiente" en todo el proyecto (`.adic-pend`,
    `.pend-desc`, los placeholders de foto): usarlo como marco de un producto
@@ -589,12 +703,15 @@ body {
 .filav-foto-wrap {
   position: relative; }
 
+
 .filav-foto-wrap::before {
   position: absolute; z-index: 0;
   left: -6mm; right: -4mm; bottom: 4mm; height: 78mm;}
 
+
 .filav-foto {
   position: relative; z-index: 1; }
+
 
 .filav-foto {
   width: 100%; height: 66mm; display: block;   /* §6.30-octies: 72 → 66mm */
@@ -602,117 +719,37 @@ body {
      sobre el pastel de la página; sombra que sigue la silueta */
   object-fit: contain;}
 
+
 .filav .desc {
   max-width: none; }
 
-
-/* Compensación de alturas SOLO en la página que lleva .filav.
-   §6.30-octies: torre 72 → 66mm (arriba) y filas 42 → 39mm. El 39 no es
-   arbitrario: por debajo de ~39mm el alto de la fila lo manda el TEXTO
-   (43.2mm) y la foto deja de costar espacio — 39mm es la foto más grande
-   que cabe gratis. La del favorito (56mm) no se toca. */
-/* ⚠️ §6.56 (2026-07-30): este bloque llevaba dos días **anulando en silencio**
-   la decisión del 2026-07-29 de abajo. `:has()` suma la especificidad de su
-   argumento, así que `.lista-page:has(.filav) .fila-foto` (0,3,0) le ganaba a
-   `.hoja-compartir .fila-foto` (0,2,0): las fotos que el dueño había subido a
-   66 y 50mm seguían imprimiéndose a 56 y 39. De ahí salían los 36.2mm de hueco
-   sobre el pie. Se excluye explícitamente la hoja que tiene reglas propias —
-   así el conflicto se ve en el código y no hace falta descubrirlo midiendo.
-   ⓘ Hoy `.filav` solo existe en Compartir, así que estas tres reglas quedan
-   inertes. Se conservan porque son el DEFAULT del componente: la hoja que lo
-   use mañana hereda el reparto de §6.30-octies sin volver a pensarlo. */
-.lista-page:has(.filav):not(.hoja-compartir) .favfila-foto {
-  height: 56mm; }
-
-.lista-page:has(.filav):not(.hoja-compartir) .fila-foto {
-  height: 39mm; }
-
-/* Aire extra sobre el pie sin tocar ninguna foto.
-   Mismo `:not()` que arriba: la hoja de Compartir reparte su aire con su
-   propia regla (§6.56) y esta se lo anulaba por especificidad. */
-.lista-page:has(.filav):not(.hoja-compartir) .page-inner {
-  gap: 3.6mm; }
-
-
-/* 2026-07-29 — Compartir queda con favorito + torre + una fila al mover
-   Chicharrón Trancao a Entradas. La página tenía el ritmo de cuatro productos
-   y dejaba un vacío de casi un tercio de hoja; el aire recuperado vuelve a las
-   tres fotos, sin cambiar jerarquías ni tocar el sistema global. */
-/* §6.63: el sitio de la banda «Para la mesa» sale de aquí y de los gaps, no
-   de la torre. La foto del favorito baja de 66 a 55mm.
-   ⚠️ 2026-07-30, con ventas reales: el motivo original —"es el producto de
-   MENOR contribución de la hoja"— era margen POR ORDEN, medio dato: ese
-   producto aporta la mayor parte de la plata de la hoja por VOLUMEN. El tamaño se conserva igual, pero por otra
-   razón: es un CABALLO y §8.4 dice que un caballo no necesita empuje. La foto
-   del favorito ya no es la más grande, y eso está bien. */
-.hoja-compartir .favfila-foto {
-  height: 55mm; }
-
-/* §6.56: la torre baja de 82 a 72mm. No es por el pie —sobraba aire—, es por
-   el hueco DENTRO de la caja: su columna de texto mide 41.7mm y la caja la
-   mandaba la foto, así que el bloque tenía 46.9mm de pastel vacío. A 72 la
-   torre sigue siendo la foto más alta del listado. */
-.hoja-compartir .filav-foto {
-  /* §6.56-bis (dueño, 2026-07-30): "es una torre de tres pisos, bastante
-     grande — exagerémosla un poquito". La foto sube a 88 × 60mm, pero
-     **el bloque solo crece 2mm**: los márgenes negativos la dejan asomar
-     6mm por arriba y por abajo, dentro de los 9mm de separación que la hoja
-     ya tenía. El producto se sale de su caja a propósito — es lo que hace
-     que se lea alto sin pagarlo en milímetros de hoja. */
-  height: 88mm; margin-top: -6mm; margin-bottom: -6mm;
-}
-
-/* §6.64 (dueño, 2026-07-30): con su precio nuevo, un producto pasa a ser
-   **la mayor contribución del listado** y tenía la foto más pequeña de la
-   hoja. Sube de 50 a 58mm y su columna de
-   44 % a 52 %: el ratio de la casilla se mantiene en ~1.4, que es el del
-   archivo (1.5), así que `cover` casi no recorta. Superficie: 3 520 → 4 814mm²
-   (+37 %). [auditoría CMP-C1-002]
-   ✅ Las ventas lo confirman por otra vía: es un PUZZLE (§8.4) —margen alto,
-   1 sola venta en 14 días— y un puzzle es justo lo que necesita superficie.
-   ⏳ Con un límite: la foto es todavía el placeholder que no distingue el XL
-   de la Valluna de 230. Más superficie para una foto que no prueba el tamaño
-   no vende el plato; la toma con referencia de escala sigue siendo lo que
-   decide si este puzzle es un puzzle o un perro. */
-.hoja-compartir .fila {
-  grid-template-columns: 52% 1fr; }
-
-.hoja-compartir .fila-foto {
-  height: 58mm; }
-
-/* El aire que queda NO se acumula sobre el pie: se reparte entre los tres
-   bloques (§6.3). Con 3 productos en una hoja entera, la separación es lo que
-   convierte "vacío" en "holgado" — el mismo criterio de la densidad holgada
-   (§5.6), sin tocar los cuerpos tipográficos de esta hoja. */
-/* 9 → 5.5mm: los 9 existían para repartir aire sobrante; ahora ese aire lo
-   ocupa contenido que vende. Sigue por encima de los 3.6 que tenía la hoja
-   antes del reparto. */
-/* §6.64: con la Chuleta a 58mm la hoja vuelve a estar llena, así que la
-   separación regresa a los 3.6mm que fija §6.30-octies para las páginas con
-   torre. Los 9mm de §6.56 existían para repartir aire sobrante; ya no sobra. */
-.hoja-compartir .page-inner {
-  gap: 3.6mm; }
 
 .fila .desc {
   max-width: 66mm; }
 
 
+
 /* ----- Filas de solo texto (con ritmo: la 2ª baja) ----- */
 .texto-fila {
   display: grid; grid-template-columns: 1fr 1fr; column-gap: 9mm; }
+
 .texto-item {
   padding-top: 2.5mm;}
 
+
 .texto-fila .texto-item:nth-child(2n) {
   margin-top: 7mm; }
+
 .pie {
   position: absolute; left: 0; right: 0;
   bottom: calc(var(--bleed) + var(--margen-exterior)); margin: 0;}
+
 
 /* Banda reservada bajo el contenido: el listado nunca puede invadir el pie */
 .lista-page .page-inner {
   padding-bottom: calc(var(--bleed) + var(--margen-exterior) + 8mm);
 }
+
 
 /* §2.1 — el ♥ es un SVG inline (Poppins no lo tiene; salía en Arial). El
    ancho declarado sustituye al avance del glifo, así que el pie centrado no se
@@ -721,26 +758,36 @@ body {
   margin-right: 1.5mm;
   width: 2.05mm; height: 2.05mm; display: inline-block;
   vertical-align: -0.15mm;}
+
 .cafe-cierre {
   flex-shrink: 0;
   margin: 4.5mm 0 0 0;}
+
 .cafe-titulo {
   margin: 0;}
+
 .cafe-frase {
   margin: 1.2mm 0 0 0;}
+
 .cafe-items {
   display: block; margin: 2.6mm 0 0 0;}
 
+
 .cafe-item {
   white-space: nowrap; }
+
 .cafe-item + .cafe-item::before {
   margin: 0 2.6mm;}
+
 .cafe-p {
   margin-left: 1.4mm;}
+
 .cafe-combo {
   margin: 1.6mm 0 0 0;}
+
 .cafe-combo-p {
   margin-left: 1.6mm;}
+
 
 
 /* ---------- Adiciones — pie de la hoja de Postres (§6.52.5) ----------
@@ -766,9 +813,11 @@ body {
 .adiciones {
   flex-shrink: 0;
   margin-top: 5mm;}
+
 .adiciones-titulo {
   display: block;
   padding: 0; margin: 0 0 2.4mm 0;}
+
 
 /* Etiqueta de grupo al margen izquierdo + ítems corridos a la derecha. La
    etiqueta ocupa columna fija para que los tres grupos empiecen en la misma
@@ -778,12 +827,16 @@ body {
   display: grid; grid-template-columns: 24mm 1fr; column-gap: 4mm;
   align-items: baseline;}
 
+
 .adic-fila + .adic-fila {
   margin-top: 2.6mm; }
+
 .adic-grupo {
   margin: 0;}
+
 .adic-items {
   margin: 0;}
+
 
 /* Cada adición es indivisible (nombre + gramaje + precio nunca se separan),
    pero entre una y otra SÍ tiene que poder partir la línea — por eso el HTML
@@ -792,12 +845,16 @@ body {
    un punto medio. */
 .adic-items .ap-i {
   white-space: nowrap; }
+
 .adic-items .ap-i:not(:last-child)::after {
   margin-left: 1.6mm;}
+
 .adic-items .ap-g {
   margin-left: 0.8mm;}
+
 .adic-items .ap-p {
   margin-left: 1.2mm;}
+
 
 
 /* ---------- ◀ PLACA — página izquierda de color plano (§6.53) ----------
@@ -815,8 +872,10 @@ body {
   display: flex; flex-direction: column; align-items: flex-start;
   padding: calc(var(--bleed) + 12mm);}
 
+
 .pagina-placa .hero-tag {
   margin-bottom: 0; }
+
 
 /* §6.55 — la placa CON ARTE: la ilustración va a sangre, tapando el negro, y
    la cinta de sección se queda encima. El negro sigue debajo, así que un arte
@@ -824,40 +883,48 @@ body {
 .pagina-placa.con-arte {
   padding: 0; position: relative; }
 
+
 .placa-arte {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover; display: block;
 }
 
+
 .pagina-placa.con-arte .hero-tag {
   position: absolute; z-index: 2;
   top: calc(var(--bleed) + 12mm); left: calc(var(--bleed) + 12mm);
 }
+
 .placa-rotulo {
   position: absolute; z-index: 2;}
+
 .placa-rotulo.r1 {
   top: 36.5%; left: 48%;}
+
 .placa-rotulo.r2 {
   top: 47.5%; left: 46%;}
+
 .placa-boceto {
   position: absolute; z-index: 2;
   bottom: calc(var(--bleed) + 6mm); right: calc(var(--bleed) + 6mm);
   padding: 1mm 3mm;}
+
 
 .placa-ph {
   flex: 1; align-self: stretch; margin: 8mm 0 0 0;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 3mm; padding: 0 14mm;}
 
+
 .placa-ph .ph-cam {
   width: 13mm; height: 13mm;}
+
 .placa-ph-t {
   margin: 0;}
+
 .placa-ph-d {
   margin: 0;}
 
-.hoja-infantil .page-inner {
-  gap: 2mm; }
 
 
 /* ---- Fondo: garabatos de línea ---- */
@@ -868,76 +935,20 @@ body {
   position: absolute; inset: 0; width: 100%; height: 100%;
   pointer-events: none;
 }
+
 .inf-doodles {
   z-index: 0;}
+
 .inf-camino {
   z-index: 1;}
 
-
-/* ---- Rótulo de sección: banderín azul ---- */
-/* Único sitio del menú donde la cinta de sección no es amarilla. El azul con
-   puntas de banderín es lo que anuncia, antes de leer una palabra, que esta
-   hoja es otra cosa. Las chispas naranjas del sistema se van: sobre el azul no
-   contrastan y el banderín ya tiene remates propios. */
-.hoja-infantil .lista-header .chispa {
-  display: none; }
-.hoja-infantil .lista-header .badge-seccion {
-  padding: 3mm 14mm 2.2mm 14mm;}
 .lista-sub {
   flex-shrink: 0; margin: 1.8mm 0 0 0;}
+
 
 .chispa-mini {
   width: 3.2mm; height: 3.2mm; vertical-align: -0.4mm; margin: 0 2.5mm; }
 
-
-/* ---- Zigzag ---- */
-/* El cambio que más rompe la tabla y el que menos cuesta: la fila del medio
-   invierte foto y texto. Con tres filas, alternar una sola vez basta —
-   alternarlas todas vuelve a ser un patrón, que es lo que se quería evitar. */
-/* §6.61 — la foto manda: 52% del ancho de la fila (antes 46%) y 58mm de alto
-   (antes 42). El sitio sale entero de haber quitado el estallido del precio;
-   no se recortó ni un texto. */
-.hoja-infantil .fila {
-  grid-template-columns: 49% 1fr;
-  column-gap: 6mm; padding: 1.5mm 0; position: relative; z-index: 2;
-}
-
-/* Por CLASE, no por :nth-of-type. El primer intento usó la posición y falló:
-   `.lista-header` es un div hermano de las filas, así que la cuenta empieza
-   corrida y la inversión cayó en la fila 1. */
-.hoja-infantil .fila-zig {
-  grid-template-columns: 1fr 49%; }
-
-.hoja-infantil .fila-dom {
-  grid-template-columns: 60% 1fr; }
-
-.hoja-infantil .fila-dom .fila-foto {
-  height: 68mm; }
-.hoja-infantil .fila-zig > div {
-  order: 1;}
-
-.hoja-infantil .fila-zig .fila-foto {
-  order: 2; }
-
-.hoja-infantil .fila-zig .desc {
-  margin-left: auto; }
-.hoja-infantil .fila-foto {
-  height: 51mm;}
-.hoja-infantil .nd-2 {
-  display: block;}
-.hoja-infantil .desc-gancho {
-  padding: 0.8mm 3.5mm 1.2mm 3.5mm;
-  margin-bottom: 1.6mm;}
-.hoja-infantil .fila .desc {
-  max-width: 70mm;}
-.hoja-infantil .tag-sello-cinta {
-  top: auto; bottom: 3mm; right: auto; left: 29%;
-  display: flex; align-items: center; justify-content: center;
-  /* 24mm y 5.6pt: a 21/6.2 el texto no cabía y "1 DE 30 PATITOS" salía cortado
-     por el troquel. El sello lleva seis palabras, no dos como la cinta del
-     resto del menú. */
-  width: 24mm; height: 24mm;
-  padding: 0 2.6mm;}
 
 
 /* ---- Banda de colección de patitos (§6.60) ---- */
@@ -954,8 +965,10 @@ body {
   column-gap: 4mm; margin: 0.5mm 0;
 }
 
+
 .patitos-img {
   display: block; width: 100%; height: auto;}
+
 
 /* ⛔ La REPISA amarilla se eliminó (§6.60, 2.ª pasada). Existía para tapar el
    corte a cuchillo que dejaba el recorte de la foto de catálogo — los patitos
@@ -964,17 +977,23 @@ body {
    la barra pasó de resolver un problema a ser un adorno de más. */
 .patitos-marco {
   position: relative; }
+
 .patitos-t {
   margin: 0 0 1mm 0;}
+
 .patitos-d {
   margin: 0;}
+
 .cruce-linea {
   flex-shrink: 0; position: relative; z-index: 2;
   margin: 0.5mm 0 0 0;}
+
 .cruce-linea::before, .cruce-linea::after {
   margin: 0 3mm;}
+
 .cruce-p {
   margin-left: 2mm;}
+
 
 
 /* ---- Chispazos de cómic ---- */
@@ -985,12 +1004,16 @@ body {
   position: absolute; z-index: 3; width: 13mm; height: 13mm;
   pointer-events: none;
 }
+
 .inf-pow-1 {
   top: 40mm; left: 86mm;}
+
 .inf-pow-2 {
   top: 126mm; left: 100mm;}
+
 .inf-pow-3 {
   top: 196mm; left: 88mm;}
+
 
 
 /* ---- Mascotas: arte del dueño, recortado en sticker ---- */
@@ -1021,6 +1044,7 @@ body {
 .inf-masc {
   position: absolute; z-index: 3; pointer-events: none;}
 
+
 /* ⚠️ NUNCA contra el borde izquierdo: en esta página el izquierdo es el LOMO.
    El primer intento las puso a -7mm y las metía en la grapa. Van mordiendo la
    esquina de una foto, dentro de la caja de seguridad. */
@@ -1033,6 +1057,7 @@ body {
 .inf-masc-perro {
   top: 7mm; right: 5mm; width: 40mm;}
 
+
 /* §6.61 — el pato se va al lado del TEXTO, no encima del plato. El dueño:
    "el pato chef que está hasta abajo tapa la foto de tiras de pollo". Con las
    fotos a 58mm ya no hay hueco a su izquierda, así que cruza a la derecha, que
@@ -1040,38 +1065,6 @@ body {
 .inf-masc-pato {
   bottom: 13mm; right: 8mm; left: auto; width: 30mm;}
 
-
-/* §6.53 — Entradas recupera el aire de la franja infantil.
-   Los apretones de §6.45.2 y §6.50 existían para hacerle sitio a un bloque que
-   ya no está en esta hoja: `gap: 1mm` entre bloques y `row-gap: 1.6mm` en la
-   2×2 eran el mínimo que aguantaba la maqueta, no un ritmo elegido. */
-.hoja-entradas .page-inner {
-  gap: 4mm; }
-
-.hoja-entradas .grid2 {
-  row-gap: 4mm; }
-
-.hoja-entradas .texto-item {
-  padding-top: 2.5mm; }
-
-/* Guacamole y Quesudas van a 2 columnas (§6.45.2, sigue vigente): sin el
-   escalón de ritmo, que a 2 columnas descuadra el pie. */
-.hoja-entradas .texto-fila .texto-item:nth-child(2n) {
-  margin-top: 0; }
-
-/* §6.54 (dueño, 2026-07-29) — la casilla pasa de 46.4mm a **56mm**.
-   Los 17mm que §6.50 no tenía los liberó la salida de la franja infantil
-   (§6.53), y quedaban ahí sin usar: la hoja cerraba el contenido 26.4mm por
-   encima del pie —el hueco más grande de todo el menú, medido en el render—
-   mientras las cuatro fotos entraban en franja apaisada y con el platillo
-   cortado. Los 19.2mm de las dos filas salen de ese hueco; sobran 7.2mm, el
-   mismo aire que deja la hoja Infantil.
-   Ratio de casilla: 76.5 / 56 = **1.366**. Los cuatro `-card` se rehicieron a
-   ese ratio desde el original (`render/recortar_cards_entradas.py`), así que
-   `cover` no recorta nada y la canasta de las Empanadas entra con sus cinco
-   piezas — el pendiente que venía del 2026-07-28. */
-.hoja-entradas .grid2 .card-foto {
-  height: 56mm; }
 
 
 /* ---------- PROPUESTA: decoración de marca en la página de listado ----------
@@ -1085,66 +1078,86 @@ body {
 .deco {
   position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 
+
 .lista-page .page-inner {
   z-index: 1; }
+
    /* ya es absolute en style.css */
 
 .deco-blob {
   position: absolute; }
 
+
 /* Color PLANO sólido — la marca no usa tintes ni degradados (§1) */
 .deco-azul-suave {
   width: 44mm; height: 36mm; top: -18mm; right: -16mm;}
 
+
 .deco-amarillo-suave {
   width: 50mm; height: 40mm; bottom: -20mm; left: -20mm;}
+
 
 .deco-chispa-azul {
   position: absolute; right: 12mm; bottom: 34mm;
   width: 5mm; height: 5mm;}
+
 
 /* En el margen izquierdo (x máx ~12.5mm < 16mm de padding): el kit manda
    "nunca encima del texto" y en §6.25 el mini-título cae a esta altura */
 .deco-puntos {
   position: absolute; left: 8.5mm; top: 96mm; }
 
+
 .deco-puntos i {
   display: block; width: 1.7mm; height: 1.7mm; margin-bottom: 2.6mm;}
 
+
 .deco-puntos i:nth-child(2) {
   margin-left: 2.5mm; }
+
 
 
 /* (Blobs detrás de fotos: DESCARTADOS §6.18 — solo esquinas de página) */
 .favfila-foto-wrap {
   position: relative; }
 
+
 .favfila-foto {
   position: relative; }
 
+
 .fila-foto {
   position: relative; z-index: 1; }
+
 .fondo-naranja .favfila-foto, .fondo-naranja .fila-foto {
   box-sizing: border-box;}
+
 .fondo-pastel .favfila-foto, .fondo-pastel .fila-foto {
   box-sizing: border-box;}
+
 .fondo-pastel .favfila-foto-wrap::before,
 .fondo-pastel .favfila-foto-wrap::after {
   position: absolute; z-index: 2;
   width: 15mm; height: 4.6mm;}
 
+
 .fondo-pastel .favfila-foto-wrap::before {
   top: -1.6mm; left: -4mm;}
 
+
 .fondo-pastel .favfila-foto-wrap::after {
   top: -1.6mm; right: -4mm;}
+
 .fondo-pastel .deco::before {
   position: absolute; top: 0; left: 0; right: 0; height: 7mm;}
+
 .fondo-pastel .favfila {
   position: relative;}
 
+
 .fondo-pastel .fila {
   position: relative; }
+
 
 
 /* Blobs de esquina y micro-acentos: heredan de .deco-marca (naranja/azul/amarillo) */
@@ -1155,11 +1168,14 @@ body {
 .favfila, .fila {
   column-gap: 4mm; }
 
+
 .favfila .personas, .fila .personas {
   margin-top: 1mm; }
+
 .desc-gancho {
   display: inline-block;
   margin-bottom: 0.8mm;}
+
 
 /* §6.30-quater: hojita junto a "guascas" (Ajiaco) — marca de "esto es una
    hierba" sin gastar una explicación. Naranja de marca, a la altura de la
@@ -1168,20 +1184,25 @@ body {
 .con-hoja {
   white-space: nowrap; }
 
+
 .hoja-glosa {
   /* Ramita de 3 hojas sobre tallo casi vertical: a 1em una hoja suelta se
      leía como coma o ajicito, y con tallo diagonal como un ✓. */
   width: 1.3em; height: 1.3em;
   vertical-align: -0.28em;
   margin-left: 0.1em;}
+
 .favfila .desc, .fila .desc {
   margin-top: 2mm;}
+
 
 .favfila .precio, .fila .precio {
   margin-top: 2mm; }
 
+
 .favfila .tag-fav-cinta {
   margin-bottom: 1.4mm; }
+
 
 
 /* ---------- Densidades de página (réplica del sistema, §6.20) ----------
@@ -1193,18 +1214,23 @@ body {
 .densidad-media .favfila-foto {
   height: 56mm; }
 
+
 .densidad-media .fila-foto {
   height: 38mm; }
+
 
 .densidad-media .fila {
   padding: 2.4mm 0; }
 
 
+
 .densidad-compacta .favfila-foto {
   height: 48mm; }
 
+
 .densidad-compacta .fila-foto {
   height: 30mm; }
+
 
 /* Típicos (§6.30/§6.30-bis): la única compacta con cards "cuadrada".
    El alto cedido por las fichas de Platos fuertes (20% + 5%), el pie
@@ -1224,8 +1250,10 @@ body {
 .densidad-compacta:has(.card-foto.cuadrada) .fila .fila-foto {
   height: 30mm; }
 
+
 .densidad-compacta:has(.card-foto.cuadrada) .fila {
   padding: 0.8mm 0; }
+
 
 /* El resto de los milímetros que pide la línea de adiciones salen del ritmo
    vertical de ESTA hoja (3.2 → 2.6mm entre bloques), no de más foto: por
@@ -1234,6 +1262,7 @@ body {
    misma densidad y conserva su ritmo. */
 .densidad-compacta:has(.card-foto.cuadrada) .page-inner {
   gap: 2.6mm; }
+
 
 /* Pie al margen inferior (queda a 7mm del corte; margen normal 13mm) */
 /* (§6.30-bis bajaba el pie -6mm en Típicos para ganar alto; derogado por
@@ -1244,13 +1273,16 @@ body {
 .card {
   position: relative; }
 
+
 .fila {
   position: relative; }
+
 
 .card .tag-fav-cinta, .fila .tag-fav-cinta {
   position: absolute; top: -1.5mm; left: -2.5mm; z-index: 2;
   margin: 0;
   padding: 1.4mm 4.5mm;}
+
 .tag-sello-cinta {
   /* la foto es la columna de 44%, así que el borde derecho de la cinta cae
      en el 46% y asoma 2% fuera de la foto, como una cinta pegada de verdad */
@@ -1262,25 +1294,32 @@ body {
   position: absolute; top: 2mm; right: 54%; z-index: 2;
   padding: 1.4mm 4.5mm; margin: 0;}
 
+
 /* Si algún día una fila llevara las dos cintas, la de valor baja al pie de la
    foto en vez de pisar a la del favorito. */
 .fila:has(.tag-fav-cinta) .tag-sello-cinta {
   top: auto; bottom: -1.5mm; }
 
 
+
 .densidad-compacta .fila {
   padding: 1.8mm 0; }
+
 
 .densidad-compacta .page-inner {
   gap: 3.2mm; }
 
+
 .densidad-compacta .lista-header {
   margin-bottom: 0; }
+
 .densidad-compacta .mini-titulo {
   margin: 0;}
 
+
 .densidad-compacta .favfila {
   padding-bottom: 2mm; }
+
 
 
 /* ---------- §6.25 Entradas: cuadrícula 2×2 pareja (v2, 2026-07-26) ----------
@@ -1296,18 +1335,22 @@ body {
   display: grid; grid-template-columns: 1fr 1fr;
          column-gap: 7mm; row-gap: 5mm; align-items: start; }
 
+
 /* §6.30-octies: 51 → 43mm. Las 2 filas de fichas devolvían 16mm que el
    contenido le estaba robando al pie (Entradas es la hoja más cargada). */
 .grid2 .card-foto {
   height: 43mm; margin-bottom: 2.4mm; }
 
+
 .texto-lista {
   display: flex; flex-direction: column; gap: 3.5mm; }
+
 
 /* La caja sigue a ancho completo (filete incluido), pero la descripción
    corta al 75% para que la línea no se sienta justificada de borde a borde */
 .texto-lista .desc {
   max-width: 75%; }
+
 
 
 /* ---------- §6.33 Grupo con foto COMPARTIDA (De la Calle · Arepas) ----------
@@ -1318,6 +1361,7 @@ body {
 .grupofoto {
   display: flex; flex-direction: column; gap: 4mm; }
 
+
 /* 54 → 60mm (2026-07-30, `CAL-C2-002`): parte del aire muerto sobre el pie. */
 /* 60 → 56 mm (2026-07-30). Los 4 mm son la tercera parte del pago del puente
    hacia postres. Se cobran AQUÍ y no en las burgers porque esta banda cubre
@@ -1326,6 +1370,7 @@ body {
    56 mm las dos fotos siguen por encima de 400 dpi. */
 .grupofoto .grupofoto-img {
   width: 100%; height: 56mm; }
+
 
 /* Dúo de cabecera (propuesta A): bodegón del plato + foto de interacción.
    §6.64 (2026-07-30, `CAL-C2-001`) — LA BANDA SE APOYA EN LA RETÍCULA.
@@ -1344,18 +1389,23 @@ body {
   display: grid; grid-template-columns: 1fr 1fr 1fr;
                    column-gap: 5mm; }
 
+
 .grupofoto-fotos .grupofoto-img:first-child {
   grid-column: 1 / 3; }
+
 
 /* Minis por columna (propuesta B): cada relleno con su foto */
 .grupofoto-item .item-foto {
   width: 100%; height: 30mm; margin-bottom: 2mm; }
 
+
 .grupofoto-textos {
   display: grid; grid-template-columns: 1fr 1fr 1fr;
                     column-gap: 5mm; }
+
 .grupofoto-item + .grupofoto-item {
   padding-left: 5mm;}
+
 
 /* De la Calle (única compacta con grupofoto): filas de burgers con más
    presencia vertical — 30 → 42mm (dueño 2026-07-26) → **48mm** (2026-07-30,
@@ -1366,6 +1416,7 @@ body {
    el ★favorito solo se distingue por la cinta. */
 .densidad-compacta:has(.grupofoto) .fila .fila-foto {
   height: 48mm; }
+
 
 /* El aire que sobra tras subir las fotos se reparte como separación, no como
    hueco al pie (§6.3): la hoja pasa de 31.7mm muertos sobre el pie a un
@@ -1381,11 +1432,14 @@ body {
 .densidad-compacta:has(.grupofoto) .fila + .fila {
   margin-top: 2.5mm; }
 
+
 .densidad-compacta:has(.grupofoto) .mini-titulo {
   margin-top: 3.5mm; }
 
+
 .densidad-compacta:has(.grupofoto) .mini-titulo:first-of-type {
   margin-top: 0; }
+
 
 
 /* ---------- §6.26 Típicos de Colombia (2026-07-26) ----------
@@ -1399,11 +1453,14 @@ body {
 .card-foto.cuadrada {
   height: auto; aspect-ratio: 1 / 0.76; margin-bottom: 2.4mm; }
 
+
 .card .tag-fav-cinta {
   margin-bottom: 1.2mm; }
 
+
 .densidad-compacta .grid2 {
   row-gap: 4mm; }
+
 
 
 /* §6.30-sexies (2026-07-27, dueño): en Típicos el FAVORITO manda también en
@@ -1417,192 +1474,46 @@ body {
   display: flex; align-items: flex-start;
 }
 
+
 .densidad-compacta:has(.card-foto.cuadrada) .grid2 > .card {
   flex: 1 1 0; }
+
 
 .densidad-compacta:has(.card-foto.cuadrada) .grid2 > .card:has(.tag-fav-cinta) {
   flex-grow: 1.1;
 }
 
 
-/* ---------- Carta de bebidas — hoja 2 (§6.36) ----------
-   Única hoja del menú SIN foto por producto: solo el HERO lleva imagen.
-   Un listado de treinta vasos fotografiados abarata la percepción (Aaron
-   Allen); aquí el recurso es la tipografía y el agrupamiento por familia. */
-.carta-bebidas {
-  flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 0 8mm;
-}
-
 /* El reparto de columnas lo decide build_menu.py, no el balanceo del
    navegador — es una decisión comercial (§6.36.2). */
 .bebida-col {
   display: flex; flex-direction: column; gap: 3.6mm; }
-.carta-bebidas .mini-titulo {
-  margin: 0 0 1.3mm 0;}
+
 .bebida-nota {
   margin: -0.6mm 0 1.6mm 0;}
+
 .bebida-item {
   margin: 1.6mm 0 0 0;}
 
+
 .bebida-item:first-of-type {
   margin-top: 0; }
+
 .bebida-p {
   margin-left: 3mm;}
+
 
 /* §6.5: producto propuesto, aún sin precio del dueño. Solo previsualización. */
 .bebida-p.pend {
   display: inline-block; width: 9mm; vertical-align: baseline;}
+
 .bebida-d {
   margin: 0.4mm 0 0 0;}
+
 .bebida-tag {
   padding: 0.5mm 2mm; margin-left: 2.5mm;
   vertical-align: 0.4mm;}
 
-
-/* Los puntos decorativos viven a 96mm del borde izquierdo, donde en las
-   otras hojas hay foto. Aquí caerían encima de la primera columna de texto
-   — y la deco nunca va sobre texto (§6.18). */
-.hoja-bebidas .deco-puntos {
-  display: none; }
-.hero-postres .hero-overlay-scrim {
-  padding: calc(var(--bleed) + 17mm) calc(var(--bleed) + 15mm);}
-.hero-postres .hero-tag {
-  margin-bottom: 4mm;}
-.hero-postres .hero-display {
-  margin-top: 0;}
-.hero-postres .hero-script {
-  margin-top: 2mm;}
-
-/* Descripción: sin el ✓ amarillo. Una lista de verificación es lenguaje de
-   argumento racional, y a esta altura de la comida no se argumenta. Columna
-   más estrecha y más interlínea: respira, y deja de invadir la foto. */
-.hero-postres .hero-lista {
-  margin-top: 7mm; max-width: 58mm; }
-.hero-postres .hero-lista li {
-  padding-left: 0; margin-bottom: 0;}
-
-.hero-postres .hero-lista li .tick {
-  display: none; }
-.hero-postres .hero-punch {
-  align-self: flex-start;
-  margin: 9mm 0 0 0; padding: 3.6mm 6mm 3.8mm 6mm;
-  /* DOS líneas, no una: a una línea el sello medía 62 mm, se estiraba hasta
-     la bolsa de Quipitos y dejaba de leerse como pieza. Compacto es lo que lo
-     hace sello. */
-  width: 52mm; max-width: 52mm;}
-
-.hero-postres .hero-punch .punch-star {
-  display: none; }
-
-
-/* ---------- §6.52.3 El precio deja de ser un botón -----------------------
-   La cinta amarilla rasgada + rotación + sombra convertían 149 en el único
-   control de la página, y en una hoja de indulgencia el precio es lo último
-   que debe llamar. Se le quita el fondo, no el tamaño: en crema y sin caja
-   pesa menos que a 20 pt sobre amarillo, y se lee igual de bien.
-   Es además el cierre elegante del recorrido: el ojo llega al número y cae a
-   la fotografía sin ningún borde que lo detenga. */
-/* §6.66: aquí no hay cinta, así que tampoco hay capa de sombra que pintar, y
-   el aire de 8 mm lo pone la caja — la pastilla ya no lleva margen propio. */
-.hero-postres .hero-precio-sombra {
-  display: none; }
-
-.hero-postres .hero-precio-caja {
-  margin: 8mm 0 0 0; }
-.hero-postres .hero-precio {
-  padding: 0; margin: 0;}
-
-
-/* ---------- §6.52.7 Página derecha — inventario de adornos ---------------
-   Fuera: las 2 chispas que flanqueaban el rótulo, la chispa azul suelta, los
-   3 puntos naranjas, las 2 cintas washi y el giro de la foto del favorito.
-   Se quedan: el festón de toldo y los dos blobs de esquina — son la firma que
-   comparten las seis hojas, y quitarlos aquí rompería el menú, no la hoja.
-   Neto: 5 de 12 piezas decorativas (~40%), y ni una nueva. */
-.hoja-postres .lista-header .chispa {
-  display: none; }
-
-.hoja-postres .deco-chispa-azul,
-.hoja-postres .deco-puntos {
-  display: none; }
-
-
-/* ---------- §6.52.8 Ritmo — dos montajes, no dos filas -------------------
-   La cuadrícula anterior daba a los dos postres el mismo esquema (foto a la
-   izquierda, texto a la derecha, mismo ancho de columna): dos productos con
-   idéntico peso, y por tanto sin jerarquía entre ellos. Ahora cada uno tiene
-   su propio montaje y la página gana un eje quebrado.
-
-   Áreas de foto, medidas y no estimadas a ojo (§6.49.8):
-     Cheesecake  160 × 62 mm = 9 920 mm²   ← 2.º protagonista  (antes 7 098)
-     Chocorramo    82 × 54 mm = 4 428 mm²   ← 2.24 : 1          (antes 4 116)
-   La proporción es la que separa un segundo protagonista de un tercero: el
-   Chocorramo crece respecto al render anterior (4 116 mm²), pero por ancho
-   —no por altura— así que gana presencia sin disputar el segundo puesto. */
-.hoja-postres .page-inner {
-  gap: 0; }
-
-
-/* CHEESECAKE — foto a ancho completo, texto debajo y corto.
-   El texto ocupa el 58% del ancho de caja: la columna deja de tirar de la
-   imagen y el margen derecho se vuelve parte del diseño. */
-.hoja-postres .favfila {
-  display: block; padding: 0;
-  margin-top: 7mm;}
-
-/* 62 → 66 mm (2026-07-28, hallazgo POS-B1-001). Con 3 postres en vez de 4,
-   la columna dejaba un hueco vertical muerto entre el precio del Cheesecake y
-   el Chocorramo — no era aire, era falta de contenido. La foto es la
-   decoración principal de la hoja (§7.5): antes de repartir vacío se agranda
-   lo que vende.
-
-   ↩️ 66 → 62 mm (2026-07-30). Se revierte, y por su propio motivo: aquel hueco
-   ERA falta de contenido, y hoy ese contenido existe — la línea «Y con una ·
-   Bola de helado +30» (`POS-A1-002`), que es la reingeniería que le faltaba al
-   caballo de la hoja. Cuatro milímetros de foto compran una línea que sube el
-   ticket del producto con un costo marginal mínimo. La regla de §7.5 sigue
-   valiendo: se agranda lo que vende, y una adición de CMV bajo vende más por
-   milímetro que 4 mm de foto. */
-.hoja-postres .favfila-foto {
-  width: 100%; height: 62mm; }
-
-.hoja-postres .favfila > div:last-child {
-  max-width: 58%; margin-top: 5mm;
-}
-
-
-/* CHOCORRAMO — espejo: texto a la izquierda, foto al borde exterior.
-   Sangría de 12 mm para que su bloque de texto NO caiga en la misma guía que
-   el del cheesecake: es el quiebre de cuadrícula, y con 12 mm basta —más
-   parecería un error de maquetación. */
-.hoja-postres .fila {
-  grid-template-columns: 1fr 51%;
-  column-gap: 9mm; align-items: center;
-  /* 11 → 7 mm (2026-07-30). El quiebre de cuadrícula lo hace la SANGRÍA de
-     12 mm, no la separación vertical: 7 mm siguen leyéndose como dos bloques
-     distintos y están dentro del rango del menú (Compartir usa 9). Los 4 mm
-     son la otra mitad del pago de la línea de helado — ver `.favfila-foto`. */
-  padding: 0; margin-top: 7mm;
-}
-
-.hoja-postres .fila-foto {
-  order: 2; height: 56mm; }
-
-.hoja-postres .fila > div {
-  order: 1; padding-left: 12mm; }
-
-.hoja-postres .fila .desc {
-  max-width: none; }
-.hoja-postres .desc-gancho {
-  margin-bottom: 1.4mm;}
-.hoja-postres .item-nota {
-  margin-top: 2.6mm;}
-
-/* Precio del listado: mismo tamaño de todo el menú (§6.30-septies), solo con
-   más aire por encima — a esta altura de la hoja nada tiene prisa. */
-.hoja-postres .favfila .precio,
-.hoja-postres .fila .precio {
-  margin-top: 4mm; }
 
 .apuestas-inner {
   position: absolute; inset: 0;
@@ -1611,23 +1522,31 @@ body {
   justify-content: space-between;
 }
 
+
 .apuestas-inner .hero-tag {
   align-self: flex-start; margin-bottom: 1mm; }
 
+
 .apuesta {
   display: flex; gap: 6mm; align-items: flex-start; flex: 0 0 auto; }
+
 .apuesta-foto.ph {
   display: flex; flex-direction: column; align-items: center;
   justify-content: center; gap: 2mm;}
 
+
 .apuesta-foto.ph .ph-cam {
   width: 8mm; height: 8mm; }
+
 .apuesta-cat {
   margin: 0 0 1.2mm 0;}
+
 .apuesta-d {
   margin: 1.8mm 0 0 0;}
+
 .esc-t {
   margin: 0 0 1mm 0;}
+
 
 
 /* ---------- "Envenena tu cerveza" (§6.43.1) ----------
@@ -1644,29 +1563,39 @@ body {
   display: flex; align-items: center; gap: 3mm;
   margin-top: 2.6mm; padding: 2.8mm 3mm;}
 
+
 .env-ico {
   width: 9.5mm; height: 9.5mm; flex-shrink: 0; }
 
+
 .env-txt {
   flex: 1; min-width: 0; }
+
 
 .env-cab {
   display: flex; align-items: baseline; justify-content: space-between;
   gap: 2mm; margin: 0;
 }
+
 .env-p {
   flex-shrink: 0;}
+
 .env-d {
   margin: 1.3mm 0 0 0;}
+
 .env-k {
   margin: 0.8mm 0 0 0;}
+
 .bebida-mods {
   margin: 1.8mm 0 0 0;
   padding-top: 1.4mm;}
+
 .mod-p {
   margin-left: 1.5mm;}
+
 .esc-precio {
   margin-left: 2.5mm;}
+
 
 
 /* ---------- Cuadrícula shot + botella — familia Licores (§6.36.11) ----------
@@ -1678,6 +1607,7 @@ body {
 .bebida-grid {
   margin-bottom: 1mm; }
 
+
 /* Columnas de precio ajustadas al ancho real del número (§6.43.3): "2300" es
    el más largo de la hoja y mide menos de 10 mm. Los 3.4 mm que sobraban se
    los devuelve el nombre, que es quien se quedaba sin sitio — con ellos
@@ -1686,17 +1616,23 @@ body {
   display: grid; grid-template-columns: 1fr 11mm 13mm;
   align-items: baseline; column-gap: 1.6mm;
 }
+
 .bg-cab {
   padding-bottom: 0.8mm; margin-bottom: 1mm;}
 
+
 .bg-fila {
   margin-top: 1.6mm; }
+
 .bg-d {
   margin-top: 0.5mm;}
+
 .cmp-p {
   margin-left: 1.8mm;}
+
 .apuesta-nota {
   margin: 1mm 0 0 0;}
+
 
 
 /* ---------- Bandera de Colombia junto a los licores (§6.36.15) ----------
@@ -1711,36 +1647,49 @@ body {
 .bandera-co {
   display: inline-block; width: 3.5mm; height: 2.33mm;
   vertical-align: 0.25mm;}
+
 .refajo-bloque {
   margin-top: 2.5mm; padding: 2.4mm 3mm;}
 
+
 .rb-cab {
   display: flex; justify-content: space-between; align-items: baseline; margin: 0; }
+
 .rb-receta {
   margin: 1mm 0 0 0;}
+
 .rb-invita {
   margin: 0.6mm 0 0 0;}
+
 .rb-remate {
   margin: 0.6mm 0 0 0;}
+
 .cc-foto.ph {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 1.4mm;}
 
+
 .cc-foto.ph .ph-cam {
   width: 6mm; height: 6mm; }
 
+
 .apuesta-esc-inline .esc-t {
   display: inline; margin-right: 2mm;}
+
 .franja-compacta {
   padding: 1.6mm 0 0 0; margin-top: 2.4mm;
   display: block;}
+
 .franja-titulo {
   margin: 0 0 1.2mm 0; padding: 0;}
 
+
 .cmp-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); }
+
 .cmp-cel {
   padding: 0;}
+
 
 
 /* Íconos de familia — SOLO hoja de Bebidas (§6.39.4). En azul, el color
@@ -1750,10 +1699,13 @@ body {
 .fam-ico {
   width: 4.4mm; height: 4.4mm; flex-shrink: 0; align-self: center; margin-right: -1.5mm;}
 
+
 .esc-precio {
   margin-left: 2.5mm; }
+
 .bloque-titulo {
   margin: 0;}
+
 
 
 /* --- 2. El antetítulo deja de susurrar ---------------------------------
@@ -1764,8 +1716,10 @@ body {
 .apuesta-cat {
   display: flex; align-items: center; gap: 2mm; margin: 0 0 2mm 0;}
 
+
 .apuesta-cat .chispa {
   width: 3.2mm; height: 3.2mm;}
+
 
 
 /* --- 3. Ritmo vertical: todo el espaciado en múltiplos de 4 mm ---------
@@ -1774,11 +1728,14 @@ body {
 .apuestas-inner {
   gap: 8mm; }
 
+
 .apuesta-nota {
   margin: 2mm 0 0 0; }
 
+
 .apuesta-d {
   margin: 4mm 0 0 0; }
+
 
 
 /* --- 4. Aire con intención, no repartido -------------------------------
@@ -1789,13 +1746,17 @@ body {
    componente, no como relleno. */
 .apuestas-inner {
   justify-content: flex-start; }
+
 .apuesta-cat {
   display: flex; align-items: center; gap: 3mm; margin: 0 0 1.8mm 0;}
 
+
 .apuesta-cat .chispa {
   width: 4.4mm; height: 4.4mm;}
+
 .apuesta-cat::after {
   flex: 1; align-self: center;}
+
 
 
 /* --- 3. Más aire entre secciones, financiado ---------------------------
@@ -1804,14 +1765,18 @@ body {
 .apuestas-inner {
   gap: 11mm; }
 
+
 .apuesta-d {
   margin: 2.5mm 0 0 0; }
+
 
 .apuestas-inner .hero-tag {
   margin-bottom: 0; }
 
+
 .apuesta-nota {
   margin: 1.5mm 0 0 0; }
+
 
 
 /* Calibración final (dueño, 2026-07-27): El Duelo quedaba a 4 mm del borde
@@ -1822,6 +1787,7 @@ body {
    margen inferior y sigue con más aire que los 8 mm de partida. */
 .apuestas-inner {
   gap: 9mm; }
+
 
 
 /* ============================================================
@@ -1838,16 +1804,21 @@ body {
 .apuestas-inner {
   gap: 8mm; }
 
+
 .bloque-cocteles {
   margin-top: 3mm; }
 
+
 .bloque-duelo {
   margin-top: 3mm; }
+
 .bloque-frase {
   margin: 1.6mm 0 0 0; max-width: 78mm;}
+
 .tag-dec {
   display: inline-block; vertical-align: 0.6mm;
   padding: 0.7mm 2mm 0.5mm; margin-left: 3mm;}
+
 
 
 /* ---------- 1. HERO — Jarras (§6.49.2) ----------
@@ -1857,29 +1828,38 @@ body {
 .bloque-jarras {
   gap: 9mm; align-items: stretch; }
 
+
 .bloque-jarras .jr-foto-wrap {
   width: 84mm; flex-shrink: 0; display: flex;
   margin-left: -14mm;   /* hasta el borde de sangrado de la página */
 }
 
+
 .jr-foto {
   width: 100%; height: 100%; min-height: 62mm; object-fit: cover;
   display: block;}
 
+
 .jr-txt {
   flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
 .jr-sabores {
   margin: auto 0 0 0; padding-top: 3mm; max-width: 82mm;}
+
 .jr-cab {
   display: block;
   margin-bottom: 1.2mm;}
 
+
 .jr-s {
   white-space: nowrap; }
+
 .jr-s + .jr-s::before {
   margin: 0 2.2mm;}
+
 .jr-p {
   margin-left: 1.8mm;}
+
 
 
 /* ---------- 2. Coctelería de autor (§6.49.3) ----------
@@ -1889,22 +1869,29 @@ body {
 .cx-grid {
   display: grid; grid-template-columns: 54mm 1fr; gap: 6mm; margin-top: 4mm; }
 
+
 .cx-col {
   display: flex; flex-direction: column; gap: 4mm; }
 
+
 .cx-sec-foto {
   width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block;}
+
 .cx-sec-n {
   margin: 1.6mm 0 0 0;}
+
 .cx-sec-p {
   margin-left: 2.5mm;}
+
 
 
 .cx-hero {
   position: relative; margin: 0; overflow: hidden;}
 
+
 .cx-hero-foto {
   width: 100%; height: 100%; object-fit: cover; display: block; }
+
 
 /* Velo inferior para que el texto se lea sobre la foto. Es un degradado
    plano, no una sombra: no simula relieve, solo baja la luminancia del tercio
@@ -1912,15 +1899,20 @@ body {
 .cx-hero-cap {
   position: absolute; left: 0; right: 0; bottom: 0;
   padding: 12mm 6mm 5mm 6mm;}
+
 .cx-hero-n {
   margin: 1.6mm 0 0 0;}
+
 .cx-hero-p {
   margin-left: 3.5mm;}
+
 .cx-hero-d {
   margin: 1.2mm 0 0 0; max-width: 78mm;}
 
+
 .cx-hero-cap .tag-dec {
   margin-left: 0; }
+
 
 
 /* ---------- 3. Clásicos (§6.49.4) ----------
@@ -1930,10 +1922,13 @@ body {
 .cl-lista {
   list-style: none; margin: 3.5mm 0 0 0; padding: 0; }
 
+
 .cl-item + .cl-item {
   margin-top: 2.6mm; }
+
 .cl-p {
   margin: 0 3.5mm;}
+
 
 
 /* ---------- 4. El Duelo — segundo foco (§6.49.5) ----------
@@ -1946,15 +1941,19 @@ body {
   margin-left: -14mm; margin-right: -12mm;
   padding: 6mm 12mm 6mm 0;}
 
+
 .du-foto-wrap {
   width: 78mm; flex-shrink: 0; display: flex; }
+
 
 .du-foto {
   width: 100%; height: 100%; min-height: 46mm; object-fit: cover;
   display: block;}
 
+
 .du-txt {
   flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
 
 
 /* ======================================================================
@@ -1977,16 +1976,21 @@ body {
 .bloque-duelo {
   padding: 2.4mm 6mm 2.4mm 0; }
 
+
 .cd-marco {
   padding: 2mm 3.4mm 1.8mm; display: flex; flex-direction: column;}
+
 .cd-cat {
   display: flex; align-items: center; justify-content: center; gap: 2mm;
   margin: 0 0 0.6mm 0;}
 
+
 .cd-cat .chispa {
   width: 3.4mm; height: 3.4mm;}
+
 .cd-marca {
   margin: 0;}
+
 
 
 /* --- el ring: dos paneles y el VS en el eje --- */
@@ -1994,8 +1998,10 @@ body {
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
   gap: 2.4mm; margin: 2.2mm 0 0 0;
 }
+
 .cd-panel {
   padding: 0 1.8mm 1.3mm;}
+
 
 /* La cabecera monta sobre el borde del panel: es lo que la hace rótulo de
    equipo y no primera fila de una lista. */
@@ -2003,66 +2009,87 @@ body {
   display: flex; align-items: center; justify-content: center; gap: 1.6mm;
   margin: -1.2mm auto 1mm; padding: 0.4mm 2.2mm; width: fit-content;}
 
+
 /* Mismo ALTO para las dos y su proporción oficial: Colombia 3:2, México 4:7.
    Igualar el ancho deformaría una de las dos (§2.1-ter). */
 .cd-fl {
   height: 2.9mm; flex-shrink: 0; display: block;}
 
+
 .cd-fl.co {
   width: 4.35mm; }
+
 
 .cd-fl.mx {
   width: 5.1mm; }
 
+
 .cd-item {
   display: flex; align-items: center; gap: 1.6mm; }
 
+
 .cd-item + .cd-item {
   margin-top: 0.8mm; padding-top: 0.8mm;}
+
 .cd-num {
   width: 3.6mm; height: 3.6mm; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;}
 
+
 .cd-ico {
   width: 3.4mm; height: 3.4mm; flex-shrink: 0;}
+
 .cd-nom {
   margin: 0;}
+
 .cd-sub {
   margin: 0.15mm 0 0 0;}
+
 
 
 /* --- pie: precio a la izquierda, especificaciones y escalera a la derecha --- */
 .cd-pie {
   display: flex; align-items: center; gap: 2.8mm; margin: 1.1mm 0 0 0; }
+
 .cd-precio {
   padding: 0.6mm 2.8mm; flex-shrink: 0;}
 
+
 .cd-der {
   flex: 1; min-width: 0; }
+
 .cd-spec {
   display: flex; align-items: center; gap: 1.8mm; white-space: nowrap;
   margin: 0 0 0.7mm 0;}
 
+
 .cd-spec .cd-ico {
   width: 3mm; height: 3mm; }
 
+
 .cd-sep {
   width: 0.25mm; height: 3.4mm;}
+
 .cd-esc-t {
   display: block; margin: 0 0 0.6mm 0;}
+
 
 /* ⛔ §4.1 — SIN puntos guía, SIN columna, SIN margen derecho: el precio va
    PEGADO a su nombre. La referencia del dueño los traía alineados a la
    derecha con guías; es la regla más dura del menú y no se copió. */
 .cd-bots {
   display: flex; align-items: center; gap: 3mm; white-space: nowrap; }
+
 .cd-bot {
   display: flex; align-items: center; gap: 1.2mm;}
 
+
 .cd-bot .cd-ico {
   width: 3mm; height: 3mm;}
+
 .cd-bot b {
   margin-left: 0.4mm;}
+
 
 
 /* Precio y escalera en la MISMA línea: el 420 manda y los peldaños de botella
@@ -2072,13 +2099,17 @@ body {
   display: flex; align-items: baseline; gap: 6mm;
   margin: auto 0 0 0; padding-top: 4mm;
 }
+
 .du-precio {
   flex-shrink: 0;}
 
+
 .du-esc .esc-t {
   display: block; margin: 0 0 0.6mm 0;}
+
 .du-esc .esc-precio {
   margin-left: 1.8mm;}
+
 
 
 /* `.apuesta` era flex-row (foto | texto) para el montaje único anterior. Los
@@ -2086,8 +2117,10 @@ body {
 .bloque-cocteles, .bloque-clasicos {
   display: block; }
 
+
 .jr-sabores, .cx-hero-d, .bloque-frase {
   overflow-wrap: break-word; }
+
 
 
 /* ---------- §6.49 · calibración del mosaico de coctelería ----------
@@ -2103,26 +2136,34 @@ body {
 .jr-foto {
   min-height: 68mm; }
 
+
 .cx-grid {
   grid-template-columns: 1fr 72mm; gap: 7mm; }
+
 
 .cx-col {
   flex-direction: row; gap: 4mm; }
 
+
 .cx-sec {
   flex: 1; min-width: 0; }
+
 
 .cx-sec-foto {
   aspect-ratio: 3/4; }
 
+
 .cx-hero {
   min-height: 58mm; }
+
 
 .cx-hero-foto {
   position: absolute; inset: 0; }
 
+
 .cx-hero-cap {
   padding: 14mm 6mm 5mm 6mm; }
+
 
 
 /* Clásicos como segundo escalón, no como sección nueva: sin rótulo ni filete,
@@ -2131,13 +2172,16 @@ body {
   margin-top: -2mm; }
 
 
+
 /* Corrección de reparto: la columna de acompañamiento es la de ancho FIJO y
    el protagonista el que se queda con el resto. Al revés, el hero acababa
    siendo la columna estrecha — justo lo contrario de lo que se busca. */
 .cx-grid {
   grid-template-columns: 72mm 1fr; }
+
 .jr-s:not(:last-child)::after {
   margin: 0 2.2mm;}
+
 
 
 /* Calibración 2 contra el render: sobraban 24 mm. Se recortan de donde no
@@ -2145,39 +2189,49 @@ body {
 .apuestas-inner {
   gap: 7mm; }
 
+
 .jr-foto {
   min-height: 62mm; }
+
           /* 84×62 = 5208 mm², sigue la mayor */
 .cx-hero {
   min-height: 54mm; }
+
           /* 87×54 = 4698 mm², segunda */
 .cx-sec-foto {
   aspect-ratio: 4/5; }
+
      /* 34×42 = 1428 mm², acompañamiento */
 /* 🎨 Rediseño 2026-08-01: el cartel de duelo trae su propia caja, así que el
    bloque respira menos por fuera. `.bloque-titulo` ya no existe aquí. */
 .bloque-duelo {
   padding: 2.4mm 6mm 2.4mm 0; }
 
+
 .du-foto {
   min-height: 44mm; }
 
+
 .bloque-cocteles, .bloque-duelo {
   margin-top: 1mm; }
+
 
 /* Última calibración: la caja pedía 8 mm más para que el margen inferior
    volviera a igualar al superior (§6.48.3-bis: el gap se paga 4 veces). */
 .apuestas-inner {
   gap: 6mm; }
 
+
 .jr-foto {
   min-height: 58mm; }
+
 
 /* La foto de Jarras debe ganar en ÁREA, no solo por sangrado: se le devuelve
    distancia estrechando el protagonista de coctelería (84×58 = 4872 mm²
    contra 81×54 = 4374, +11 %). */
 .cx-grid {
   grid-template-columns: 78mm 1fr; }
+
 
 
 /* ---------- §6.49 · calibración 3: que se vea el producto ----------
@@ -2190,11 +2244,14 @@ body {
   left: auto; right: 0; top: 0; bottom: 0; width: 53%;
   display: flex; flex-direction: column; justify-content: flex-end;
   padding: 6mm 6mm 5mm 9mm;}
+
 .cx-hero-d {
   max-width: none;}
 
+
 .jr-s {
   margin-right: 7mm; }
+
 
 
 /* El Duelo: el precio se separaba del texto con `margin:auto` y quedaba
@@ -2202,6 +2259,7 @@ body {
    vuelve a pegarse a la descripción que lo justifica. */
 .du-cierre {
   margin: 4mm 0 0 0; padding-top: 0; }
+
 
 
 /* ---------- §6.49 · calibración 4 ----------
@@ -2214,10 +2272,12 @@ body {
   display: block; margin-right: 0; }
 
 
+
 /* Titular del cóctel protagonista en una sola línea con su precio: partido en
    dos, el nombre dejaba de leerse de un golpe y el precio quedaba huérfano. */
 .cx-hero-cap {
   width: 55%; padding: 6mm 5mm 5mm 8mm; }
+
 
 /* El precio baja a su propia línea: en una columna de 32 mm, "Carajillo
    Paisa 185" partía el nombre en dos y el precio quedaba solo en la segunda
@@ -2227,42 +2287,54 @@ body {
 .cx-hero-cap {
   width: 58%; }
 
+
 .cx-hero-p {
   display: block; margin: 1.4mm 0 0 0;}
 
+
 .cx-hero-d {
   margin-top: 2mm; }
+
 .tag-dec {
   padding: 0.6mm 1.8mm 0.4mm;}
+
 
 /* c) La frase de sección en UNA línea: partida en dos pesaba como párrafo y
       competía con el título que tiene encima. */
 .bloque-frase {
   max-width: 118mm; }
 
+
 /* e) Recuperado el alto de la frase, vuelve a la foto del HERO — que tiene
       que seguir siendo la mayor de la página por área, no solo por sangrado. */
 .jr-foto {
   min-height: 62mm; }
+
 
 /* Calibración 6: recuperar los 6.5 mm del margen inferior sin tocar el área
    de la foto HERO, que es la que sostiene la jerarquía de la página. */
 .bloque-duelo {
   padding: 2.4mm 6mm 2.4mm 0; }
 
+
 .cx-hero {
   min-height: 52mm; }
+
 
 .cx-grid {
   margin-top: 3mm; }
 
+
 .cl-item + .cl-item {
   margin-top: 2.2mm; }
+
 .cx-sec-d {
   margin: 0.6mm 0 0 0;}
+
 .bg-tag {
   padding: 0.5mm 1.6mm;
   vertical-align: 0.5mm; white-space: nowrap;}
+
 
 /* ⛔ §6.65 (dueño, 2026-07-29) — DEROGA §6.63 y su pastilla azul.
    La variante `.bg-tag-nino` pintaba "PARA NIÑOS" como etiqueta completa sobre
@@ -2271,6 +2343,7 @@ body {
    Regla vigente en `style-guide.md` §2.2 — no reponer. */
 .bg-nino {
   display: inline; white-space: nowrap;}
+
 
 /* 4 mm: medido en el render, no elegido a ojo. A 3.2 mm el pico desaparecía y
    quedaba un borrón azul. El dibujo ocupa poco más de la mitad del viewBox de
@@ -2285,6 +2358,7 @@ body {
 
 
 
+
 /* ---- §6.63 · Banda «Para la mesa» (cruce de grupo, 2026-07-30) -----------
    La hoja de Compartir se pide en grupo, así que su cruce de bebida tiene que
    ser de MESA: jarra y Cubetazo, nunca una unidad. Anatomía prestada del
@@ -2294,29 +2368,37 @@ body {
 .cruce-mesa {
   flex-shrink: 0; position: relative; z-index: 2;
   padding-top: 2.2mm; margin-top: 1mm;}
+
 .cruce-mesa-t {
   margin: 0 0 1.4mm 0;}
+
 
 .cruce-mesa-items {
   display: grid; grid-template-columns: 1fr 1fr; column-gap: 9mm;
 }
+
 .cruce-mesa-items p {
   margin: 0;}
+
 .cm-p {
   margin-left: 2mm; white-space: nowrap;}
+
 
 /* ============================================================
    ARQUETIPO «hoja» — listado denso (Fase 3)
    Mecánica: una cara, dos columnas, sin hero. Cómo se VE lo pone
    la piel; aquí solo se decide que quepa.
    ============================================================ */
-.spread.hoja-suelta { display: block; }
+.spread.hoja-suelta {
+  display: block; }
+
 
 .lista-densa {
   columns: 2;
   column-gap: 9mm;
   margin-top: 4mm;
 }
+
 
 /* Un producto no se parte entre columnas. Es la misma clase de regla que
    `break-inside: avoid` en `.page` (§6.65): sin ella el nombre queda al pie
@@ -2328,17 +2410,24 @@ body {
   padding: 1.6mm 0;
 }
 
+
 /* El subgrupo abre columna y nunca queda huérfano al pie. */
 .lista-densa .mini-titulo {
   break-after: avoid;
   break-inside: avoid;
   margin: 4mm 0 1.2mm;
 }
-.lista-densa .mini-titulo:first-child { margin-top: 0; }
+
+.lista-densa .mini-titulo:first-child {
+  margin-top: 0; }
+
 
 /* El precio va PEGADO al nombre, no en columna alineada a la derecha.
    §6.2 no se negocia ni en modo denso: en una lista apretada alinear los
    precios «ordena», y es justo lo que convierte la carta en un comparador
    —lo que la ingeniería de menú dice que baja el ticket—. */
-.denso-item .precio { display: inline; margin-left: 1.5mm; }
-.denso-item .nombre-display { display: inline; }
+.denso-item .precio {
+  display: inline; margin-left: 1.5mm; }
+
+.denso-item .nombre-display {
+  display: inline; }
