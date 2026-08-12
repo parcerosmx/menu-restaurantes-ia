@@ -48,55 +48,43 @@ import importlib
 import os
 
 CARTA = os.environ.get("MENU_CARTA", "secciones")
-_carta = importlib.import_module(CARTA)
+try:
+    _carta = importlib.import_module(CARTA)
+except ModuleNotFoundError as e:
+    if e.name != CARTA:
+        raise
+    # ⚠️ El mensaje importa. Salía `ModuleNotFoundError: No module named
+    # 'secciones'`, que no le dice nada a quien acaba de instalar el motor:
+    # «secciones» es el nombre que usa UN proyecto, heredado de cuando el
+    # motor vivía dentro de él. Sin decirlo, el error acusa a un módulo que
+    # ese usuario nunca ha oído nombrar.
+    raise SystemExit(
+        f"⛔ No encuentro la carta «{CARTA}».\n"
+        f"   Es el paquete con tu contenido: `SPREADS`, `ORDEN`, `TITULO`.\n"
+        f"   Buscado en: {proyecto.RAIZ}\n\n"
+        f"   · Si tu carta se llama de otro modo:  MENU_CARTA=<paquete>\n"
+        f"   · Si aún no tienes proyecto:          python3 -m menu_ia.crear\n"
+        f"   · Si el proyecto está en otro sitio:  MENU_PROYECTO=<ruta>\n\n"
+        f"   («secciones» es solo el valor por omisión, heredado del primer\n"
+        f"    proyecto que usó este motor.)")
 SPREADS = _carta.SPREADS
 
-# ── Reexportes de la carta de Parceros ──────────────────────────────────
-# ⚠️ Esto NO es superficie del motor: es un puente de compatibilidad.
-# `items_menu.py`, `build_precios.py`, `build_habladores.py` y
-# `push_textos.py` cargan ESTE archivo por ruta y leen `ADICIONES`, `CAFE` y
-# `BEBIDAS_FAMILIAS` como atributos suyos. Son datos de `carta/`, o sea de
-# Parceros — y mientras estuvieran importados arriba, el motor no arrancaba
-# sin ellos: un paquete que exige el contenido de otro cliente para importarse
-# no es un paquete.
-#
-# Ahora es opcional. Una carta sin `carta/` —la demo, o cualquier cliente
-# nuevo— importa igual; lo que no tendrá es este puente, y los cuatro scripts
-# que lo usan son de Parceros de todos modos.
-#
-# 📌 La salida definitiva es que esos cuatro lean de `carta` directamente, no
-# a través del motor. Queda anotado para la Fase 4b.
-try:
-    from carta.adiciones import ADICIONES, GRUPOS_PIE, SOLO_BLOQUE
-    from carta.bebidas import BEBIDAS_FAMILIAS
-    from carta.cafe import CAFE, CAFE_COMBO, CAFE_FRASE
-    from carta.precios import precio_bebida, precio_jarra_min
-except ModuleNotFoundError:
-    ADICIONES = GRUPOS_PIE = SOLO_BLOQUE = None
-    BEBIDAS_FAMILIAS = CAFE = CAFE_COMBO = CAFE_FRASE = None
-    precio_bebida = precio_jarra_min = None
-
 # ── Superficie pública ──────────────────────────────────────────────
-# `items_menu.py`, `build_precios.py`, `build_habladores.py` y
-# `push_textos.py` cargan este archivo por ruta y leen estos nombres como
-# atributos del módulo. Los `import` de arriba ya los dejan disponibles;
-# `__all__` está para que se vea que es un contrato y no una casualidad.
+# Lo que este módulo PRODUCE, y nada más.
+#
+# ⚠️ Aquí había además un puente: `ADICIONES`, `CAFE`, `BEBIDAS_FAMILIAS` y
+# los cruces de precio, reexportados desde `carta/` para cuatro scripts que
+# los leían como atributos de este módulo. Eso obligaba al MOTOR a importar
+# el contenido de un cliente concreto para poder importarse — un paquete que
+# exige la carta de otro no es un paquete. Se dejó marcado como temporal al
+# sacar el motor y se retira ahora: los cuatro leen de `carta/` directamente,
+# que es de donde siempre debieron leer.
 __all__ = [
     "IDIOMA",
     "SPREADS",
     "ORDEN",
     "ACTIVOS",
     "INACTIVOS",
-    "ADICIONES",
-    "SOLO_BLOQUE",
-    "GRUPOS_PIE",
-    "CAFE",
-    "CAFE_COMBO",
-    "CAFE_FRASE",
-    "BEBIDAS_FAMILIAS",
-    "TICK",
-    "precio_bebida",
-    "precio_jarra_min",
 ]
 
 # ============================================================
