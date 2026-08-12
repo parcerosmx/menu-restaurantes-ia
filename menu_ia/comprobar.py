@@ -58,9 +58,9 @@ PY = sys.executable
 HUELLAS = RAIZ / "huellas.json"
 
 
-def _correr(etiqueta, modulo, args=()):
-    r = subprocess.run([PY, "-m", modulo, *args], cwd=RAIZ.parent,
-                       capture_output=True, text=True)
+def _correr(etiqueta, modulo, args=(), script=None):
+    cmd = ([PY, str(RAIZ / script)] if script else [PY, "-m", modulo]) + list(args)
+    r = subprocess.run(cmd, cwd=RAIZ.parent, capture_output=True, text=True)
     ok = r.returncode == 0
     print(f"  {'✅' if ok else '⛔'} {etiqueta}")
     if not ok:
@@ -68,6 +68,27 @@ def _correr(etiqueta, modulo, args=()):
         for l in cola[-6:]:
             print(f"       {l}")
     return ok
+
+
+def _del_proyecto():
+    """Comprobaciones que declara el proyecto, además de las del motor.
+
+    El motor sabe comprobar lo que produce él. Lo que un cliente monta encima
+    —su volcado de precios, sus habladores, su puente con el POS— solo lo sabe
+    él, y hasta ahora **no lo comprobaba nadie**: vivía en la mitad útil de
+    `verificar_split.py`, cuya otra mitad murió con el monolito que auditaba.
+
+    Se declaran en el `recetas.py` del proyecto:
+
+        COMPROBACIONES = [("los items del menú", "items_menu.py", [])]
+
+    Mismo patrón que las recetas: el motor deja el hueco, el cliente lo llena.
+    """
+    try:
+        import importlib
+        return list(importlib.import_module("recetas").COMPROBACIONES)
+    except (ModuleNotFoundError, AttributeError):
+        return []
 
 
 def _pliegos(codigo):
@@ -176,6 +197,12 @@ def main():
     ok &= _correr("los datos del menú", "menu_ia.herramientas.verificar_datos")
     ok &= _correr("resolución de las fotos", "menu_ia.auditar_resolucion")
     ok &= _correr("los PNG de pliego", "menu_ia.shot_spreads", idi)
+
+    propias = _del_proyecto()
+    if propias:
+        print("\nDel proyecto:")
+        for etiqueta, script, extra in propias:
+            ok &= _correr(etiqueta, None, extra, script=script)
 
     print("\nHuellas:")
     h = comparar(cod)

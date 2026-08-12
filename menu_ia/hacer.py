@@ -27,18 +27,13 @@ import time
 from pathlib import Path
 
 from .proyecto import RAIZ as _CLIENTE
+from .receta import Receta  # noqa: F401
 
 # El directorio desde el que se corre cada paso. Las salidas cuelgan del padre
 # de la raíz del cliente (`render/` produce en `../output/`), y esa convención
 # ya está en producción: cambiarla movería de sitio los PNG y los PDF.
 RAIZ = _CLIENTE.parent
 PY = sys.executable
-
-
-class Receta:
-    def __init__(self, nombre, que, pasos, aviso=None, confirmar=False):
-        self.nombre, self.que, self.pasos = nombre, que, pasos
-        self.aviso, self.confirmar = aviso, confirmar
 
 
 RECETAS = [
