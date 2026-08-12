@@ -22,7 +22,7 @@ class Tema:
     """
 
     def __init__(self, nombre, colores, fuentes, import_fuentes="",
-                 css_piel="piel-parceros.css", ornamentos=None, lema="",
+                 css_piel="", ornamentos=None, lema="",
                  nota=""):
         self.nombre = nombre
         self.colores = dict(colores)
@@ -30,6 +30,14 @@ class Tema:
         self.import_fuentes = import_fuentes
         # La capa visual del CSS. `estructura.css` la pone el motor; esta la
         # pone el cliente. Ver `herramientas/partir_css.py`.
+        # ⚠️ Sin valor por omisión. Ponía `piel-parceros.css`, así que un
+        # tema que olvidara declararla heredaba la piel de otro cliente —
+        # y el fallo aparece como «no encuentro piel-parceros.css» en un
+        # proyecto que nunca oyó hablar de Parceros.
+        if not css_piel:
+            raise ValueError(
+                f"⛔ El tema «{nombre}» no declara `css_piel`. "
+                f"Se esperaba algo como `piel-{nombre}.css`.")
         self.css_piel = css_piel
         # 🎨 Los ornamentos de marca, por ROL. El motor pide «la chispa que va
         # en el rótulo de sección» y no sabe qué dibujo es — que es lo que

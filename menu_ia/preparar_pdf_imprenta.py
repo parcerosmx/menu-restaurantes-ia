@@ -127,9 +127,33 @@ from .formato import PAGINAS as PAGINAS_ESPERADAS  # noqa: E402
 # Estaba escrito «menu-parceros-…»: montar la demo sacaba un archivo con el
 # nombre de otro restaurante, que es el fallo que de verdad duele cuando hay
 # dos PDF distintos esperando en la bandeja del taller.
+# 🏷️ Cómo se llama el cliente en los nombres de archivo.
+#
+# ⚠️ Salía del nombre del MÓDULO de contenido, con Parceros escrito como caso
+# especial: `'parceros' if MENU_CARTA == 'secciones'`. Dos problemas. Uno, el
+# motor conocía a un cliente por su nombre. Dos, cualquier proyecto creado con
+# `menu-ia crear` tiene su carta en un paquete llamado `carta`, así que su
+# archivo de imprenta salía como **`menu-carta-CMYK-sangrado.pdf`** — nombrado
+# por el módulo, no por el restaurante. Eso es lo que llega al taller.
+#
+# Ahora lo dice la marca: `SLUG` de la carta, o el tema activo.
 import os  # noqa: E402
-CLIENTE = os.environ.get('MENU_CARTA', 'secciones')
-CLIENTE = 'parceros' if CLIENTE == 'secciones' else CLIENTE.replace('_', '-')
+
+
+def _cliente():
+    import importlib
+    try:
+        c = importlib.import_module(os.environ.get("MENU_CARTA", "secciones"))
+        s = getattr(c, "SLUG", None)
+        if s:
+            return str(s)
+    except ModuleNotFoundError:
+        pass
+    from . import tema as _t
+    return (_t.ACTIVO.nombre or "menu").replace("_", "-")
+
+
+CLIENTE = _cliente()
 GROSOR_MARCA = 0.25            # pt
 
 CALIDAD = 92                   # JPEG del fondo; 4:4:4, sin submuestreo de croma

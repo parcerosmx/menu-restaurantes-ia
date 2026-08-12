@@ -99,7 +99,7 @@ RECETAS = [
         # qué se corrió antes.
         [("build_menu.py", []),
          ("build_pdf_plano.py", ["--web"])],
-        aviso="Sale output/web/menu-parceros-web.pdf: mismo aplanado que el de "
+        aviso="Sale output/web/menu-<cliente>-web.pdf: mismo aplanado que el de "
               "imprenta —texto en vector, fotos rasterizadas— pero a 144 dpi, "
               "sin sangrado y en sRGB. Pesa ~17 veces menos que el aplanado de "
               "revisión, que es lo que decide si alguien lo abre desde el "
@@ -120,6 +120,14 @@ RECETAS = [
         [("crear.py", [])],
         aviso="La entrevista la hace el skill `crear-menu`; esto solo genera.\n"
               "   Uso: python3 -m menu_ia.crear --desde brief.json --en <ruta>",
+    ),
+    Receta(
+        "fugas", "¿El motor le pasa la marca de un cliente a otro?",
+        [("fugas.py", [])],
+        aviso="Monta un canario con valores imposibles de confundir y le mira\n"
+              "   cada superficie. Ninguna guarda del cliente original puede\n"
+              "   ver esto: si el motor lleva su lema escrito a mano, sus PNG\n"
+              "   salen idénticos. Correr ANTES de publicar y al añadir cliente.",
     ),
     Receta(
         "comprobar", "¿SIGUE FUNCIONANDO TODO? — guardas + huellas de los PNG",
@@ -149,7 +157,7 @@ RECETAS = [
         "imprenta", "EL ARCHIVO QUE SE MANDA AL TALLER",
         [("build_pdf_plano.py", ["--imprenta"]),
          ("preparar_pdf_imprenta.py", [])],
-        aviso="Sale output/imprenta/menu-parceros-CMYK-sangrado.pdf: 16 "
+        aviso="Sale output/imprenta/menu-<cliente>-CMYK-sangrado.pdf: 16 "
               "páginas, todo en CMYK, sangrado y TrimBox declarados. El "
               "`--imprenta` apaga los marcadores `.pendiente` — anotaciones de "
               "producción que no viajan a la plancha.\n"
@@ -168,7 +176,7 @@ RECETAS = [
          ("herramientas/medir_desborde.py", ["--idioma", "en"]),
          ("build_pdf_plano.py", ["--imprenta", "--idioma", "en"]),
          ("preparar_pdf_imprenta.py", ["--idioma", "en"])],
-        aviso="Sale output/imprenta/menu-parceros-CMYK-sangrado-en.pdf, "
+        aviso="Sale output/imprenta/menu-<cliente>-CMYK-sangrado-en.pdf, "
               "hermano del español y con el MISMO perfil, límite de tinta y "
               "cajas: los dos se tiran en la misma máquina sin recalibrar.\n"
               "   El sufijo `-en` del nombre no es cosmético — los dos archivos "

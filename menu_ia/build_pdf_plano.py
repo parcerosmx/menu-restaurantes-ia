@@ -56,9 +56,33 @@ PAGINAS_TAPAS = _FMT.paginas_tapas
 # Café» en los METADATOS del PDF: el archivo de imprenta de cualquier otro
 # cliente habría declarado que lo produjo Parceros. No se ve en la página —
 # se ve al abrir Propiedades del documento, y ahí ya está en el taller.
+# 🏷️ Cómo se llama el cliente en los nombres de archivo.
+#
+# ⚠️ Salía del nombre del MÓDULO de contenido, con Parceros escrito como caso
+# especial: `'parceros' if MENU_CARTA == 'secciones'`. Dos problemas. Uno, el
+# motor conocía a un cliente por su nombre. Dos, cualquier proyecto creado con
+# `menu-ia crear` tiene su carta en un paquete llamado `carta`, así que su
+# archivo de imprenta salía como **`menu-carta-CMYK-sangrado.pdf`** — nombrado
+# por el módulo, no por el restaurante. Eso es lo que llega al taller.
+#
+# Ahora lo dice la marca: `SLUG` de la carta, o el tema activo.
 import os  # noqa: E402
-_C = os.environ.get('MENU_CARTA', 'secciones')
-CLIENTE = 'parceros' if _C == 'secciones' else _C.replace('_', '-')
+
+
+def _cliente():
+    import importlib
+    try:
+        c = importlib.import_module(os.environ.get("MENU_CARTA", "secciones"))
+        s = getattr(c, "SLUG", None)
+        if s:
+            return str(s)
+    except ModuleNotFoundError:
+        pass
+    from . import tema as _t
+    return (_t.ACTIVO.nombre or "menu").replace("_", "-")
+
+
+CLIENTE = _cliente()
 
 # La raíz es la del CLIENTE, no la del paquete: aquí están su HTML, su
 # CSS y sus datos. Deducirla de `__file__` daba site-packages.

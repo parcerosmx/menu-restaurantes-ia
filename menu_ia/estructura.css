@@ -1,3 +1,10 @@
+/* ⚠️ Los comentarios de este archivo explican POR QUÉ cada regla es como
+   es. Las cifras de negocio que los sostenían —contribución por orden,
+   CMV, volumen de ventas— se retiraron: son de un restaurante concreto y
+   `confidencialidad.md` las marca como que no salen nunca. El criterio se
+   queda; el número, no.
+*/
+
 /* ═══════════════════════════════════════════════════════════
    ESTRUCTURA — mecánica de página. La comparte cualquier menú.
    ⚠️ GENERADO por herramientas/partir_css.py — no editar a mano.
@@ -633,10 +640,9 @@ body {
    tres fotos, sin cambiar jerarquías ni tocar el sistema global. */
 /* §6.63: el sitio de la banda «Para la mesa» sale de aquí y de los gaps, no
    de la torre. La foto del favorito baja de 66 a 55mm.
-   ⚠️ 2026-07-30, con ventas reales: el motivo original —"la Picada es el
-   producto de MENOR contribución de la hoja (372 contra 514 y 521)"— era
-   margen POR ORDEN, medio dato. La Picada aporta el **55 % de la plata de la
-   hoja** (45 órdenes en 14 días). El tamaño se conserva igual, pero por otra
+   ⚠️ 2026-07-30, con ventas reales: el motivo original —"es el producto de
+   MENOR contribución de la hoja"— era margen POR ORDEN, medio dato: ese
+   producto aporta la mayor parte de la plata de la hoja por VOLUMEN. El tamaño se conserva igual, pero por otra
    razón: es un CABALLO y §8.4 dice que un caballo no necesita empuje. La foto
    del favorito ya no es la más grande, y eso está bien. */
 .hoja-compartir .favfila-foto {
@@ -656,9 +662,9 @@ body {
   height: 88mm; margin-top: -6mm; margin-bottom: -6mm;
 }
 
-/* §6.64 (dueño, 2026-07-30): la Chuleta XL pasa a ser, con su precio nuevo de
-   700, **la mayor contribución del listado** (528.66, por encima del Castacón)
-   y tenía la foto más pequeña de la hoja. Sube de 50 a 58mm y su columna de
+/* §6.64 (dueño, 2026-07-30): con su precio nuevo, un producto pasa a ser
+   **la mayor contribución del listado** y tenía la foto más pequeña de la
+   hoja. Sube de 50 a 58mm y su columna de
    44 % a 52 %: el ratio de la casilla se mantiene en ~1.4, que es el del
    archivo (1.5), así que `cover` casi no recorta. Superficie: 3 520 → 4 814mm²
    (+37 %). [auditoría CMP-C1-002]
@@ -1315,8 +1321,8 @@ body {
 /* 54 → 60mm (2026-07-30, `CAL-C2-002`): parte del aire muerto sobre el pie. */
 /* 60 → 56 mm (2026-07-30). Los 4 mm son la tercera parte del pago del puente
    hacia postres. Se cobran AQUÍ y no en las burgers porque esta banda cubre
-   al caballo y al perro de la hoja (Arepa Paisa 118.38 · Carne 102.94 de
-   contribución por orden) y las burgers son las dos mayores (164–168). Con
+   al caballo y al perro de la hoja, y las dos fichas de al lado son las de
+   mayor contribución por orden. Con
    56 mm las dos fotos siguen por encima de 400 dpi. */
 .grupofoto .grupofoto-img {
   width: 100%; height: 56mm; }
@@ -1371,7 +1377,7 @@ body {
    los 32.9 mm muertos que había entonces; hoy ya no existen, así que se paga
    con 3 mm de cada separación (5.5 → 2.5 y 6 → 3.5) y 4 mm de la banda de
    fotos de arepas. **Las dos fichas de burger no se tocan**: son las dos
-   mayores contribuciones por orden de la hoja (164–168 contra 103–118). */
+   mayores contribuciones por orden de la hoja. */
 .densidad-compacta:has(.grupofoto) .fila + .fila {
   margin-top: 2.5mm; }
 
@@ -1554,8 +1560,8 @@ body {
    ERA falta de contenido, y hoy ese contenido existe — la línea «Y con una ·
    Bola de helado +30» (`POS-A1-002`), que es la reingeniería que le faltaba al
    caballo de la hoja. Cuatro milímetros de foto compran una línea que sube el
-   ticket del producto un 21 % con 2.73 de costo. La regla de §7.5 sigue
-   valiendo: se agranda lo que vende, y una adición de CMV 9.1 % vende más por
+   ticket del producto con un costo marginal mínimo. La regla de §7.5 sigue
+   valiendo: se agranda lo que vende, y una adición de CMV bajo vende más por
    milímetro que 4 mm de foto. */
 .hoja-postres .favfila-foto {
   width: 100%; height: 62mm; }
