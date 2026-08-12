@@ -680,7 +680,7 @@ body {
 /* ----- FILA DESTACADA VERTICAL (.filav, propuesta 2026-07-26) -----
    Texto izq + foto VERTICAL der a todo el alto del bloque, con marco
    punteado naranja (referencia de distribución aportada por el dueño).
-   Para platillos de torre: Bandeja Paisa 3 Pisos. */
+   Para platillos de torre —los que se sirven apilados—. */
 .filav {
   /* columna de foto en proporción 2:3 (48×72mm) para que la torre de la
      foto original entre completa con cover */
@@ -1445,7 +1445,7 @@ body {
 /* ---------- §6.26 Típicos de Colombia (2026-07-26) ----------
    "Platos fuertes" a 2 columnas con foto CUADRADA (1:1) al ancho completo
    de la columna → la foto domina la ficha. La cinta "★ El favorito"
-   (Chuleta Valluna) va entre foto y nombre, sin alterar el tamaño de la
+   (el gramaje, por ejemplo) va entre foto y nombre, sin alterar el tamaño de la
    ficha: mismas dimensiones para las dos fichas. */
 /* §6.30-bis (2026-07-26): el dueño quitó el 1:1 — la ficha de Platos
    fuertes pierde 20% de alto (1/0.8) y luego un 5% más (1/0.76);

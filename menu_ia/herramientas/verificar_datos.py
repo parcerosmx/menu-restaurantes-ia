@@ -13,7 +13,7 @@ Esta guarda existe porque los tres han pasado ya en este proyecto:
 
   · Tres fotos del menú no existían en disco y el render **no dijo nada**:
     salieron tres huecos y solo se vio comparando el peso de los PNG.
-  · `datos/menu-items.json` decía Chuleta Valluna 230 cuando el menú imprimía
+  · el volcado de datos decía 230 cuando el menú imprimía
     240, porque nadie regeneró el volcado tras subir el precio.
   · El Chocolate se imprime en dos hojas (Bebidas y Postres) desde una lista
     única — justo para que no pueda haber dos precios. Sin comprobarlo, esa

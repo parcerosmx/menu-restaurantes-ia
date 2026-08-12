@@ -34,7 +34,7 @@ Lo comprueba `herramientas/verificar_traduccion.py --es-intacto`.
 Qué se traduce y qué no
 =======================
 **No se traduce** (decisión del dueño, 2026-08-02): el **nombre propio** de un
-platillo. *Bandeja Paisa*, *Patacones Recocheros*, *Chicharrón Trancao* y
+platillo. Un nombre propio de plato regional, un apellido de la casa y
 *Ajiaco* se imprimen igual en las dos versiones, y la descripción en inglés es
 la que explica qué son. Protege la autenticidad, deja al turista pedir en voz
 alta lo mismo que lee, y es el mecanismo que §5.1-ter ya usaba para glosar un
@@ -187,7 +187,7 @@ def tx(s):
 #
 # Con los NOMBRES no vale: la regla del dueño es que se queden en español, así
 # que lo normal es que no estén en el catálogo. Con `t()` habría que escribir
-# ~60 entradas identidad («Bandeja Paisa» → «Bandeja Paisa») solo para callar
+# Decenas de entradas identidad (nombre propio → el mismo) solo para callar
 # la guarda, y un catálogo lleno de ruido es un catálogo que nadie revisa.
 #
 # `tn()` invierte la omisión: **ausente = se queda en español, y no es falta.**

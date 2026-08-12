@@ -13,3 +13,10 @@ cartas-privadas/
 
 # Metadatos de build de setuptools — se regeneran al instalar
 *.egg-info/
+
+# Artefactos de render dentro de los ejemplos: se regeneran con `menu-ia menu`.
+# Lo que sí se versiona es `muestra/`, elegido a mano para poder verlo sin
+# instalar nada.
+ejemplos/*/render/menu-completo*.html
+ejemplos/*/render/spreads-activos*.json
+ejemplos/*/render/tapas-final*.html
