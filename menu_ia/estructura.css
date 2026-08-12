@@ -740,8 +740,17 @@ body {
 .texto-fila .texto-item:nth-child(2n) {
   margin-top: 7mm; }
 
+/* ⚠️ El relleno lateral NO es decorativo: mantiene el TEXTO dentro del corte.
+   La caja va de borde a borde a propósito —así el filete o el fondo del pie
+   pueden sangrar— y eso deja el texto pegado al canto si la piel no lo
+   centra. Un cliente lo centraba y nunca se notó; el primero que lo alineó a
+   la izquierda sacó su lema **2.9 mm FUERA de la línea de corte**.
+   El motor no puede entregar una caja que rebasa el corte y confiar en que la
+   piel lo arregle. */
 .pie {
   position: absolute; left: 0; right: 0;
+  padding-left: calc(var(--bleed) + var(--margen-exterior));
+  padding-right: calc(var(--bleed) + var(--margen-exterior));
   bottom: calc(var(--bleed) + var(--margen-exterior)); margin: 0;}
 
 
