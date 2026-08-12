@@ -7,7 +7,7 @@ Quince minutos, sin conocer el proyecto.
 ## 1 · Instalar
 
 ```bash
-pip install git+https://github.com/<usuario>/menu-restaurantes-ia
+pip install git+https://github.com/parcerosmx/menu-restaurantes-ia
 python -m playwright install chromium
 ```
 

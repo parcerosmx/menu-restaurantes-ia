@@ -10,7 +10,7 @@ hasta la plancha y aprender, tirada a tirada, qué hace que un archivo se
 devuelva.
 
 ```bash
-pip install git+https://github.com/<usuario>/menu-restaurantes-ia
+pip install git+https://github.com/parcerosmx/menu-restaurantes-ia
 python -m playwright install chromium
 
 cd ejemplos/cantina-del-puerto
