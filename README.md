@@ -83,6 +83,19 @@ página    pliego (foto a sangre + listado)     ·  hoja (listado denso, sin fot
 La regla de encuadernación es **dato, no comentario**: un contenido de 14
 páginas contra un formato de hoja suelta no compila, y dice por qué.
 
+## Empezar un restaurante nuevo
+
+```bash
+python3 -m menu_ia.crear --desde brief.json --en ~/src/mi-cliente
+```
+
+Deja el esqueleto completo —tokens, tema, piel de arranque, carta— y dice
+exactamente qué correr después. El skill `crear-menu` hace la entrevista: pide
+una **foto de la carta actual** en vez de que nadie teclee sus platillos.
+
+⚠️ La piel que genera sirve para **ver la carta montada el primer día**, no
+para imprimir. Diseñar la identidad de un restaurante es otro trabajo.
+
 ## Ejemplo
 
 `ejemplos/cantina_del_puerto/` es un restaurante ficticio: A4, dos caras, sin
