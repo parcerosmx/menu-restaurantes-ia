@@ -121,6 +121,14 @@ RECETAS = [
          ("build_pdf_plano.py", ["--web", "--idioma", "en"])],
     ),
     Receta(
+        "comprobar", "¿SIGUE FUNCIONANDO TODO? — guardas + huellas de los PNG",
+        [("comprobar.py", [])],
+        aviso="La única receta que contesta «¿salió lo mismo?». Compara cada\n"
+              "   PNG de pliego contra su huella de referencia.\n"
+              "   Primera vez, o tras un cambio aprobado: `--fijar` — pero\n"
+              "   MIRANDO los PNG antes, porque firma lo que haya.",
+    ),
+    Receta(
         "verificar", "¿Se movió algo entre el HTML y el PDF? (§9.4)",
         # `build_pdf.py` va PRIMERO y no es opcional: `comparar_geometria.py`
         # lee output/menu-completo.pdf y NO lo reconstruye. Con el PDF viejo,

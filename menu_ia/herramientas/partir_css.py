@@ -60,8 +60,16 @@ from ..proyecto import RAIZ as REND
 # invirtieran, `.badge-seccion` cambiaría de color sin que nadie tocara un
 # valor. Se parten en el mismo orden en que se cargaban.
 FUENTES = [REND / "archivo" / "style-v1.css", REND / "archivo" / "menu-v2.css"]
-SALIDA_E = REND / "estructura.css"
-SALIDA_P = REND / "piel-parceros.css"
+# ⚠️ Las dos hojas ya NO están las dos en el mismo sitio: `estructura.css` la
+# trae el MOTOR y la piel es del CLIENTE. Buscarlas ambas bajo la raíz del
+# proyecto —como se hacía— dejaba la auditoría en «⛔ Falta estructura.css»
+# desde que el motor se instala, y una guarda que siempre falla no se lee.
+from ..proyecto import css as _css       # noqa: E402
+from .. import tema as _tema             # noqa: E402
+
+
+def _hojas():
+    return _css("estructura.css"), _css(_tema.ACTIVO.css_piel)
 
 # ════════════════════════════════════════════════════════════════════════
 #  MANIFIESTO — dónde cae cada propiedad
@@ -389,11 +397,9 @@ def auditar():
     """
     comprobar_atajos()
     problemas, desconocidas = [], Counter()
-    for ruta, esperado, etiqueta in ((SALIDA_E, "E", "estructura"),
-                                     (SALIDA_P, "P", "piel")):
-        if not ruta.exists():
-            print(f"⛔ Falta {ruta.name}.")
-            return 1
+    est, piel = _hojas()
+    for ruta, esperado, etiqueta in ((est, "E", "estructura"),
+                                     (piel, "P", "piel")):
         for tr in trocear(ruta.read_text(encoding="utf-8")):
             if tr[0] != "regla":
                 continue
@@ -456,8 +462,8 @@ def main():
 
     for f in FUENTES:
         print(f"  fuente     {f.name:<22} {len(f.read_bytes()):>7} bytes")
-    print(f"  estructura {SALIDA_E.name:<22} {len(est):>7} bytes")
-    print(f"  piel       {SALIDA_P.name:<22} {len(pie):>7} bytes")
+    print(f"  estructura {'estructura.css':<22} {len(est):>7} bytes")
+    print(f"  piel       {'piel-parceros.css':<22} {len(pie):>7} bytes")
     print(f"\n  reglas: {n_e} solo estructura · {n_p} solo piel · {n_mix} partidas")
 
     if desconocidas:
@@ -476,10 +482,10 @@ def main():
            "   ⚠️ GENERADO por herramientas/partir_css.py — no editar a mano.\n"
            "   El reparto se ajusta en el MANIFIESTO de ese script.\n"
            "   ═══════════════════════════════════════════════════════════ */\n\n")
-    SALIDA_E.write_text(cab.format(
+    (REND / 'estructura.css').write_text(cab.format(
         "ESTRUCTURA — mecánica de página. La comparte cualquier menú.") + est,
         encoding="utf-8")
-    SALIDA_P.write_text(cab.format(
+    (REND / 'piel-parceros.css').write_text(cab.format(
         "PIEL «parceros» — identidad visual. Cambia con cada cliente.") + pie,
         encoding="utf-8")
     print(f"\n✅ escritos.  ⚠️ Partir CSS no cambia el HTML: la única red es el "
