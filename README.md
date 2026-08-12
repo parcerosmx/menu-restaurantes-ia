@@ -83,6 +83,23 @@ página    pliego (foto a sangre + listado)     ·  hoja (listado denso, sin fot
 La regla de encuadernación es **dato, no comentario**: un contenido de 14
 páginas contra un formato de hoja suelta no compila, y dice por qué.
 
+## La metodología
+
+Un menú no se diseña de memoria. [`metodologia/`](metodologia/) recoge por qué
+cada decisión es como es, con la evidencia detrás:
+
+- [**Ingeniería de menú**](metodologia/ingenieria-de-menu.md) — la matriz antes
+  que el diseño, dónde mira el ojo (y dónde los expertos no coinciden), el
+  precio sin símbolo y sin columna, cuánto describir, cuándo la foto resta.
+- [**Rúbrica de auditoría**](metodologia/rubrica.md) — 14 criterios, escala
+  0–5, y la regla que la hace honesta: un criterio sin su evidencia se marca
+  **no verificable** en vez de puntuarse a ojo.
+- [**Descripciones**](metodologia/descripciones.md) — cómo se escribe un
+  platillo para que se pida.
+
+El skill `auditar-menu` aplica la rúbrica a un menú montado y devuelve la nota,
+**la cobertura** y las tres cosas que arreglar primero.
+
 ## Empezar un restaurante nuevo
 
 ```bash

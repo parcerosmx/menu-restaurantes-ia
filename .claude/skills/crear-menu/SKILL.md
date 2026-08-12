@@ -40,7 +40,7 @@ No se deduce de una foto, y condiciona todo lo demás.
 | Si dice… | Formato |
 |---|---|
 | «una hoja», «algo sencillo», «para plastificar» | `a4-hoja` |
-| «un cuadernillo», «como un librito», «con fotos» | `parceros-cuadernillo` |
+| «un cuadernillo», «como un librito», «con fotos» | `cuadernillo-esbelto` |
 
 `menu-ia crear` los lista con `python3 -m menu_ia.formato`.
 

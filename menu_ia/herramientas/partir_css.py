@@ -588,7 +588,7 @@ def main():
     for f in FUENTES:
         print(f"  fuente     {f.name:<22} {len(f.read_bytes()):>7} bytes")
     print(f"  estructura {'estructura.css':<22} {len(est):>7} bytes")
-    print(f"  piel       {'piel-parceros.css':<22} {len(pie):>7} bytes")
+    print(f"  piel       {_tema.ACTIVO.css_piel:<22} {len(pie):>7} bytes")
     print(f"\n  reglas: {n_e} solo estructura · {n_p} solo piel · {n_mix} partidas")
 
     if desconocidas:
@@ -610,7 +610,8 @@ def main():
     (REND / 'estructura.css').write_text(cab.format(
         "ESTRUCTURA — mecánica de página. La comparte cualquier menú.") + est,
         encoding="utf-8")
-    (REND / 'piel-parceros.css').write_text(cab.format(
+    # El nombre de la piel lo dice el tema, no este script.
+    (REND / _tema.ACTIVO.css_piel).write_text(cab.format(
         "PIEL «parceros» — identidad visual. Cambia con cada cliente.") + pie,
         encoding="utf-8")
     print(f"\n✅ escritos.  ⚠️ Partir CSS no cambia el HTML: la única red es el "

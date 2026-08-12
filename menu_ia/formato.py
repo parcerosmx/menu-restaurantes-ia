@@ -182,14 +182,14 @@ class Formato:
 FORMATOS = {
     # El de Parceros. Los números NO se han tocado al extraerlos: son los que
     # llevan siete pliegos hasta la plancha, y ese es el único aval que vale.
-    "parceros-cuadernillo": Formato(
-        nombre="parceros-cuadernillo",
+    "cuadernillo-esbelto": Formato(
+        nombre="cuadernillo-esbelto",
         corte_mm=(186, 279),
         sangrado_mm=3,
         margen_exterior_mm=13,
         encuadernacion="grapa",
         paginas=16,
-        nota="Formato esbelto (2026-07-25): carta recortada 1.5 cm por lado.",
+        nota="Carta recortada 1.5 cm por lado. Probado hasta la plancha.",
     ),
     # Prueba de la Fase 1: MISMO contenido, OTRA caja. Existe para demostrar
     # que la geometría se propaga de verdad —CSS, PNG, PDF, cajas del archivo
@@ -227,7 +227,14 @@ FORMATOS = {
 
 # El formato activo. `MENU_FORMATO` permite probar otro sin tocar el código —
 # que es justo lo que necesita la prueba de salida de la Fase 1.
-NOMBRE_ACTIVO = os.environ.get("MENU_FORMATO", "parceros-cuadernillo")
+# Alias heredados. El formato se llamaba por el cliente que lo estrenó, y en
+# un motor que sirve a cualquiera eso no se sostiene: `cuadernillo-esbelto`
+# dice qué es —carta recortada, 16 páginas, grapa— sin nombrar a nadie.
+# El alias se conserva para no romper una configuración existente.
+ALIAS = {"parceros-cuadernillo": "cuadernillo-esbelto"}
+
+NOMBRE_ACTIVO = os.environ.get("MENU_FORMATO", "cuadernillo-esbelto")
+NOMBRE_ACTIVO = ALIAS.get(NOMBRE_ACTIVO, NOMBRE_ACTIVO)
 if NOMBRE_ACTIVO not in FORMATOS:
     raise SystemExit(
         f"⛔ MENU_FORMATO=«{NOMBRE_ACTIVO}» no existe. "
