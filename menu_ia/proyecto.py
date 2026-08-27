@@ -20,9 +20,12 @@ Por orden:
 
 1. `MENU_PROYECTO` — la ruta, si está puesta. Es la vía explícita y la que se
    usa en cualquier automatismo.
-2. `./render` bajo el directorio actual, si existe. Es la convención con la que
+2. El `.env` del proyecto —el que escribe `menu-ia crear`— buscado en el
+   directorio actual y en su padre. Solo rellena lo que el entorno no traiga:
+   nunca pisa una variable puesta a mano.
+3. `./render` bajo el directorio actual, si existe. Es la convención con la que
    nació esto y la que siguen los proyectos existentes.
-3. El directorio actual.
+4. El directorio actual.
 
 Lo que tiene que haber ahí: el `style.css` del cliente, su `piel-*.css`, y los
 paquetes de contenido (`secciones/`, `carta/`, `temas/`). El motor añade esa
@@ -40,6 +43,50 @@ import sys
 from pathlib import Path
 
 PAQUETE = Path(__file__).resolve().parent
+
+# Las únicas claves que se leen de un `.env`. La lista es cerrada a propósito:
+# un archivo del proyecto no tiene por qué poder meter cualquier variable en el
+# proceso —PATH, PYTHONPATH— solo por estar en la carpeta desde la que se corre.
+CLAVES = ("MENU_PROYECTO", "MENU_CARTA", "MENU_TEMA", "MENU_FORMATO")
+
+
+def _cargar_env():
+    """El `.env` del proyecto, si lo hay y si no está ya puesto en el entorno.
+
+    `crear.py` escribe ese archivo desde el primer día y su docstring prometía
+    «para no exportarlo a mano» — pero **nadie lo leía**. Quien creaba un
+    proyecto y hacía `cd` a él seguía teniendo que exportar cuatro variables, y
+    si se le olvidaba una, el motor cargaba la carta por omisión («secciones»)
+    y fallaba nombrando un paquete del que ese usuario no ha oído hablar nunca.
+    La promesa estaba escrita y el código no la cumplía.
+
+    ⚠️ Lo que ya esté en el entorno MANDA. Lo explícito gana a lo implícito, y
+    sobre todo: así `MENU_FORMATO=a4-hoja menu-ia menu` sigue sirviendo para
+    probar otro formato sin editar el archivo.
+    """
+    aqui = Path.cwd().resolve()
+    for base in (aqui, aqui.parent):
+        f = base / ".env"
+        if not f.is_file():
+            continue
+        for linea in f.read_text(encoding="utf-8").splitlines():
+            linea = linea.strip()
+            if not linea or linea.startswith("#") or "=" not in linea:
+                continue
+            k, v = (x.strip() for x in linea.split("=", 1))
+            if k not in CLAVES or k in os.environ:
+                continue
+            # Una ruta relativa se lee desde donde está el `.env`, no desde el
+            # directorio actual: el archivo dice dónde vive el proyecto y esa
+            # respuesta no puede depender de desde dónde se invoque.
+            if k == "MENU_PROYECTO" and not Path(v).is_absolute():
+                v = str((base / v).resolve())
+            os.environ[k] = v
+        return f
+    return None
+
+
+ENV = _cargar_env()
 
 
 def _resolver():
