@@ -213,6 +213,24 @@ FORMATOS = {
     # ⚠️ NO está probado en plancha. `style-guide.md` §9.5-ter: un archivo de
     # imprenta no se da por bueno hasta abrirlo en Illustrator, y este no ha
     # pasado por ahí. Sirve para verificar el motor, no para mandar al taller.
+    # UNA cara de A4. Es el formato más barato que existe y el que pide un
+    # restaurante pequeño el primer día: una lista de platillos, impresa por un
+    # lado, para plastificar. Existe además por una razón de arranque —el motor
+    # exige que el contenido llene el formato EXACTO, así que sin esto un menú
+    # de una sola sección no compilaba y había que inventarle una segunda para
+    # poder verlo montado. Pedirle a alguien que se invente contenido para que
+    # la herramienta arranque es la herramienta mandando sobre el negocio.
+    # ⚠️ Sin prueba de plancha, igual que su hermano de dos caras.
+    "a4-cara": Formato(
+        nombre="a4-cara",
+        corte_mm=(210, 297),
+        sangrado_mm=3,
+        margen_exterior_mm=12,
+        encuadernacion="hoja",
+        paginas=1,
+        paginas_tapas=0,
+        nota="⚠️ Sin prueba de plancha. Verifica el motor, no se manda al taller.",
+    ),
     "a4-hoja": Formato(
         nombre="a4-hoja",
         corte_mm=(210, 297),

@@ -22,40 +22,38 @@ foto.
 
 ```bash
 cd ejemplos/cantina-del-puerto
-export MENU_PROYECTO=$PWD/render MENU_CARTA=carta \
-       MENU_TEMA=cantina MENU_FORMATO=a4-hoja
-
 menu-ia menu        # el HTML y sus PNG de revisión
 menu-ia imprenta    # el archivo del taller, verificado
 ```
 
 Los PNG salen en `output/`. Míralos: es lo que se aprueba.
 
+No hay que exportar nada: las cuatro variables del proyecto viven en su `.env` y
+el motor lo lee solo. Lo que ya esté en el entorno manda, así que
+`MENU_FORMATO=a4-cuadernillo menu-ia menu` sigue sirviendo para probar otra caja
+sin tocar el archivo.
+
 ## 3 · Crear el tuyo
 
 ```bash
-python3 -m menu_ia.crear --desde brief.json --en ~/src/mi-restaurante
+menu-ia crear --desde brief.json --en ~/src/mi-restaurante
 ```
 
-El `brief.json` mínimo:
+El `brief.json` mínimo es **de verdad** mínimo:
 
 ```json
-{
-  "nombre":  "Mi Restaurante",
-  "slug":    "mio",
-  "formato": "a4-hoja",
-  "lema":    "",
-  "hojas": [
-    {"seccion": "Cocina", "slug": "cocina", "arquetipo": "hoja", "items": [
-      {"n": "Un plato", "precio": "120",
-       "desc": "El gancho.\nQué trae y cómo está hecho."}
-    ]}
-  ]
-}
+{"nombre": "Mi Restaurante", "items": [{"n": "Un plato"}]}
 ```
 
+Lo que no digas se resuelve y **se anuncia**: el slug sale del nombre, el formato
+se propone por lo que ocupa el contenido, una lista suelta se monta como una
+sección, y lo que falte —precio, descripción— se imprime con esas palabras. El
+encargo completo, con secciones, colores y lema, está en el docstring de
+`menu_ia/crear.py`.
+
 Deja el esqueleto y te dice qué correr después. El skill `crear-menu` hace la
-entrevista si prefieres partir de una foto de tu carta actual.
+entrevista si prefieres partir de una foto de tu carta actual, y
+[`empezar-aqui.md`](empezar-aqui.md) es ese camino explicado entero.
 
 ---
 
