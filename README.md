@@ -9,13 +9,38 @@ No es una plantilla. Es lo que quedó después de llevar un menú de 16 páginas
 hasta la plancha y aprender, tirada a tirada, qué hace que un archivo se
 devuelva.
 
-```bash
-pip install git+https://github.com/parcerosmx/menu-restaurantes-ia
-python -m playwright install chromium
+## Por dónde empiezas
 
+### 🍽️ Quiero el menú de mi restaurante
+
+No hay que preparar nada antes. Clona, instala, y pega el prompt:
+
+```bash
+git clone https://github.com/parcerosmx/menu-restaurantes-ia
+cd menu-restaurantes-ia
+pip install -e . && python -m playwright install chromium
+```
+
+> **Copia esto en [Claude Code](https://claude.com/claude-code):**
+>
+> *Quiero hacer el menú impreso de mi restaurante y este repo es el motor. Lee
+> `docs/empezar-aqui.md` y llévame tú: pregúntame de una en una, empieza por lo
+> que ya tengo a mano —si te doy una foto de mi carta actual, saca todo de ahí—,
+> y en cuanto tengas lo mínimo para construir algo que pueda VER, constrúyelo y
+> enséñamelo. Lo que falte, lo apuntas y seguimos.*
+
+Te va a preguntar poco, va a construir en cuanto alcance, y después te va a
+decir qué le falta a tu menú para vender más. **El suelo mínimo es el nombre del
+restaurante y una lista de platillos** — sin precios y sin descripciones vale: lo
+que falta se imprime marcado, con esas palabras, para que sea imposible mandarlo
+a la plancha sin verlo.
+
+📖 [**El instructivo completo**](docs/empezar-aqui.md) · [el prompt, entero](PROMPT.md)
+
+### 🛠️ Quiero el motor
+
+```bash
 cd ejemplos/cantina-del-puerto
-export MENU_PROYECTO=$PWD/render MENU_CARTA=carta \
-       MENU_TEMA=cantina MENU_FORMATO=a4-hoja
 menu-ia menu        # el menú y sus PNG de revisión
 menu-ia imprenta    # el archivo del taller, verificado
 ```
@@ -23,7 +48,7 @@ menu-ia imprenta    # el archivo del taller, verificado
 📄 **Sin instalar nada:** [el PDF de imprenta del ejemplo](ejemplos/cantina-del-puerto/muestra/menu-cantina-CMYK-sangrado.pdf)
 · [una cara montada](ejemplos/cantina-del-puerto/muestra/menu-doble-pagina-1-comer.png)
 
-📖 [**Empezar de cero**](docs/empezar.md) · [**El ritual de plancha**](docs/imprenta.md)
+📖 [**De cero a un PDF de imprenta**](docs/empezar.md) · [**El ritual de plancha**](docs/imprenta.md)
 
 ---
 
@@ -113,12 +138,31 @@ El skill `auditar-menu` aplica la rúbrica a un menú montado y devuelve la nota
 ## Empezar un restaurante nuevo
 
 ```bash
-python3 -m menu_ia.crear --desde brief.json --en ~/src/mi-cliente
+menu-ia crear --desde brief.json --en ~/src/mi-cliente
 ```
 
-Deja el esqueleto completo —tokens, tema, piel de arranque, carta— y dice
-exactamente qué correr después. El skill `crear-menu` hace la entrevista: pide
-una **foto de la carta actual** en vez de que nadie teclee sus platillos.
+**El encargo mínimo es el nombre y algo que comer:**
+
+```json
+{"nombre": "Taquería La Esquina", "items": [{"n": "Taco de pastor"}]}
+```
+
+Lo demás tiene respuesta por omisión y se anuncia al crearlo: el slug se deriva
+del nombre, el formato se propone por lo que ocupa el contenido, una lista suelta
+es una sección, y un precio o una descripción que falten **se imprimen con esas
+palabras** — visibles a propósito, para que no se manden a la plancha sin verlas.
+
+Deja el esqueleto completo —tokens, tema, piel de arranque, carta, `.env`— y dice
+qué correr después. El skill `crear-menu` hace la entrevista: pide una **foto de
+la carta actual** en vez de que nadie teclee sus platillos.
+
+```bash
+menu-ia pendientes    # qué le falta a este menú, y qué gana cada cosa
+```
+
+Lee la carta real —no el encargo con el que nació— y la ordena en tres montones:
+lo que impide imprimir, lo que sube la nota (con su criterio de la rúbrica y su
+peso) y lo que el motor **no puede saber** y hay que preguntarle al dueño.
 
 ⚠️ La piel que genera sirve para **ver la carta montada el primer día**, no
 para imprimir. Diseñar la identidad de un restaurante es otro trabajo.
