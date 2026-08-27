@@ -119,11 +119,16 @@ RECETAS = [
         "crear", "Levanta el proyecto de un restaurante NUEVO desde un JSON",
         [("crear.py", [])],
         aviso="La entrevista la hace el skill `crear-menu`; esto solo genera.\n"
-              "   Uso: python3 -m menu_ia.crear --desde brief.json --en <ruta>",
+              "   Uso: menu-ia crear --desde brief.json --en <ruta>\n"
+              "   El encargo mínimo es el nombre y algo que comer:\n"
+              '     {"nombre": "Mi Restaurante", "items": [{"n": "Un plato"}]}',
+        desde_aqui=True,
     ),
     Receta(
         "fugas", "¿El motor le pasa la marca de un cliente a otro?",
         [("fugas.py", [])],
+        # Monta su propio proyecto canario en un temporal: no es de nadie.
+        desde_aqui=True,
         aviso="Monta un canario con valores imposibles de confundir y le mira\n"
               "   cada superficie. Ninguna guarda del cliente original puede\n"
               "   ver esto: si el motor lleva su lema escrito a mano, sus PNG\n"
@@ -226,7 +231,7 @@ def listar():
     print("  menu-ia <receta> [--seco]")
 
 
-def correr(receta, seco=False):
+def correr(receta, seco=False, extra=()):
     print(f"\n\033[1m▶ {receta.nombre}\033[0m — {receta.que}")
     if receta.aviso:
         print(f"\n⚠️  {receta.aviso}\n")
@@ -240,6 +245,11 @@ def correr(receta, seco=False):
             return 1
 
     for i, (script, args) in enumerate(receta.pasos, 1):
+        # Los argumentos sueltos de la línea de comandos van al ÚNICO paso.
+        # `main` ya garantiza que solo llegan aquí en recetas de un paso: en
+        # una de seis no hay forma de saber a cuál iban, y repartirlos a todos
+        # es peor que no aceptarlos.
+        args = [*args, *extra]
         etiqueta = f"{script} {' '.join(args)}".strip()
         print(f"  [{i}/{len(receta.pasos)}] {etiqueta}")
         if seco:
@@ -262,7 +272,7 @@ def correr(receta, seco=False):
             print(f"\n⛔ No encuentro `{script}` ni en el motor ni en "
                   f"{_CLIENTE}.")
             return 2
-        r = subprocess.run(cmd, cwd=RAIZ)
+        r = subprocess.run(cmd, cwd=Path.cwd() if receta.desde_aqui else RAIZ)
         if r.returncode != 0:
             print(f"\n⛔ Falló `{etiqueta}` (código {r.returncode}).")
             print("   Los pasos siguientes NO se corren: dependen de este.")
@@ -279,7 +289,13 @@ def main():
     ap.add_argument("receta", nargs="?", help="qué construir")
     ap.add_argument("--seco", action="store_true",
                     help="enseña los pasos sin correrlos")
-    args = ap.parse_args()
+    # ⚠️ `parse_known_args`, no `parse_args`. Lo que sobra es para la receta.
+    # Sin esto, `menu-ia comprobar --fijar` —el comando de la PRIMERA vez, el
+    # que fija las huellas de un proyecto recién creado— moría en un
+    # «unrecognized arguments» del propio lanzador. Estaba escrito en
+    # `docs/empezar.md` y en el skill `crear-menu`, y ninguno de los dos
+    # funcionaba: el lanzador se quedaba los flags que eran del paso.
+    args, extra = ap.parse_known_args()
 
     if not args.receta:
         listar()
@@ -288,7 +304,14 @@ def main():
         print(f"⛔ No conozco la receta «{args.receta}».\n")
         listar()
         return 2
-    return correr(POR_NOMBRE[args.receta], args.seco)
+    receta = POR_NOMBRE[args.receta]
+    if extra and len(receta.pasos) > 1:
+        print(f"⛔ «{args.receta}» son {len(receta.pasos)} pasos y no sé a cuál\n"
+              f"   iban {' '.join(extra)}. Corre ese paso a solas:\n")
+        for script, _ in receta.pasos:
+            print(f"     python3 -m menu_ia.{script.removesuffix('.py').replace('/', '.')} …")
+        return 2
+    return correr(receta, args.seco, extra)
 
 
 if __name__ == "__main__":

@@ -13,6 +13,19 @@ resuelve igual: la clase en su propio módulo, sin nada que la haga volver.
 
 
 class Receta:
-    def __init__(self, nombre, que, pasos, aviso=None, confirmar=False):
+    """Un entregable y los pasos que lo producen, en su orden.
+
+    `desde_aqui` marca las recetas que NO pertenecen a ningún proyecto. Las
+    demás corren desde la raíz del cliente, porque ahí es donde están su carta
+    y su `output/`; pero `crear` levanta un proyecto que todavía no existe, y
+    correrla desde la raíz de otro hacía que `menu-ia crear --desde brief.json`
+    buscara ese JSON en una carpeta que no es donde el usuario lo escribió. El
+    archivo estaba delante y el error decía que no existe — en el primer
+    comando que teclea alguien que acaba de instalar el motor.
+    """
+
+    def __init__(self, nombre, que, pasos, aviso=None, confirmar=False,
+                 desde_aqui=False):
         self.nombre, self.que, self.pasos = nombre, que, pasos
         self.aviso, self.confirmar = aviso, confirmar
+        self.desde_aqui = desde_aqui
