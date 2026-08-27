@@ -125,6 +125,14 @@ RECETAS = [
         desde_aqui=True,
     ),
     Receta(
+        "pendientes", "¿Qué le falta a este menú? — y qué gana cada cosa",
+        [("pendientes.py", [])],
+        aviso="Lee la carta REAL, no el encargo con el que nació el proyecto:\n"
+              "   lo que ya se arregló deja de salir y lo que creció aparece\n"
+              "   solo. No puntúa —eso es el skill `auditar-menu`—: cuenta\n"
+              "   huecos, y dice en voz alta los que NO puede medir.",
+    ),
+    Receta(
         "fugas", "¿El motor le pasa la marca de un cliente a otro?",
         [("fugas.py", [])],
         # Monta su propio proyecto canario en un temporal: no es de nadie.
